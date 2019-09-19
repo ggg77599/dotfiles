@@ -7,10 +7,15 @@
 #
 
 
-
+## setup command prefix
+if [ $(whoami) = "root" ] ; then
+    cmdPre=""
+else
+    cmdPre="sudo "
+fi
 
 ## minimal (bashrc + vimrc)
-echo install minimal
+echo install minimal, about 245 MB
 
 # setup bashrc 
 if grep -q ". ~/.bashrc.mrg" ~/.bashrc; then
@@ -19,25 +24,28 @@ else
     echo ". ~/.bashrc.mrg" >> ~/.bashrc
     echo installing myRC 
 fi
+cp bashrc ~/.bashrc.mrg
 
 # install packages
-sudo apt-get update -y
-sudo apt-get install colordiff -y
-sudo apt-get install git -y
-sudo apt-get install vim -y
-sudo apt-get install python3-minimal -y
-sudo apt-get install ssh -y
-sudo apt-get install curl -y
+$cmdPre apt-get update -y
+$cmdPre apt-get install colordiff -y
+$cmdPre apt-get install git -y
+$cmdPre apt-get install vim -y
+$cmdPre apt-get install python3-minimal -y
+$cmdPre apt-get install ssh -y
+$cmdPre apt-get install curl -y
 
 # install git lfs
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-sudo apt-get install git-lfs
+$cmdPre apt-get install git-lfs
 git lfs install
 
 # git completion and prompt
 version=`git --version | awk '{print $3}'`
 wget "https://raw.githubusercontent.com/git/git/v"$version"/contrib/completion/git-completion.bash" -O ~/.git-completion.bash 
 wget "https://raw.githubusercontent.com/git/git/v"$version"/contrib/completion/git-prompt.sh"       -O ~/.git-prompt.sh
+
+# setup git
 cp gitconfig ~/.gitconfig
 
 ## setup vim 

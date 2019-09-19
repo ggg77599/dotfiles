@@ -1,0 +1,22 @@
+[user]
+    name = MrG
+    email = ggg77599@gmail.com
+[alias]
+    adog = log --all --decorate --oneline --graph
+    tls = ls-tree -r master --name-only
+    s = status
+    r = remote -v
+    co = checkout
+[http]
+    sslVerify = false
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[credential]
+    helper = cache --timeout=3600
+[core]
+    quotepath = off
+[color]
+    ui = true
