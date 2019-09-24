@@ -17,9 +17,9 @@ docker ps
 
 containerId=$(docker ps --format {{.ID}})
 
-docker cp ~/Development/dotfiles $containerId:/
+docker cp `pwd` $containerId:/
 
-echo "docker cp ~/Development/dotfiles $containerId:/"
+echo "docker cp `pwd` $containerId:/"
 echo "docker exec -i -t $containerId /bin/bash"
 echo "docker stop $containerId"
 

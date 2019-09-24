@@ -38,12 +38,16 @@ export PS1="\[\033[0;35m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]
 # test
 export PS1="\[\033[4;32m\]\u\[\033[m\]@\[\033[4;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;35m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
 
+# basic
+
+# dev
+
 
 export TERM="xterm-256color"
 
 # Shift-Tab auto complete
 set show-all-if-ambiguous on
-bind '"\e[Z":menu-complete' 
+bind '"\e[Z":menu-complete'
 
 
 

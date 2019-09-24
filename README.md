@@ -2,8 +2,8 @@
 
 Include bashrc, vimrc, sqliterc, tmux.conf ...
 
-## Description 
-three mode of install the dotfiles, 
+## Description
+three mode of install the dotfiles,
 
 ## Install
 
@@ -30,4 +30,15 @@ sudo sh install.sh dev
     * remove config
 * reinstall
     * uninstall + install
+
+## bashrc
+
+
+## vimrc
+* https://vimconfig.com
+
+## To Do List
+* reference DockerTest DockerFile
+* set time zone
+* set locales
 
