@@ -13,7 +13,8 @@ sh install.sh devycm           # linux packages + vim package + YCM
 
 ## To Do List
 - [ ] reference DockerTest DockerFile
-    - [ ] test in container
+    - [ ] set locale
+    - [ ] set timezone
 - [ ] rearrange bashrc
 - [ ] rearrange vimrc
 
