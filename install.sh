@@ -83,6 +83,7 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
     cp bashrc ~/.bashrc.mrg
 
     echo "============================================================ setup vim"
+    mkdir ~/.vim/
     cp vimrc.mini ~/.vimrc
 
 
@@ -94,15 +95,16 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
 
 
         echo "============================================================ install packages"
-        sudo apt-get install -y build-essential \
-                                python3-dev \
-                                python3-distutils \
-                                tmux \
-                                nfs-common \
-                                htop \
-                                iputils-ping \
-                                net-tools \
-                                locales
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential \
+                                                               python3-dev \
+                                                               python3-distutils \
+                                                               tmux \
+                                                               nfs-common \
+                                                               htop \
+                                                               iputils-ping \
+                                                               net-tools \
+                                                               locales \
+                                                               tzdata
 
         echo "============================================================ setup python"
         # install pip for python 3
@@ -116,11 +118,17 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
 
         # install pip packages
         sudo -H pip3 install virtualenv
+        sudo -H pip3 install markdown-editor
 
         echo "============================================================ fix locale"
+        sudo locale-gen en_US.UTF-8
         export LC_ALL="en_US.UTF-8"
         sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
+        echo "============================================================ set timezone"
+        sudo ln -snf /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+        sudo sh -c "echo 'Asia/Taipei' > /etc/timezone"
+        sudo dpkg-reconfigure -f noninteractive tzdata
 
         echo "============================================================ setup tmux"
         # setup tmux config
