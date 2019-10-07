@@ -7,6 +7,9 @@ alias la='ls -a'
 alias l='la'
 alias rm='rm -i'
 alias diff='colordiff'
+alias v='vim'
+alias p='python'
+alias vd='vimdiff'
 alias grep='grep --color=auto'
 alias wnv='watch -n 1 nvidia-smi'  # for nvidia graphic card
 

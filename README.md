@@ -10,8 +10,8 @@ Include bashrc, vimrc, gitconf, sqliterc, tmux.conf ...
 ```bash
 sh install.sh min              # bashrc + vimrc
 sh install.sh basic            # linux packages + vimrc
-sh install.sh dev              # linux packages + vim package
-sh install.sh devycm           # linux packages + vim package + YCM
+sh install.sh dev              # linux packages + vim packages
+sh install.sh devycm           # linux packages + vim packages + YCM
 ```
 
 ## To Do List
@@ -19,14 +19,19 @@ sh install.sh devycm           # linux packages + vim package + YCM
     - [x] set locale
     - [x] set timezone
 - [ ] rearrange bashrc
+    - [ ] difference level of PS1
+    - [ ] separate alias from bashrc
 - [ ] rearrange vimrc
-- [ ] separate alias from bashrc
+    - [ ] https://vimconfig.com
+    - [ ] https://www.cnblogs.com/UnGeek/p/3318089.html
 - [ ] add pythonrc
-- [ ] test ipython
+- [ ] test ipython?
+- [ ] folding setting
+    - [ ] vim view to store folding setting, before close
+    - [ ] vim folding https://github.com/tmhedberg/SimpylFold
+    - [ ] BufWinLeave, setting, https://vim.fandom.com/wiki/Make_views_automatic
 
-## bashrc
-* difference level of PS1
-
-## vimrc
-* https://vimconfig.com
+# Reference
+* github search
+* l4ys dotfiles
 

@@ -40,6 +40,9 @@ Plugin 'scrooloose/nerdtree'
 " improve search
 Plugin 'google/vim-searchindex'
 
+" surround "'({[
+Plugin 'tpope/vim-surround'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -198,11 +201,11 @@ highlight ColorColumn ctermbg=235
 highlight Visual ctermbg=DarkGrey
 
 " save the folding state
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
-augroup END
+"augroup remember_folds
+"  autocmd!
+"  autocmd BufWinLeave * mkview
+"  autocmd BufWinEnter * silent! loadview
+"augroup END
 
 
 " copy max line
@@ -214,7 +217,7 @@ set splitright
 " set file format = unix
 set fileformat=unix
 
-" show line return as '$'
+" whitespace characters are made visible.
 "set list
 
 "-------------------------------------------------------- Key mapping
@@ -234,28 +237,27 @@ vnoremap // y/<C-R>"<CR>
 " to save read only file
 cnoremap sudow w !sudo tee % > /dev/null
 
+" remove all white space in the end of line
+nnoremap <F2> :%s/\s\+$//e<CR>
+
 " turn off highlighting
 nnoremap <F3> :noh<CR>
 
-" remove all white space in the end of line
-nnoremap <F4> :%s/\s\+$//e<CR>
+" indent line toggle
+nnoremap <F7> :IndentLinesToggle<CR>
 
-" run the current python file
-nnoremap <F5> :!clear & python ./%<CR>
-
-" enable tagbar
+" tagbar toggle
 nnoremap <F8> :TagbarToggle<CR>
 
-nnoremap <F7> :IndentLinesToggle<CR>
+" run the current python file
+nnoremap <F12> :!clear & python ./%<CR>
 
 " enable nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
-"inoremap ( ()<Esc>i
-"inoremap " ""<Esc>i
-"inoremap ' ''<Esc>i
-"inoremap [ []<Esc>i
-"inoremap {<CR> {<CR>}<Esc>ko
+"-------------------------------------------------------- Command
+command Todo noautocmd vimgrep /TODO\|FIXME/j % | cw
+
 
 "--------------------------------------------------
 
