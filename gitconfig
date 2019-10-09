@@ -7,7 +7,7 @@
     s = status
     r = remote -v
     co = checkout
-    d = diff
+    d = difftool
 [http]
     sslVerify = false
 [filter "lfs"]
@@ -21,3 +21,9 @@
     quotepath = off
 [color]
     ui = true
+[diff]
+    tool = vimdiff
+[difftool]
+    prompt = false
+[difftool "vimdiff"]
+    cmd = vimdiff "$REMOTE" "$LOCAL"
