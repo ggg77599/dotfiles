@@ -11,7 +11,9 @@ alias v='vim'
 alias p='python'
 alias vd='vimdiff'
 alias grep='grep --color=auto'
+alias tree='tree -N'
 alias wnv='watch -n 1 nvidia-smi'  # for nvidia graphic card
+alias venv='. ~/venv/${PWD##*/}/bin/activate'  # activete virtualenv env
 
 color_prompt=yes
 

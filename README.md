@@ -20,18 +20,23 @@ sh install.sh devycm           # linux packages + vim packages + YCM
     - [x] set timezone
 - [ ] rearrange bashrc
     - [ ] difference level of PS1
+        - [ ] according installed version ( min, basic, dev, devycm )
     - [ ] separate alias from bashrc
 - [ ] rearrange vimrc
     - [ ] https://vimconfig.com
     - [ ] https://www.cnblogs.com/UnGeek/p/3318089.html
+    - [ ] folding setting
+        - [ ] vim view to store folding setting, before close
+        - [ ] vim folding https://github.com/tmhedberg/SimpylFold
+        - [ ] BufWinLeave, setting, https://vim.fandom.com/wiki/Make_views_automatic
+- [ ] test vim-plug
 - [ ] add pythonrc
 - [ ] test ipython?
-- [ ] folding setting
-    - [ ] vim view to store folding setting, before close
-    - [ ] vim folding https://github.com/tmhedberg/SimpylFold
-    - [ ] BufWinLeave, setting, https://vim.fandom.com/wiki/Make_views_automatic
+- [ ] some utility write by shell script
+- [ ] add install type in some where
+- [ ] set symbolic link from config file to this file
+- [ ] add uninstall function
 
 # Reference
 * github search
-* l4ys dotfiles
 

@@ -1,0 +1,16 @@
+#! /bin/sh
+#
+# a.sh
+# Copyright (C) 2019 mrg <mrg@MrGMacBookPro>
+#
+# Distributed under terms of the MIT license.
+#
+
+# reference
+# https://stackoverflow.com/questions/15216370/how-to-count-number-of-files-in-each-directory
+
+
+find $1 -type d -print0 | while read -d '' -r dir; do
+    files=("$dir"/*)
+    printf "%5d files in directory %s\n" "${#files[@]}" "$dir"
+done
