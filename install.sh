@@ -17,18 +17,11 @@ printhelp()
 
 updateVim()
 {
-    if [ -d ~/.vim/bundle ]; then
-        echo ~/.vim/bundle exist !
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-        vim +PluginUpdate +qall
-        echo update DONE
-    else
-        mkdir -p ~/.vim/bundle
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-        vim +PluginInstall +qall
-        echo install DONE
-    fi
+    vim +PlugInstall +qall
+    echo install DONE
 }
 
 
@@ -156,7 +149,7 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
 
             echo "============================================================ setup vim"
             cp vimrc ~/.vimrc
-            sed -i -e 's/\"Plugin/Plugin/g' ~/.vimrc
+            sed -i -e 's/\"Plug/Plug/g' ~/.vimrc
 
             # copy C-family Semantic Completion Engine
             wget https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_extra_conf.py ~/.vim/.ycm_extra_conf.py
@@ -164,8 +157,6 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
             echo "============================================================ install vim packages"
             updateVim
 
-            cd ~/.vim/bundle/YouCompleteMe
-            ./install.py
         fi
     fi
 else

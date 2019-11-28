@@ -36,7 +36,16 @@ sh install.sh devycm           # linux packages + vim packages + YCM
 - [ ] add install type in some where
 - [ ] set symbolic link from config file to this file
 - [ ] add uninstall function
+- [ ] gitignore_global
+
+- [ ] separate install different programming language
+    - [ ] go
+    - [ ] java
+    - [ ] nodejs
+- [ ] fzf
+- [ ] ripgrep
+
 
 # Reference
 * github search
-
+* https://github.com/Inndy/dotfiles/blob/master/vimrc

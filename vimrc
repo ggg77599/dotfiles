@@ -1,53 +1,46 @@
-"-------------------------------------------------------- Vundle
 
-set encoding=utf-8
-set nocompatible              " be iMproved, required
-filetype off                  " required
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
+" template for basic import and license
+Plug 'aperezdc/vim-template'
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" auto completion
+"Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
-Plugin 'aperezdc/vim-template'
+" the engine of snippets
+Plug 'SirVer/ultisnips'
 
-"Plugin 'Valloric/YouCompleteMe'
-
-" vim must enable python
-Plugin 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+" Snippets are separated from the engine. This is snippet contents
+Plug 'honza/vim-snippets'
 
 " indent line
-Plugin 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
 
-" tagbar
-Plugin 'majutsushi/tagbar'
+" tagbar, a overview of classes, functions, variables names
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
 " cool line in bottom
-Plugin 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 
 " move cursor easier
-Plugin 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 
 " the vim file manager
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " improve search
-Plugin 'google/vim-searchindex'
+Plug 'google/vim-searchindex'
 
 " surround "'({[
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" fuzzy finder
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
-"-------------------------------------------------------- Vundle setting
+call plug#end()
+
+"-------------------------------------------------------- plug setting
 
 " YouCompleteMe, C-family Semantic Completion Engine
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -73,36 +66,78 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
 " indent setting
-"let g:indentLine_char = '|'
+autocmd! User indentLine doautocmd indentLine Syntax | autocmd BufRead * IndentLinesReset
+let g:indentLine_enabled = 0
 
 " set tagbar sort by code's order
 let g:tagbar_sort = 0
 "let g:tagbar_autoclose = 1
 
-"-------------------------------------------------------- Other setting
-
-" Vim5 and later versions support syntax highlighting. Uncommenting the next
-" line enables syntax highlighting by default.
-if has("syntax")
-  syntax on
-endif
-
-" If using a dark background within the editing area and syntax highlighting
-" turn on this option as well
-set background=dark
+"-------------------------------------------------------- autocmd
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
 if has("autocmd")
-  au BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+  autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
-
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
 if has("autocmd")
   filetype plugin indent on
 endif
+
+augroup filetypedetect
+
+    " when I edit makefile, vim will not use space to replace tab
+    autocmd FileType make setlocal noexpandtab
+
+    " for open cl code
+    autocmd BufRead,BufNewFile *.cl set filetype=c
+
+    " set html file indent = 2
+    autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
+
+    " set python file indent = 2
+    "autocmd FileType python setlocal ts=2 sw=2 sts=2
+
+    " disable indentLine while open json files
+    autocmd Filetype json let g:indentLine_enabled = 0
+    autocmd BufRead *.md let g:indentLine_enabled = 0
+
+    " run program
+    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc '.shellescape('%').' && ./a.out' <CR>
+    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ '.shellescape('%').' && ./a.out' <CR>
+    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python '.shellescape('%') <CR>
+    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac '.shellescape('%').'&& java '.shellescape('%:r') <CR>
+    "autocmd filetype shell  nnoremap <F12> :w <bar> exec '!clear && bash '.shellescape('%') <CR>
+
+augroup END
+
+" auto open tagbar
+"autocmd VimEnter * nested :call tagbar#autoopen(1)
+
+" auto open NERDTree
+"autocmd vimenter * NERDTree
+
+" save the folding state
+"augroup remember_folds
+"  autocmd!
+"  autocmd BufWinLeave * mkview
+"  autocmd BufWinEnter * silent! loadview
+"augroup END
+
+"-------------------------------------------------------- Other setting
+
+" Vim5 and later versions support syntax highlighting. Uncommenting the next
+" line enables syntax highlighting by default.
+if has("syntax")
+    syntax on
+endif
+
+" If using a dark background within the editing area and syntax highlighting
+" turn on this option as well
+set background=dark
 
 " autoindent
 set autoindent
@@ -122,38 +157,14 @@ set shiftwidth=4
 " When expandtab is set, hitting Tab in insert mode will produce the appropriate number of spaces.
 set expandtab
 
-" when I edit makefile, vim will not use space to replace tab
-autocmd FileType make setlocal noexpandtab
-
-augroup filetypedetect
-    au BufRead,BufNewFile *.cl set filetype=c
-augroup END
-
 " set enable 256 color
 set t_Co=256
 
-" set python file indent = 2
-"autocmd FileType python setlocal ts=2 sw=2 sts=2
-
-" set html filr indent = 2
-autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
-
-" disable indentLine while open json files
-autocmd Filetype json let g:indentLine_enabled = 0
-autocmd BufRead *.md let g:indentLine_enabled = 0
-
-" auto open tagbar
-"autocmd VimEnter * nested :call tagbar#autoopen(1)
-
-" auto open NERDTree
-"autocmd vimenter * NERDTree
-
-" always keep at least 7 lines visible
+" always keep at least 20 lines visible
 set scrolloff=20
 
 " show current line
 set cursorline
-hi CursorLine term=bold cterm=bold ctermbg=235
 
 " show status in bottom right
 set ruler
@@ -167,9 +178,6 @@ set smartcase
 
 " Incremental search
 set incsearch
-
-" set line number color
-highlight LineNr ctermfg=DarkGrey
 
 " set file encoding
 set fileencoding=utf-8
@@ -186,27 +194,11 @@ set autowrite
 " Show (partial) command in status line.
 set showcmd
 
-"set cmdheight=2
-
 " make backspace work
 set backspace=indent,eol,start
 
 " set line mark to show maximal characters can use
 set colorcolumn=80
-
-" set  line mark color
-highlight ColorColumn ctermbg=235
-
-"highlight Visual term=reverse ctermbg=DarkGrey
-highlight Visual ctermbg=DarkGrey
-
-" save the folding state
-"augroup remember_folds
-"  autocmd!
-"  autocmd BufWinLeave * mkview
-"  autocmd BufWinEnter * silent! loadview
-"augroup END
-
 
 " copy max line
 set viminfo='100,<1000,s100,h
@@ -219,6 +211,20 @@ set fileformat=unix
 
 " whitespace characters are made visible.
 "set list
+
+"------------------------------------------------------ highlight
+
+" set line number color
+highlight LineNr ctermfg=DarkGrey
+
+" set  line mark color
+highlight ColorColumn ctermbg=235
+
+"highlight Visual term=reverse ctermbg=DarkGrey
+highlight Visual ctermbg=DarkGrey
+
+" cursor line
+highlight CursorLine term=bold cterm=bold ctermbg=235
 
 "-------------------------------------------------------- Key mapping
 " disable arrow key to make myself to use hjkl
@@ -249,24 +255,16 @@ nnoremap <F7> :IndentLinesToggle<CR>
 " tagbar toggle
 nnoremap <F8> :TagbarToggle<CR>
 
-" run the current python file
-nnoremap <F12> :!clear & python ./%<CR>
-
 " enable nerdtree
-map <C-n> :NERDTreeToggle<CR>
+nnoremap <F9> :NERDTreeToggle<CR>
+
+" fzf pen files in vertical split
+nnoremap <silent> <Leader>v :call fzf#run({
+\   'right': winwidth('.') / 2,
+\   'sink':  'vertical botright split' })<CR>
+
 
 "-------------------------------------------------------- Command
-command Todo noautocmd vimgrep /TODO\|FIXME/j % | cw
+command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
 
-
-"--------------------------------------------------
-
-" To turn off autoindent when you paste code
-"set paste
-
-" set mouse mode
-"set mouse=a
-
-" replace all tab to space
-":retab
 

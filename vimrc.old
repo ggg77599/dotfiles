@@ -1,42 +1,55 @@
+"-------------------------------------------------------- Vundle
 
-call plug#begin('~/.vim/plugged')
+set encoding=utf-8
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" vim templete
-Plug 'aperezdc/vim-template'
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
 
-" vim completion
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-" vim must enable python
-Plug 'SirVer/ultisnips'
+" template for basic import and license
+Plugin 'aperezdc/vim-template'
 
-" Snippets are separated from the engine. Add this if you want them:
-Plug 'honza/vim-snippets'
+" auto completion
+"Plugin 'Valloric/YouCompleteMe'
+
+" the engine of snippets
+Plugin 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. This is snippet contents
+Plugin 'honza/vim-snippets'
 
 " indent line
-Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
+Plugin 'Yggdroot/indentLine'
 
-" tagbar
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+" tagbar, a overview of classes, functions, variables names
+Plugin 'majutsushi/tagbar'
 
 " cool line in bottom
-Plug 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline'
 
 " move cursor easier
-Plug 'easymotion/vim-easymotion'
+Plugin 'easymotion/vim-easymotion'
 
 " the vim file manager
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plugin 'scrooloose/nerdtree'
 
 " improve search
-Plug 'google/vim-searchindex'
+Plugin 'google/vim-searchindex'
 
 " surround "'({[
-Plug 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 
-call plug#end()
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
-"-------------------------------------------------------- plug setting
+"-------------------------------------------------------- Vundle setting
 
 " YouCompleteMe, C-family Semantic Completion Engine
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -60,10 +73,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-
-" indent setting
-autocmd! User indentLine doautocmd indentLine Syntax | autocmd BufRead * IndentLinesReset
-let g:indentLine_enabled = 0
 
 " set tagbar sort by code's order
 let g:tagbar_sort = 0
@@ -131,6 +140,12 @@ autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
 " disable indentLine while open json files
 autocmd Filetype json let g:indentLine_enabled = 0
 autocmd BufRead *.md let g:indentLine_enabled = 0
+
+autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc '.shellescape('%').' && ./a.out'<CR>
+autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ '.shellescape('%').' && ./a.out'<CR>
+autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python '.shellescape('%')<CR>
+autocmd filetype shell  nnoremap <F12> :w <bar> exec '!clear && bash '.shellescape('%') <CR>
+autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac '.shellescape('%').'&& java '.shellescape('%:r') <CR>
 
 " auto open tagbar
 "autocmd VimEnter * nested :call tagbar#autoopen(1)
@@ -238,14 +253,11 @@ nnoremap <F7> :IndentLinesToggle<CR>
 " tagbar toggle
 nnoremap <F8> :TagbarToggle<CR>
 
-" run the current python file
-nnoremap <F12> :!clear & python ./%<CR>
-
 " enable nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
 "-------------------------------------------------------- Command
-command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
+command Todo noautocmd vimgrep /TODO\|FIXME/j % | cw
 
 
 "--------------------------------------------------
