@@ -5,16 +5,15 @@ alias ls='ls -Fh --color'
 alias ll='ls -al'
 alias la='ls -a'
 alias l='la'
+alias grep='grep --color=auto'
 alias rm='rm -i'
 alias diff='colordiff'
+alias pdb='python -m pdb'
 alias v='vim'
 alias p='python'
-alias pdb='python -m pdb'
 alias vd='vimdiff'
-alias grep='grep --color=auto'
 alias tree='tree -N'
 alias wnv='watch -n 1 nvidia-smi'  # for nvidia graphic card
-alias venv='. ~/venv/${PWD##*/}/bin/activate'  # activete virtualenv env
 
 color_prompt=yes
 
@@ -50,6 +49,7 @@ export PS1="\[\033[4;32m\]\u\[\033[m\]@\[\033[4;32m\]\h\[\033[m\]:\[\033[1;33m\]
 
 
 export TERM="xterm-256color"
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # Shift-Tab auto complete
 set show-all-if-ambiguous on

@@ -103,14 +103,14 @@ augroup filetypedetect
 
     " disable indentLine while open json files
     autocmd Filetype json let g:indentLine_enabled = 0
-    autocmd BufRead *.md let g:indentLine_enabled = 0
+    autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
     autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc '.shellescape('%').' && ./a.out' <CR>
     autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ '.shellescape('%').' && ./a.out' <CR>
     autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python '.shellescape('%') <CR>
     autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac '.shellescape('%').'&& java '.shellescape('%:r') <CR>
-    "autocmd filetype shell  nnoremap <F12> :w <bar> exec '!clear && bash '.shellescape('%') <CR>
+    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash '.shellescape('%') <CR>
 
 augroup END
 

@@ -68,15 +68,24 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
 
     echo "============================================================ setup bashrc"
     if grep -q ". ~/.bashrc.mrg" ~/.bashrc; then
-        echo update myRC
+        echo update dotfiles
     else
         echo ". ~/.bashrc.mrg" >> ~/.bashrc
-        echo installing myRC
+        echo installing dotfiles
     fi
     cp bashrc ~/.bashrc.mrg
 
+    echo "============================================================ setup util"
+    if grep -q ". ~/.util.mrg" ~/.bashrc; then
+        echo update util
+    else
+        echo ". ~/.util.mrg" >> ~/.bashrc
+        echo installing util
+    fi
+    cp util ~/.util.mrg
+
     echo "============================================================ setup vim"
-    mkdir ~/.vim/
+    mkdir -p ~/.vim/
     cp vimrc.mini ~/.vimrc
 
 
@@ -99,60 +108,59 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
                                                                locales \
                                                                tzdata
 
-        echo "============================================================ setup python"
+        echo "============================================================ setup packages"
         # install pip for python 3
         curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
         sudo -H python3 get-pip.py
         rm -f get-pip.py
 
-        ## setup pip
-        mkdir -p ~/.pip/
-        cp pip.conf ~/.pip/
-
         # install pip packages
         sudo -H pip3 install virtualenv
         sudo -H pip3 install markdown-editor
 
-        echo "============================================================ fix locale"
+        # fix locale
         sudo locale-gen en_US.UTF-8
         export LC_ALL="en_US.UTF-8"
         sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
-        echo "============================================================ set timezone"
+        # set timezone
         sudo ln -snf /usr/share/zoneinfo/Asia/Taipei /etc/localtime
         sudo sh -c "echo 'Asia/Taipei' > /etc/timezone"
         sudo dpkg-reconfigure -f noninteractive tzdata
 
-        echo "============================================================ setup tmux"
         # setup tmux config
         cp tmux.conf ~/.tmux.conf
 
-        if [ $1 = "dev" ] ; then
+        if [ $1 = "dev" ] || [ $1 = "devycm" ] ; then
             echo "============================================================"
             echo "#         install dev (linux packages + vim package)       #"
             echo "============================================================"
 
-            echo "============================================================ setup vim"
-            cp vimrc ~/.vimrc
-
-            echo "============================================================ install vim packages"
-            updateVim
-
-        elif [ $1 = "devycm" ] ; then
-            echo "============================================================"
-            echo "#   install devycm (linux packages + vim package + YCM)    #"
-            echo "============================================================"
-
             echo "============================================================ install packages"
-            sudo apt-get install -y exuberant-ctags \
-                                    cmake
+            sudo apt-get install -y tree
 
-            echo "============================================================ setup vim"
+            echo "============================================================ install fzf"
+            git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+            yes | ~/.fzf/install
+
+            echo "============================================================ copy vimrc"
             cp vimrc ~/.vimrc
-            sed -i -e 's/\"Plug/Plug/g' ~/.vimrc
 
-            # copy C-family Semantic Completion Engine
-            wget https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_extra_conf.py ~/.vim/.ycm_extra_conf.py
+            if [ $1 = "devycm" ] ; then
+                echo "============================================================"
+                echo "#   install devycm (linux packages + vim package + YCM)    #"
+                echo "============================================================"
+
+                echo "============================================================ install packages"
+                sudo apt-get install -y exuberant-ctags \
+                                        cmake
+
+                echo "============================================================ setup vimrc"
+                sed -i -e 's/\"Plug/Plug/g' ~/.vimrc
+
+                # copy C-family Semantic Completion Engine
+                wget https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_extra_conf.py ~/.vim/.ycm_extra_conf.py
+            fi
 
             echo "============================================================ install vim packages"
             updateVim

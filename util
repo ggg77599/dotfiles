@@ -14,7 +14,6 @@ dCount(){
         files=("$dir"/*)
         printf "%5d files in directory %s\n" "${#files[@]}" "$dir"
     done
-
 }
 
 venv()
