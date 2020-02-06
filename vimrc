@@ -38,6 +38,9 @@ Plug 'tpope/vim-surround'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
+" comment code
+Plug 'preservim/nerdcommenter'
+
 call plug#end()
 
 "-------------------------------------------------------- plug setting
@@ -95,10 +98,11 @@ augroup filetypedetect
     " for open cl code
     autocmd BufRead,BufNewFile *.cl set filetype=c
 
-    " set html file indent = 2
+    " set file indent
     autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
-
-    " set python file indent = 2
+    autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.go setlocal ts=2 sw=2 sts=2
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " disable indentLine while open json files
@@ -106,11 +110,16 @@ augroup filetypedetect
     autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
-    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc '.shellescape('%').' && ./a.out' <CR>
-    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ '.shellescape('%').' && ./a.out' <CR>
-    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python '.shellescape('%') <CR>
-    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac '.shellescape('%').'&& java '.shellescape('%:r') <CR>
-    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash '.shellescape('%') <CR>
+    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out' <CR>
+    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out' <CR>
+    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
+    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
+    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
+    "autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run .' <CR>
+    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
+
+    " remove all trailing whitespace
+    autocmd BufWritePre * %s/\s\+$//e
 
 augroup END
 
@@ -244,7 +253,7 @@ vnoremap // y/<C-R>"<CR>
 cnoremap sudow w !sudo tee % > /dev/null
 
 " remove all white space in the end of line
-nnoremap <F2> :%s/\s\+$//e<CR>
+"nnoremap <F2> :%s/\s\+$//e<CR>
 
 " turn off highlighting
 nnoremap <F3> :noh<CR>
