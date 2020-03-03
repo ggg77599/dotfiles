@@ -41,6 +41,9 @@ Plug 'junegunn/fzf.vim'
 " comment code
 Plug 'preservim/nerdcommenter'
 
+" vim go support
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
 
 "-------------------------------------------------------- plug setting

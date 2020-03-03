@@ -49,6 +49,11 @@ sh install.sh devycm           # linux packages + vim packages + YCM
     * `sed -i '' 's/ *$//'`
 - [ ] go plugin
     * https://github.com/fatih/vim-go
+- [ ] code format
+    * https://github.com/prettier/vim-prettier
+    * https://github.com/dense-analysis/ale
+
+- [ ] update configure
 
 
 # Reference
