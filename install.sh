@@ -131,6 +131,9 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
         # setup tmux config
         cp tmux.conf ~/.tmux.conf
 
+        # setup sqlite config
+        cp sqliterc ~/.sqliterc
+
         if [ $1 = "dev" ] || [ $1 = "devycm" ] ; then
             echo "============================================================"
             echo "#         install dev (linux packages + vim package)       #"

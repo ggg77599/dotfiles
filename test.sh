@@ -69,8 +69,8 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
         checkCommand locale-gen
         checkCommand pip
 
-        checkFile ~/.pip/pip.conf
         checkFile ~/.tmux.conf
+        checkFile ~/.sqliterc
 
         echo "test basic OK"
 

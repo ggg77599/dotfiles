@@ -4,9 +4,6 @@ call plug#begin('~/.vim/plugged')
 " template for basic import and license
 Plug 'aperezdc/vim-template'
 
-" auto completion
-"Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-
 " the engine of snippets
 Plug 'SirVer/ultisnips'
 
@@ -17,7 +14,7 @@ Plug 'honza/vim-snippets'
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
 
 " tagbar, a overview of classes, functions, variables names
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'majutsushi/tagbar'
 
 " cool line in bottom
 Plug 'vim-airline/vim-airline'
@@ -40,6 +37,12 @@ Plug 'junegunn/fzf.vim'
 
 " comment code
 Plug 'preservim/nerdcommenter'
+
+" auto completion
+"Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+
+" prettier js
+"Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 " vim go support
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -79,6 +82,8 @@ let g:indentLine_enabled = 0
 let g:tagbar_sort = 0
 "let g:tagbar_autoclose = 1
 
+" auto import go plugin
+let g:go_fmt_command = "goimports"
 "-------------------------------------------------------- autocmd
 
 " Uncomment the following to have Vim jump to the last position when
@@ -256,10 +261,13 @@ vnoremap // y/<C-R>"<CR>
 cnoremap sudow w !sudo tee % > /dev/null
 
 " remove all white space in the end of line
-"nnoremap <F2> :%s/\s\+$//e<CR>
+nnoremap <F2> :%s/\s\+$//e<CR>
 
 " turn off highlighting
 nnoremap <F3> :noh<CR>
+
+" convert to big5
+nnoremap <F4> :e ++enc=big5<CR>
 
 " indent line toggle
 nnoremap <F7> :IndentLinesToggle<CR>

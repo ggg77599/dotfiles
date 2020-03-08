@@ -31,8 +31,12 @@ alias l='la'
 alias grep='grep --color=auto'
 alias rm='rm -i'
 alias pdb='python -m pdb'
-#alias venv='. ~/venv/${PWD##*/}/bin/activate'
 alias medit='markdown_edit'
+alias v='vim'
+alias p='python'
+alias vd='vimdiff'
+alias tree='tree -N'
+
 #alias readlink='greadlink -f'
 
 
@@ -44,6 +48,7 @@ color_prompt=yes
 source ~/.git-completion.bash
 source ~/.git-prompt.sh
 
+# set git prompt
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUPSTREAM="auto"
 GIT_PS1_SHOWCOLORHINTS="yes"
@@ -69,15 +74,15 @@ export LC_ALL=en_US.UTF-8
 venv()
 {
     p='-'  # any string as init
-    
+
     until [ $p == '/' ]
     do
-        if [ $p == '-' ]; then  # init as 
+        if [ $p == '-' ]; then  # init as
             p=`pwd`
         else
             p=$(dirname $p)
         fi
-    
+
         #echo $p
         #echo ${p##*/}
 
@@ -85,11 +90,11 @@ venv()
             . ~/venv/${p##*/}/bin/activate
             break
         fi
-    
+
     done
 }
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh" --no-use # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh" --no-use # This loads nvm
+#[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 

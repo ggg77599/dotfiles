@@ -47,10 +47,7 @@ sh install.sh devycm           # linux packages + vim packages + YCM
 - [ ] https://unix.stackexchange.com/questions/60530/vimdiff-disable-enable-color-coding
 - [ ] new function for remove extra space at end of line
     * `sed -i '' 's/ *$//'`
-- [ ] go plugin
-    * https://github.com/fatih/vim-go
 - [ ] code format
-    * https://github.com/prettier/vim-prettier
     * https://github.com/dense-analysis/ale
 
 - [ ] update configure

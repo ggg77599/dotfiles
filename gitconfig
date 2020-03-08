@@ -4,12 +4,17 @@
 [alias]
     adog = log --all --decorate --oneline --graph
     tls = ls-tree -r master --name-only
+    fls = ls-files
     s = status
     r = remote -v
     co = checkout
     d = difftool
+    b = branch
+    cot = checkout --track
+    mg = merge --no-ff --no-commit
 [http]
     sslVerify = false
+	version = HTTP/1.1
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f

@@ -1,3 +1,4 @@
+"-------------------------------------------------------- autocmd
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
@@ -19,22 +20,28 @@ augroup filetypedetect
     " for open cl code
     autocmd BufRead,BufNewFile *.cl set filetype=c
 
-    " set html file indent = 2
+    " set file indent
     autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
-
-    " set python file indent = 2
+    autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.go setlocal ts=2 sw=2 sts=2
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " disable indentLine while open json files
     autocmd Filetype json let g:indentLine_enabled = 0
-    autocmd BufRead *.md let g:indentLine_enabled = 0
+    autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
-    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc '.shellescape('%').' && ./a.out' <CR>
-    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ '.shellescape('%').' && ./a.out' <CR>
-    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python '.shellescape('%') <CR>
-    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac '.shellescape('%').'&& java '.shellescape('%:r') <CR>
-    "autocmd filetype shell  nnoremap <F12> :w <bar> exec '!clear && bash '.shellescape('%') <CR>
+    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out' <CR>
+    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out' <CR>
+    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
+    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
+    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
+    "autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run .' <CR>
+    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
+
+    " remove all trailing whitespace
+    autocmd BufWritePre * %s/\s\+$//e
 
 augroup END
 
@@ -172,6 +179,24 @@ nnoremap <F2> :%s/\s\+$//e<CR>
 
 " turn off highlighting
 nnoremap <F3> :noh<CR>
+
+" convert to big5
+nnoremap <F4> :e ++enc=big5<CR>
+
+" indent line toggle
+nnoremap <F7> :IndentLinesToggle<CR>
+
+" tagbar toggle
+nnoremap <F8> :TagbarToggle<CR>
+
+" enable nerdtree
+nnoremap <F9> :NERDTreeToggle<CR>
+
+" fzf pen files in vertical split
+nnoremap <silent> <Leader>v :call fzf#run({
+\   'right': winwidth('.') / 2,
+\   'sink':  'vertical botright split' })<CR>
+
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
