@@ -6,6 +6,10 @@
 # Distributed under terms of the MIT license.
 #
 
+# To Do List
+# change installation to functions
+# a script to choose which package should be installed
+
 printhelp()
 {
     echo "Usage of install.sh"

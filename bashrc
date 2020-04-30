@@ -14,6 +14,7 @@ alias p='python'
 alias vd='vimdiff'
 alias tree='tree -N'
 alias wnv='watch -n 1 nvidia-smi'  # for nvidia graphic card
+alias open='/usr/bin/xdg-open'  # open folder from command line
 
 color_prompt=yes
 

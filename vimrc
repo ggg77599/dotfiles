@@ -31,12 +31,18 @@ Plug 'google/vim-searchindex'
 " surround "'({[
 Plug 'tpope/vim-surround'
 
+" comment code
+Plug 'preservim/nerdcommenter'
+
+" syntax for TOML
+Plug 'cespare/vim-toml'
+
+" diff dir with vim diff mode
+Plug 'will133/vim-dirdiff'
+
 " fuzzy finder
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-
-" comment code
-Plug 'preservim/nerdcommenter'
 
 " auto completion
 "Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
