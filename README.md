@@ -51,6 +51,8 @@ sh install.sh devycm           # linux packages + vim packages + YCM
     * https://github.com/dense-analysis/ale
 
 - [ ] update configure
+- [ ] change ubuntu default editor
+- [ ] wsl set umask
 
 
 # Reference

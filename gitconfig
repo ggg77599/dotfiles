@@ -10,6 +10,7 @@
     co = checkout
     d = difftool
     b = branch
+    f = fetch --all
     cot = checkout --track
     mg = merge --no-ff --no-commit
 [http]

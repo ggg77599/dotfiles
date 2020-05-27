@@ -90,6 +90,7 @@ let g:tagbar_sort = 0
 
 " auto import go plugin
 let g:go_fmt_command = "goimports"
+let g:go_template_autocreate = 0
 "-------------------------------------------------------- autocmd
 
 " Uncomment the following to have Vim jump to the last position when
@@ -235,6 +236,7 @@ set fileformat=unix
 " whitespace characters are made visible.
 "set list
 
+set nowrap
 "------------------------------------------------------ highlight
 
 " set line number color
