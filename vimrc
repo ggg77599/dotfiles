@@ -88,7 +88,11 @@ let g:indentLine_enabled = 0
 let g:tagbar_sort = 0
 "let g:tagbar_autoclose = 1
 
-" auto import go plugin
+"prettier config
+let g:prettier#config#trailing_comma = 'all'
+let g:prettier#config#arrow_parens = 'always'
+
+" vim-go config
 let g:go_fmt_command = "goimports"
 let g:go_template_autocreate = 0
 "-------------------------------------------------------- autocmd
