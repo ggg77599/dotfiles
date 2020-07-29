@@ -41,7 +41,7 @@ Plug 'cespare/vim-toml'
 Plug 'will133/vim-dirdiff'
 
 " fuzzy finder
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " auto completion
@@ -58,8 +58,8 @@ call plug#end()
 "-------------------------------------------------------- plug setting
 
 " YouCompleteMe, C-family Semantic Completion Engine
-"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-"let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
 
 " show function preview
 let g:ycm_add_preview_to_completeopt = 1
@@ -95,6 +95,7 @@ let g:prettier#config#arrow_parens = 'always'
 " vim-go config
 let g:go_fmt_command = "goimports"
 let g:go_template_autocreate = 0
+
 "-------------------------------------------------------- autocmd
 
 " Uncomment the following to have Vim jump to the last position when
@@ -241,6 +242,7 @@ set fileformat=unix
 "set list
 
 set nowrap
+
 "------------------------------------------------------ highlight
 
 " set line number color
@@ -295,6 +297,8 @@ nnoremap <silent> <Leader>v :call fzf#run({
 \   'right': winwidth('.') / 2,
 \   'sink':  'vertical botright split' })<CR>
 
+" YCM improve gd
+nnoremap gd :YcmCompleter GoToDefinition<CR>
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
