@@ -61,6 +61,8 @@ call plug#end()
 let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
+"let g:ycm_gopls_binary_path = '~/go/bin/gopls'
+
 " show function preview
 let g:ycm_add_preview_to_completeopt = 1
 
@@ -299,6 +301,7 @@ nnoremap <silent> <Leader>v :call fzf#run({
 
 " YCM improve gd
 nnoremap gd :YcmCompleter GoToDefinition<CR>
+nnoremap gr :YcmCompleter GoToReferences<CR>
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
