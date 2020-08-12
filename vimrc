@@ -141,7 +141,7 @@ augroup filetypedetect
     autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
 
     " remove all trailing whitespace
-    autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufWritePre * :call TrimWhitespace()
 
 augroup END
 
@@ -190,6 +190,8 @@ set expandtab
 
 " set enable 256 color
 set t_Co=256
+
+"colorscheme desert
 
 " always keep at least 20 lines visible
 set scrolloff=20
@@ -245,6 +247,9 @@ set fileformat=unix
 
 set nowrap
 
+"set foldmethod=indent
+"set foldlevel=0
+
 "------------------------------------------------------ highlight
 
 " set line number color
@@ -258,6 +263,9 @@ highlight Visual ctermbg=DarkGrey
 
 " cursor line
 highlight CursorLine term=bold cterm=bold ctermbg=235
+
+" search highlight
+highlight Search cterm=NONE ctermfg=black ctermbg=Yellow
 
 "-------------------------------------------------------- Key mapping
 " disable arrow key to make myself to use hjkl
@@ -277,7 +285,7 @@ vnoremap // y/<C-R>"<CR>
 cnoremap sudow w !sudo tee % > /dev/null
 
 " remove all white space in the end of line
-nnoremap <F2> :%s/\s\+$//e<CR>
+nnoremap <F2> :call TrimWhitespace()<CR>
 
 " turn off highlighting
 nnoremap <F3> :noh<CR>
@@ -306,4 +314,10 @@ nnoremap gr :YcmCompleter GoToReferences<CR>
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
 
+"-------------------------------------------------------- Function
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
 
