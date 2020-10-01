@@ -132,13 +132,13 @@ augroup filetypedetect
     autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
-    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out' <CR>
-    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out' <CR>
+    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
     autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
     autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
     autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
-    "autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run .' <CR>
-    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
+    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
+    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run .' <CR>
 
     " remove all trailing whitespace
     autocmd BufWritePre * :call TrimWhitespace()
