@@ -1,8 +1,20 @@
 
 call plug#begin('~/.vim/plugged')
 
-" template for basic import and license
-Plug 'aperezdc/vim-template'
+" improve search
+Plug 'google/vim-searchindex'
+
+" move cursor easier
+Plug 'easymotion/vim-easymotion'
+
+" cool line in bottom
+Plug 'vim-airline/vim-airline'
+
+" the vim file manager
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+" tagbar, a overview of classes, functions, variables names
+Plug 'majutsushi/tagbar'
 
 " the engine of snippets
 Plug 'SirVer/ultisnips'
@@ -10,58 +22,48 @@ Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. This is snippet contents
 Plug 'honza/vim-snippets'
 
-" indent line
-Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
-
-" tagbar, a overview of classes, functions, variables names
-Plug 'majutsushi/tagbar'
-
-" cool line in bottom
-Plug 'vim-airline/vim-airline'
-
-" move cursor easier
-Plug 'easymotion/vim-easymotion'
-
-" the vim file manager
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" improve search
-Plug 'google/vim-searchindex'
+" auto completion
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
 " surround "'({[
 Plug 'tpope/vim-surround'
 
-" comment code
-Plug 'preservim/nerdcommenter'
-
 " syntax for TOML
 Plug 'cespare/vim-toml'
 
-" diff dir with vim diff mode
-Plug 'will133/vim-dirdiff'
+""" language support
+"" prettier js
+""Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+"
+"" vim go support
+""Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-" fuzzy finder
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+""" other tools
+"" indent line
+"Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
+"
+"" diff dir with vim diff mode
+"Plug 'will133/vim-dirdiff'
+"
+"" comment code
+"Plug 'preservim/nerdcommenter'
+"
+"" template for basic import and license
+"Plug 'aperezdc/vim-template'
+
+
+"" fuzzy finder
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-
-" auto completion
-"Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-
-" prettier js
-"Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-
-" vim go support
-"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
-"-------------------------------------------------------- plug setting
-
+""-------------------------------------------------------- plug setting
+"
 " YouCompleteMe, C-family Semantic Completion Engine
 let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
-
-"let g:ycm_gopls_binary_path = '~/go/bin/gopls'
 
 " show function preview
 let g:ycm_add_preview_to_completeopt = 1
@@ -75,28 +77,23 @@ let g:ycm_max_num_candidates = 100
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-]>"
-"let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-" indent setting
-autocmd! User indentLine doautocmd indentLine Syntax | autocmd BufRead * IndentLinesReset
-let g:indentLine_enabled = 0
-
 " set tagbar sort by code's order
 let g:tagbar_sort = 0
 "let g:tagbar_autoclose = 1
 
-"prettier config
-let g:prettier#config#trailing_comma = 'all'
-let g:prettier#config#arrow_parens = 'always'
-
-" vim-go config
-let g:go_fmt_command = "goimports"
-let g:go_template_autocreate = 0
+""prettier config
+"let g:prettier#config#trailing_comma = 'all'
+"let g:prettier#config#arrow_parens = 'always'
+"
+"" vim-go config
+"let g:go_fmt_command = "goimports"
+"let g:go_template_autocreate = 0
 
 "-------------------------------------------------------- autocmd
 
@@ -137,26 +134,13 @@ augroup filetypedetect
     autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
     autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
     autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
-    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
-    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run .' <CR>
+    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear && go run .' <CR>
+    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
 
     " remove all trailing whitespace
     autocmd BufWritePre * :call TrimWhitespace()
 
 augroup END
-
-" auto open tagbar
-"autocmd VimEnter * nested :call tagbar#autoopen(1)
-
-" auto open NERDTree
-"autocmd vimenter * NERDTree
-
-" save the folding state
-"augroup remember_folds
-"  autocmd!
-"  autocmd BufWinLeave * mkview
-"  autocmd BufWinEnter * silent! loadview
-"augroup END
 
 "-------------------------------------------------------- Other setting
 
@@ -190,8 +174,6 @@ set expandtab
 
 " set enable 256 color
 set t_Co=256
-
-"colorscheme desert
 
 " always keep at least 20 lines visible
 set scrolloff=20
@@ -236,8 +218,9 @@ set colorcolumn=80
 " copy max line
 set viminfo='100,<1000,s100,h
 
-" always open new split plane on right
+" always open new split plane on right and down
 set splitright
+set splitbelow
 
 " set file format = unix
 set fileformat=unix
@@ -246,9 +229,6 @@ set fileformat=unix
 "set list
 
 set nowrap
-
-"set foldmethod=indent
-"set foldlevel=0
 
 "------------------------------------------------------ highlight
 

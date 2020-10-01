@@ -32,31 +32,18 @@ augroup filetypedetect
     autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
-    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out' <CR>
-    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out' <CR>
+    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
     autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
     autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
     autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
-    "autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run .' <CR>
+    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear && go run .' <CR>
     autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
 
     " remove all trailing whitespace
-    autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufWritePre * :call TrimWhitespace()
 
 augroup END
-
-" auto open tagbar
-"autocmd VimEnter * nested :call tagbar#autoopen(1)
-
-" auto open NERDTree
-"autocmd vimenter * NERDTree
-
-" save the folding state
-"augroup remember_folds
-"  autocmd!
-"  autocmd BufWinLeave * mkview
-"  autocmd BufWinEnter * silent! loadview
-"augroup END
 
 "-------------------------------------------------------- Other setting
 
@@ -134,14 +121,17 @@ set colorcolumn=80
 " copy max line
 set viminfo='100,<1000,s100,h
 
-" always open new split plane on right
+" always open new split plane on right and down
 set splitright
+set splitbelow
 
 " set file format = unix
 set fileformat=unix
 
 " whitespace characters are made visible.
 "set list
+
+set nowrap
 
 "------------------------------------------------------ highlight
 
@@ -156,6 +146,9 @@ highlight Visual ctermbg=DarkGrey
 
 " cursor line
 highlight CursorLine term=bold cterm=bold ctermbg=235
+
+" search highlight
+highlight Search cterm=NONE ctermfg=black ctermbg=Yellow
 
 "-------------------------------------------------------- Key mapping
 " disable arrow key to make myself to use hjkl
@@ -175,7 +168,7 @@ vnoremap // y/<C-R>"<CR>
 cnoremap sudow w !sudo tee % > /dev/null
 
 " remove all white space in the end of line
-nnoremap <F2> :%s/\s\+$//e<CR>
+nnoremap <F2> :call TrimWhitespace()<CR>
 
 " turn off highlighting
 nnoremap <F3> :noh<CR>
@@ -197,8 +190,17 @@ nnoremap <silent> <Leader>v :call fzf#run({
 \   'right': winwidth('.') / 2,
 \   'sink':  'vertical botright split' })<CR>
 
+" YCM improve gd
+nnoremap gd :YcmCompleter GoToDefinition<CR>
+nnoremap gr :YcmCompleter GoToReferences<CR>
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
 
+"-------------------------------------------------------- Function
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
 
