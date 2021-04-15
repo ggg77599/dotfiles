@@ -174,6 +174,10 @@ if [ $1 = "min" ] || [ $1 = "basic" ] || [ $1 = "dev" ] || [ $1 = "devycm" ] ; t
 
         fi
     fi
+
+    echo "remember to set user name and email for git"
+    echo "git config --global user.name 'MrG'"
+    echo "git config --global user.email 'ggg77599@gmail.com'"
 else
     printhelp
 fi
