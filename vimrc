@@ -31,6 +31,12 @@ Plug 'tpope/vim-surround'
 " syntax for TOML
 Plug 'cespare/vim-toml'
 
+" syntax for terraform
+Plug 'hashivim/vim-terraform'
+
+" syntax for log
+"Plug 'mtdl9/vim-log-highlighting'
+
 """ language support
 "" prettier js
 ""Plug 'prettier/vim-prettier', { 'do': 'npm install' }
@@ -95,6 +101,8 @@ let g:tagbar_sort = 0
 "let g:go_fmt_command = "goimports"
 "let g:go_template_autocreate = 0
 
+let g:ycm_auto_hover=''
+
 "-------------------------------------------------------- autocmd
 
 " Uncomment the following to have Vim jump to the last position when
@@ -121,7 +129,7 @@ augroup filetypedetect
     autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
-    autocmd BufRead *.go setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " disable indentLine while open json files
@@ -272,6 +280,9 @@ nnoremap <F3> :noh<CR>
 
 " convert to big5
 nnoremap <F4> :e ++enc=big5<CR>
+
+" format json string
+nnoremap <F5> :%!python -m json.tool<CR>
 
 " indent line toggle
 nnoremap <F7> :IndentLinesToggle<CR>
