@@ -1,0 +1,18 @@
+{
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.tabCompletion": "on",
+    "vim.easymotion": true,
+    "vim.searchHighlightColor": "#887700",
+    "vim.searchHighlightTextColor": "dark_yellow",
+    "vim.hlsearch": true,
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "vim.smartcase": false,
+    "vim.vimrc.enable": true,
+    "csharp.referencesCodeLens.enabled": false,
+    "files.trimTrailingWhitespace": true,
+    "C_Cpp.updateChannel": "Insiders",
+    "editor.cursorSurroundingLines": 10,
+    "editor.wordWrap": "off"
+}
