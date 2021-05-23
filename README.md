@@ -15,6 +15,10 @@ sh install.sh devycm           # linux packages + vim packages + YCM
 ```
 
 ## To Do List
+- [ ] make install modulized
+- [ ] I need a source script, for bash completation and package setup
+    - [ ] there are some env I will source by default, some are manual.
+    - [ ] like gcp, nvm, bash-completation
 - [x] reference DockerTest DockerFile
     - [x] set locale
     - [x] set timezone
@@ -37,7 +41,6 @@ sh install.sh devycm           # linux packages + vim packages + YCM
 - [ ] set symbolic link from config file to this file
 - [ ] add uninstall function
 - [ ] gitignore_global
-
 - [ ] separate install different programming language
     - [ ] go
     - [ ] java
@@ -49,7 +52,6 @@ sh install.sh devycm           # linux packages + vim packages + YCM
     * `sed -i '' 's/ *$//'`
 - [ ] code format
     * https://github.com/dense-analysis/ale
-
 - [ ] update configure
 - [ ] change ubuntu default editor
 - [ ] wsl set umask

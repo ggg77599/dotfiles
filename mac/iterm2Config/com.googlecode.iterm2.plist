@@ -301,10 +301,14 @@
 			</dict>
 			<key>Background Image Location</key>
 			<string></string>
+			<key>Blend</key>
+			<real>0.29903925551169835</real>
 			<key>Blinking Cursor</key>
 			<false/>
 			<key>Blur</key>
 			<false/>
+			<key>Blur Radius</key>
+			<real>4.1465682511477118</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -700,7 +704,7 @@
 	<key>SoundForEsc</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.44164468536966095</real>
+	<real>0.076182855436700669</real>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>StretchTabsToFillBar</key>
