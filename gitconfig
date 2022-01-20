@@ -1,5 +1,6 @@
 [alias]
     adog = log --all --decorate --oneline --graph
+    l = log --graph --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)%n''        %C(cyan)%aD%C(reset) - %C(dim white)%an%C(reset)'
     tls = ls-tree -r master --name-only
     fls = ls-files
     s = status
@@ -30,3 +31,5 @@
     prompt = false
 [difftool "vimdiff"]
     cmd = vimdiff "$REMOTE" "$LOCAL"
+[pull]
+    rebase = false
