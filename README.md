@@ -4,6 +4,8 @@ Include bashrc, vimrc, gitconf, sqliterc, tmux.conf ...
 ## Description
 * Modified from old repository *myRC*.
 * Different mode to setup configuration and install packages I will use.
+* Using symbolic link to link config from `home` to this repo, make version control easier.
+* To Be Refactor
 
 ## Usage
 
