@@ -28,38 +28,44 @@ Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 " surround "'({[
 Plug 'tpope/vim-surround'
 
-" syntax for TOML
-Plug 'cespare/vim-toml'
+" maximal current version
+Plug 'szw/vim-maximizer'
+
+" syntax check
+Plug 'vim-syntastic/syntastic'
+
+""" syntax highlight -------------------------------------------------
+" TOML
+"Plug 'cespare/vim-toml'
 
 " syntax for terraform
 Plug 'hashivim/vim-terraform'
+"
+" protobuf
+Plug 'google/protobuf'
+
+" python robot framework
+Plug 'mfukar/robotframework-vim'
 
 " syntax for log
-"Plug 'mtdl9/vim-log-highlighting'
+Plug 'mtdl9/vim-log-highlighting'
+
+""" code formatter -------------------------------------------------
+
+"" prettier js
+"Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+
+"" all in one
+"Plug 'google/vim-codefmt'
+"Plug 'google/vim-maktaba'
+"Plug 'google/vim-codefmt'
+"Plug 'google/vim-glaive'
 
 """ language support
-"" prettier js
-""Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-"
-"" vim go support
-""Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" vim go support
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-
-""" other tools
-"" indent line
-"Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
-"
-"" diff dir with vim diff mode
-"Plug 'will133/vim-dirdiff'
-"
-"" comment code
-"Plug 'preservim/nerdcommenter'
-"
-"" template for basic import and license
-"Plug 'aperezdc/vim-template'
-
-
-"" fuzzy finder
+" fuzzy finder
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -102,6 +108,7 @@ let g:tagbar_sort = 0
 "let g:go_template_autocreate = 0
 
 let g:ycm_auto_hover=''
+let g:syntastic_check_on_wq = 0
 
 "-------------------------------------------------------- autocmd
 
@@ -127,6 +134,8 @@ augroup filetypedetect
 
     " set file indent
     autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.yml setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.yaml setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
@@ -147,6 +156,9 @@ augroup filetypedetect
 
     " remove all trailing whitespace
     autocmd BufWritePre * :call TrimWhitespace()
+
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l*    lwindow
 
 augroup END
 
@@ -238,6 +250,9 @@ set fileformat=unix
 
 set nowrap
 
+" set max number of charactor of syntax in a line
+set synmaxcol=8000
+
 "------------------------------------------------------ highlight
 
 " set line number color
@@ -269,8 +284,15 @@ noremap   <Right>  <NOP>
 " set visual search
 vnoremap // y/<C-R>"<CR>
 
+" set vimgrep search
+vnoremap <leader>/  y/<C-R>"<CR>:vimgrep /<C-R>"/g %<CR>
+vnoremap <leader>a/ y/<C-R>"<CR>:vimgrep /<C-R>"/g **/**<CR>
+
 " to save read only file
 cnoremap sudow w !sudo tee % > /dev/null
+
+" vertical term
+cnoremap vterm vertical term
 
 " remove all white space in the end of line
 nnoremap <F2> :call TrimWhitespace()<CR>
@@ -297,10 +319,21 @@ nnoremap <F9> :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>v :call fzf#run({
 \   'right': winwidth('.') / 2,
 \   'sink':  'vertical botright split' })<CR>
+nnoremap <Leader>ff :Files<CR>
+nnoremap <Leader>rg :Rg<CR>
 
 " YCM improve gd
 nnoremap gd :YcmCompleter GoToDefinition<CR>
 nnoremap gr :YcmCompleter GoToReferences<CR>
+
+" max current windows
+nnoremap <Leader>m :MaximizerToggle<CR>
+
+" copy selected content to OS clipboard
+vnoremap <Leader>y "*y
+
+" short for vimgrep
+cnoremap vg vimgrep<space>
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw

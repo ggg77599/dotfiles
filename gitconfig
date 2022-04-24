@@ -1,6 +1,6 @@
 [alias]
-    adog = log --all --decorate --oneline --graph
-    l = log --graph --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)%n''        %C(cyan)%aD%C(reset) - %C(dim white)%an%C(reset)'
+    adog = log --all --oneline --graph
+    l = log --graph --all --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)%n''        %C(cyan)%aD%C(reset) - %C(dim white)%an%C(reset)'
     tls = ls-tree -r master --name-only
     fls = ls-files
     s = status
@@ -11,6 +11,10 @@
     f = fetch --all
     cot = checkout --track
     mg = merge --no-ff --no-commit
+    rebase-c = rebase --continue
+    rebase-a = rebase --abort
+    ress = restore --staged
+    res = restore
 [http]
     sslVerify = false
     version = HTTP/1.1
@@ -23,13 +27,17 @@
     helper = cache --timeout=3600
 [core]
     quotepath = off
+    autocrlf = input
 [color]
     ui = true
 [diff]
+    # make diff using vimdiff side-by-side mode
     tool = vimdiff
+    relative = true
 [difftool]
     prompt = false
 [difftool "vimdiff"]
-    cmd = vimdiff "$REMOTE" "$LOCAL"
+    # overwrite -R option
+    cmd = vimdiff "$LOCAL" "$REMOTE"
 [pull]
     rebase = false
