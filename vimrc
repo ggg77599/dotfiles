@@ -50,6 +50,9 @@ Plug 'mfukar/robotframework-vim'
 " syntax for log
 Plug 'mtdl9/vim-log-highlighting'
 
+" syntax for helm
+Plug 'towolf/vim-helm'
+
 """ code formatter -------------------------------------------------
 
 "" prettier js
@@ -139,6 +142,7 @@ augroup filetypedetect
     autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
+    autocmd BufRead *.log :AnsiEsc
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " disable indentLine while open json files
@@ -248,9 +252,10 @@ set fileformat=unix
 " whitespace characters are made visible.
 "set list
 
+" no wrap lines
 set nowrap
 
-" set max number of charactor of syntax in a line
+" set max number of charactor of syntax in a line, default is 3000
 set synmaxcol=8000
 
 "------------------------------------------------------ highlight
@@ -291,7 +296,7 @@ vnoremap <leader>a/ y/<C-R>"<CR>:vimgrep /<C-R>"/g **/**<CR>
 " to save read only file
 cnoremap sudow w !sudo tee % > /dev/null
 
-" vertical term
+" vertical terminal
 cnoremap vterm vertical term
 
 " remove all white space in the end of line
