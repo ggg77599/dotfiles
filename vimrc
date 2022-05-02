@@ -142,7 +142,6 @@ augroup filetypedetect
     autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
-    autocmd BufRead *.log :AnsiEsc
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " disable indentLine while open json files

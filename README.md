@@ -58,7 +58,27 @@ sh install.sh devycm           # linux packages + vim packages + YCM
 - [ ] change ubuntu default editor
 - [ ] wsl set umask
 
+## New version of installer
+
+I need to separate different type of configuration, make me easiler to manage.
+
+* mini workspace
+  * bashrc
+  * vimrc
+    * get rid of tail white space
+    * some key mapping
+    * 
+
+* basic plugin version
+  * git config setup
+* install by programming language
+  * go
+  * python
+  * rust
+  * C/C++
+* 
 
 # Reference
+
 * github search
 * https://github.com/Inndy/dotfiles/blob/master/vimrc

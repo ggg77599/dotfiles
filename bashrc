@@ -50,6 +50,9 @@ export PS1="\[\033[4;32m\]\u\[\033[m\]@\[\033[4;32m\]\h\[\033[m\]:\[\033[1;33m\]
 
 
 export TERM="xterm-256color"
+
+
+# need to place bash-complete before fzf, or it will disable some command completion
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # Shift-Tab auto complete
