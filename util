@@ -1,11 +1,4 @@
 #! /bin/sh
-#
-# utilFunction.sh
-# Copyright (C) 2019 mrg <mrg@MrGMacBookPro>
-#
-# Distributed under terms of the MIT license.
-#
-
 # all customized function collect at this file
 
 dCount(){
@@ -18,16 +11,22 @@ dCount(){
 
 venv()
 {
+    # specified which venv will be used
+    if [ -e ~/venv/$1/bin/activate ] ; then
+        . ~/venv/$1/bin/activate
+        return 0
+    fi
+
+    # recursively to find venv in the current working directory
     p='-'  # any string as init
-    
     until [ $p == '/' ]
     do
-        if [ $p == '-' ]; then  # init as 
+        if [ $p == '-' ]; then  # init as
             p=`pwd`
         else
             p=$(dirname $p)
         fi
-    
+
         #echo $p
         #echo ${p##*/}
 
@@ -35,9 +34,21 @@ venv()
             . ~/venv/${p##*/}/bin/activate
             break
         fi
-    
     done
 }
 
+nonascii()
+{
+    LANG=C rg -P '[^\x00-\x7f]'
+}
 
+showOS()
+{
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     awk -F= '/^NAME/{print $2}' /etc/os-release;;
+    Darwin*)    echo Mac;;
+    *)          echo "UNKNOWN:${unameOut}"
+esac
+}
 
