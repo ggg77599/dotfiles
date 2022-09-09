@@ -41,3 +41,6 @@
     cmd = vimdiff "$LOCAL" "$REMOTE"
 [pull]
     rebase = false
+[user]
+	name = MrG
+	email = ggg77599@gmail.com
