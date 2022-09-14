@@ -13,6 +13,8 @@ curl "https://raw.githubusercontent.com/git/git/v"$version"/contrib/completion/g
 ln -s $(PWD)/bashrc ~/.bashrc.mrg
 ln -s $(PWD)/util ~/.util.mrg
 ln -s $(PWD)/gitconfig ~/.gitconfig
+ln -s $(PWD)/vimrc ~/.vimrc
+ln -s $(PWD)/vimrc.plug ~/.vimrc.plug
 
 
 # interactive to set PS1_ENV

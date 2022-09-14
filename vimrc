@@ -1,117 +1,6 @@
 
-call plug#begin('~/.vim/plugged')
-
-" improve search
-Plug 'google/vim-searchindex'
-
-" move cursor easier
-Plug 'easymotion/vim-easymotion'
-
-" cool line in bottom
-Plug 'vim-airline/vim-airline'
-
-" the vim file manager
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" tagbar, a overview of classes, functions, variables names
-Plug 'majutsushi/tagbar'
-
-" the engine of snippets
-Plug 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. This is snippet contents
-Plug 'honza/vim-snippets'
-
-" auto completion
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-
-" surround "'({[
-Plug 'tpope/vim-surround'
-
-" maximal current version
-Plug 'szw/vim-maximizer'
-
-" syntax check
-Plug 'vim-syntastic/syntastic'
-
-""" syntax highlight -------------------------------------------------
-" TOML
-"Plug 'cespare/vim-toml'
-
-" syntax for terraform
-Plug 'hashivim/vim-terraform'
-"
-" protobuf
-Plug 'google/protobuf'
-
-" python robot framework
-Plug 'mfukar/robotframework-vim'
-
-" syntax for log
-Plug 'mtdl9/vim-log-highlighting'
-
-" syntax for helm
-Plug 'towolf/vim-helm'
-
-""" code formatter -------------------------------------------------
-
-"" prettier js
-"Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-
-"" all in one
-"Plug 'google/vim-codefmt'
-"Plug 'google/vim-maktaba'
-"Plug 'google/vim-codefmt'
-"Plug 'google/vim-glaive'
-
-""" language support
-" vim go support
-"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-" fuzzy finder
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-
-call plug#end()
-
-""-------------------------------------------------------- plug setting
-"
-" YouCompleteMe, C-family Semantic Completion Engine
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-
-" show function preview
-let g:ycm_add_preview_to_completeopt = 1
-
-" close function preview when complete
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-" max number of complete menu
-let g:ycm_max_num_candidates = 100
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-]>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-" set tagbar sort by code's order
-let g:tagbar_sort = 0
-"let g:tagbar_autoclose = 1
-
-""prettier config
-"let g:prettier#config#trailing_comma = 'all'
-"let g:prettier#config#arrow_parens = 'always'
-"
-"" vim-go config
-"let g:go_fmt_command = "goimports"
-"let g:go_template_autocreate = 0
-
-let g:ycm_auto_hover=''
-let g:syntastic_check_on_wq = 0
+" import vim-plug plugin and settings
+"source ./vimrc.plug
 
 "-------------------------------------------------------- autocmd
 
@@ -143,10 +32,6 @@ augroup filetypedetect
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
-
-    " disable indentLine while open json files
-    autocmd Filetype json let g:indentLine_enabled = 0
-    autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
     autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
@@ -292,6 +177,9 @@ vnoremap // y/<C-R>"<CR>
 vnoremap <leader>/  y/<C-R>"<CR>:vimgrep /<C-R>"/g %<CR>
 vnoremap <leader>a/ y/<C-R>"<CR>:vimgrep /<C-R>"/g **/**<CR>
 
+" short for vimgrep
+cnoremap vg vimgrep<space>
+
 " to save read only file
 cnoremap sudow w !sudo tee % > /dev/null
 
@@ -310,34 +198,8 @@ nnoremap <F4> :e ++enc=big5<CR>
 " format json string
 nnoremap <F5> :%!python -m json.tool<CR>
 
-" indent line toggle
-nnoremap <F7> :IndentLinesToggle<CR>
-
-" tagbar toggle
-nnoremap <F8> :TagbarToggle<CR>
-
-" enable nerdtree
-nnoremap <F9> :NERDTreeToggle<CR>
-
-" fzf pen files in vertical split
-nnoremap <silent> <Leader>v :call fzf#run({
-\   'right': winwidth('.') / 2,
-\   'sink':  'vertical botright split' })<CR>
-nnoremap <Leader>ff :Files<CR>
-nnoremap <Leader>rg :Rg<CR>
-
-" YCM improve gd
-nnoremap gd :YcmCompleter GoToDefinition<CR>
-nnoremap gr :YcmCompleter GoToReferences<CR>
-
-" max current windows
-nnoremap <Leader>m :MaximizerToggle<CR>
-
 " copy selected content to OS clipboard
 vnoremap <Leader>y "*y
-
-" short for vimgrep
-cnoremap vg vimgrep<space>
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw

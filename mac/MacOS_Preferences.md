@@ -64,7 +64,9 @@
 
 * View / Always Show Tab Bars 
 * Preforence / General / Safari open with / ( select All windows from last sessions )
-* Freforence / General / Open "safe" file after downloading / (Untick)
+* Preforence / General / Open "safe" file after downloading / (Untick)
+* Preforence / General / File download location / select "Ask for each download"
+* Preforence / Advanced / Show full website address / (Tick)
 
 ### Finder
 
@@ -103,10 +105,9 @@
 ### Chrome
 
 - (Sign in)
-- Search engine / Search engine / Search engine used in the address bar / Google
 - Tip: Search engine / Search engine / Manage search engines / (Set up like “Google Define, gd, https://www.google.com.tw/search?q=define%3A+%s” would be very useful)
 
-### Firefox
+### ~~Firefox~~
 
 - (Sign in)
 - General / Language and Appearance / Fonts and Colors / Advanced / Monospace / Fira Code
@@ -132,6 +133,10 @@
   * install bash -> set bash
 
 * install dotfiles
+
+### Calendar
+
+* General / Start week on / Monday
 
 ### Sublime
 
