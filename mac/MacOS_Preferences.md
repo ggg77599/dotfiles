@@ -128,20 +128,26 @@
 ### CLI
 
 * install brew
-  * install wget
-
-  * install bash -> set bash
-
+* install git
 * install dotfiles
 
 ### Calendar
 
 * General / Start week on / Monday
 
-### Sublime
+### Sublime Text
 
-* pretty json
-* compare-side-by-side
+* Install `Package Control`
+
+  * Pretty JSON
+  * Compare Side-By-Side
+
+* Performances.sublime-settings
+
+  ```
+  "draw_white_space": "all",
+  "open_files_in_new_window": false,
+  ```
 
 ### Quick look
 
@@ -163,11 +169,6 @@
   
 
 ### The Unarchiver
-
-### Sublime Text
-
-- install plugin
-- set commane line tool
 
 ### The Unarchiver
 
