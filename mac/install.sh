@@ -25,6 +25,7 @@ brew install --cask tunnelblick
 brew install --cask typora
 brew install --cask logseq
 brew install --cask docker
+brew install --cask toggl-track
 
 #brew install --cask qlmarkdown
 #brew install --cask qlcolorcode

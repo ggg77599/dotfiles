@@ -147,6 +147,7 @@
   ```
   "draw_white_space": "all",
   "open_files_in_new_window": false,
+  "font_size": 14,
   ```
 
 ### Quick look
