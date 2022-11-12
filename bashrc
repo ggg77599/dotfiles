@@ -59,7 +59,7 @@ case "${MY_PS1_ENV}" in
         export PS1="\[\033[0;35m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;36m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
         ;;
     *)
-        using default PS1, set MY_PS1_ENV to configure
+        echo "using default PS1, set MY_PS1_ENV to configure"
         ;;
 esac
 
