@@ -1,6 +1,9 @@
 
 call plug#begin('~/.vim/plugged')
 
+" highlight keyword
+Plug 'lfv89/vim-interestingwords'
+
 " improve search
 Plug 'google/vim-searchindex'
 
@@ -71,6 +74,9 @@ Plug 'towolf/vim-helm'
 " fuzzy finder
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+
+" git integration
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 

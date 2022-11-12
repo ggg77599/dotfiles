@@ -142,6 +142,12 @@ set nowrap
 " set max number of charactor of syntax in a line, default is 3000
 set synmaxcol=8000
 
+" do not create the swap file
+set noswapfile
+
+" spell check
+set spell
+
 "------------------------------------------------------ highlight
 
 " set line number color
@@ -158,6 +164,13 @@ highlight CursorLine term=bold cterm=bold ctermbg=235
 
 " search highlight
 highlight Search cterm=NONE ctermfg=black ctermbg=Yellow
+
+" spell check
+highlight SpellBad cterm=underline ctermfg=NONE ctermbg=NONE
+
+" folded
+highlight Folded ctermbg=black
+highlight Folded ctermfg=245
 
 "-------------------------------------------------------- Key mapping
 " disable arrow key to make myself to use hjkl
@@ -210,4 +223,25 @@ fun! TrimWhitespace()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
 endfun
+
+let s:term_buf_nr = -1
+function! s:ToggleTerminal() abort
+    if s:term_buf_nr == -1
+        execute "botright terminal"
+        let s:term_buf_nr = bufnr("$")
+    else
+        try
+            execute "bdelete! " . s:term_buf_nr
+        catch
+            let s:term_buf_nr = -1
+            call <SID>ToggleTerminal()
+            return
+        endtry
+        let s:term_buf_nr = -1
+    endif
+endfunction
+
+nnoremap <silent> <Leader>t :call <SID>ToggleTerminal()<CR>
+tnoremap <silent> <Leader>t <C-w>N:call <SID>ToggleTerminal()<CR>
+
 
