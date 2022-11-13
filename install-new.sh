@@ -19,7 +19,7 @@ ln -s $(PWD)/vimrc.plug ~/.vimrc.plug
 # interactive to set PS1_ENV
 cat <<EOL >> ~/.bashrc
 #============================= added by dotfiles ==============================
-export MY_DOTFILES_DIR=$(PWD)
+export MY_DOTFILES_DIR="$(PWD)"
 export MY_PS1_ENV=""
 source \${MY_DOTFILES_DIR}/bashrc
 source \${MY_DOTFILES_DIR}/util

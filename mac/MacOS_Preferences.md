@@ -86,6 +86,7 @@
 * Sidebar / Locations / <this device> / (Untick)
 * Sidebar / Locations / Hard disks / (Untick)
 * Sidebar / Tags / (Untick all)
+* Advenced / Show all filename extensions / (Tick)
 
 ### Rectangle
 

@@ -1,1 +1,3 @@
 .DS_Store
+.git-completion.bash
+.git-prompt.sh

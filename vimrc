@@ -1,6 +1,7 @@
 
 " import vim-plug plugin and settings
-"source ./vimrc.plug
+source ~/.vimrc.plug
+
 
 "-------------------------------------------------------- autocmd
 
@@ -213,6 +214,12 @@ nnoremap <F5> :%!python -m json.tool<CR>
 
 " copy selected content to OS clipboard
 vnoremap <Leader>y "*y
+
+" open directory view
+nnoremap <Leader>o :b#<CR>
+
+" open directory explore
+nnoremap <Leader>e :Explore<CR>
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw

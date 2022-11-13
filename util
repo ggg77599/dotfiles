@@ -9,6 +9,14 @@ dCount(){
     done
 }
 
+create_venv()
+{
+    if [ ! -d ~/venv/ ]; then
+        echo "Creating ~/venv/ for python venv"
+        mkdir ~/venv/
+    fi
+}
+
 venv()
 {
     # specified which venv will be used
