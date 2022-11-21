@@ -23,6 +23,8 @@
     lm = diff --name-only --diff-filter=M
     # list added files
     la = diff HEAD --name-only --diff-filter=A
+    # list deleted files
+    ld = diff --name-only --diff-filter=D
 [http]
     sslVerify = false
     version = HTTP/1.1
@@ -55,3 +57,5 @@
 [user]
 	name = MrG
 	email = ggg77599@gmail.com
+[pull]
+	ff = only
