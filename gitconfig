@@ -25,6 +25,12 @@
     la = diff HEAD --name-only --diff-filter=A
     # list deleted files
     ld = diff --name-only --diff-filter=D
+    # update all submodule
+    supdate = submodule update --init --recursive
+    # fetch unshallow
+    ff = fetch --unshallow
+    # diff name-only
+    dn = diff --relative --name-only
 [http]
     sslVerify = false
     version = HTTP/1.1
@@ -44,7 +50,8 @@
 [diff]
     # make diff using vimdiff side-by-side mode
     tool = vimdiff
-    relative = true
+    # set relative will break difftoll if not in the root of git repo
+    #relative = true
 [difftool]
     prompt = false
     # make me able to cancel when a lot of files need to diff, :cq

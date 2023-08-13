@@ -22,6 +22,7 @@ augroup filetypedetect
     " when I edit makefile, vim will not use space to replace tab
     autocmd FileType make setlocal noexpandtab
 
+    "" set syntax highlight file type
     " for open cl code
     autocmd BufRead,BufNewFile *.cl set filetype=c
 
@@ -31,8 +32,13 @@ augroup filetypedetect
     autocmd BufRead *.yaml setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.vue setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.sh setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
+
+    " disable indentLine while open json files
+    autocmd Filetype json let g:indentLine_enabled = 0
+    autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
     autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
@@ -44,7 +50,7 @@ augroup filetypedetect
     autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
 
     " remove all trailing whitespace
-    autocmd BufWritePre * :call TrimWhitespace()
+    autocmd BufWritePre *\(.out\|.diff\)\@<! :call TrimWhitespace()
 
     autocmd QuickFixCmdPost [^l]* cwindow
     autocmd QuickFixCmdPost l*    lwindow
@@ -185,7 +191,8 @@ noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
 
 " set visual search
-vnoremap // y/<C-R>"<CR>
+" https://stackoverflow.com/questions/6870902/how-can-i-search-a-word-after-selecting-it-in-visual-mode-in-vim
+vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
 " set vimgrep search
 vnoremap <leader>/  y/<C-R>"<CR>:vimgrep /<C-R>"/g %<CR>
@@ -250,5 +257,4 @@ endfunction
 
 nnoremap <silent> <Leader>t :call <SID>ToggleTerminal()<CR>
 tnoremap <silent> <Leader>t <C-w>N:call <SID>ToggleTerminal()<CR>
-
 

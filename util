@@ -58,5 +58,15 @@ case "${unameOut}" in
     Darwin*)    echo Mac;;
     *)          echo "UNKNOWN:${unameOut}"
 esac
+uname -m
 }
 
+checksum()
+{
+    echo md5
+    md5sum $1
+    echo sha1
+    sha1sum $1
+    echo sha256
+    sha256sum $1
+}

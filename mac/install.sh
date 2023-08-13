@@ -6,9 +6,10 @@
 # install tool
 brew install bash
 brew install tree
-brew install fzf
-brew install ripgrep
+brew install fzf  # fuzzy search
+brew install ripgrep  # grep alternative
 brew install wget
+brew install tldr  # man alternative
 #brew deps --tree --installed
 
 # install software

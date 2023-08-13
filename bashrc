@@ -17,7 +17,15 @@ alias diff='colordiff'
 alias wnv='watch -n 1 nvidia-smi'  # for nvidia graphic card
 #alias open='/usr/bin/xdg-open'  # open folder from command line
 alias ibrew='arch -x86_64 /usr/local/Homebrew/bin/brew'
-alias work='cd /Users/gary_hsieh/Development/MGCP'
+alias kc='kubectl'
+
+alias giveMeWiFi="/usr/sbin/networksetup -setnetworkserviceenabled Wi-Fi on"
+
+alias gotest='go test --tags dynamic '
+alias gotestv='go test --tags dynamic -v '
+alias golint='golangci-lint --build-tags dynamic run '
+alias golintv='golangci-lint --build-tags dynamic run -v '
+alias sopsd='sops --input-type dotenv --output-type dotenv'
 #alias readlink='greadlink -f'
 
 color_prompt=yes
@@ -77,10 +85,13 @@ bind '"\e[Z":menu-complete' # Shift-Tab auto complete
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 _fzf_setup_completion dir tree
-_fzf_setup_completion path git kubectl
+_fzf_setup_completion path git kubectl kc sopsd
 _fzf_setup_completion path code
+_fzf_setup_completion path sops
 
 
+shopt -s cdable_vars
+dev=~/Development
 
 
 
