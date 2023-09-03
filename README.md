@@ -57,6 +57,8 @@ sh install.sh devycm           # linux packages + vim packages + YCM
 - [ ] update configure
 - [ ] change ubuntu default editor
 - [ ] wsl set umask
+- [ ] update mac perfermance setting
+- [ ] 
 
 ## New version of installer
 

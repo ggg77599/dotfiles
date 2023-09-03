@@ -63,6 +63,7 @@
 ### Safari
 
 * View / Always Show Tab Bars 
+* View / Show Status bar
 * Preforence / General / Safari open with / ( select All windows from last sessions )
 * Preforence / General / Open "safe" file after downloading / (Untick)
 * Preforence / General / File download location / select "Ask for each download"

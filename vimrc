@@ -155,6 +155,9 @@ set noswapfile
 " spell check
 set spell
 
+" set max text length of a line
+"set textwidth=79
+
 "------------------------------------------------------ highlight
 
 " set line number color
@@ -227,6 +230,9 @@ nnoremap <Leader>o :b#<CR>
 
 " open directory explore
 nnoremap <Leader>e :Explore<CR>
+
+" diff split windows, each windows do diffthis command
+cnoremap diff :windo diffthis
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
