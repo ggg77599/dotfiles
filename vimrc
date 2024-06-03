@@ -25,6 +25,7 @@ augroup filetypedetect
     "" set syntax highlight file type
     " for open cl code
     autocmd BufRead,BufNewFile *.cl set filetype=c
+    autocmd BufRead,BufNewFile .util.* set filetype=bash
 
     " set file indent
     autocmd BufRead *.html setlocal ts=2 sw=2 sts=2
@@ -34,11 +35,8 @@ augroup filetypedetect
     autocmd BufRead *.js setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.sh setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
+    autocmd BufRead *.proto setlocal ts=2 sw=2 sts=2
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
-
-    " disable indentLine while open json files
-    autocmd Filetype json let g:indentLine_enabled = 0
-    autocmd Filetype markdown let g:indentLine_enabled = 0
 
     " run program
     autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
@@ -149,6 +147,10 @@ set nowrap
 " set max number of charactor of syntax in a line, default is 3000
 set synmaxcol=8000
 
+" enable show both line numbers
+"call RltvNmbr#RltvNmbrCtrl(1)
+"set relativenumber
+
 " do not create the swap file
 set noswapfile
 
@@ -163,7 +165,7 @@ set spell
 " set line number color
 highlight LineNr ctermfg=DarkGrey
 
-" set  line mark color
+" set line mark color
 highlight ColorColumn ctermbg=235
 
 "highlight Visual term=reverse ctermbg=DarkGrey
@@ -199,7 +201,7 @@ vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
 " set vimgrep search
 vnoremap <leader>/  y/<C-R>"<CR>:vimgrep /<C-R>"/g %<CR>
-vnoremap <leader>a/ y/<C-R>"<CR>:vimgrep /<C-R>"/g **/**<CR>
+vnoremap <leader>a/ y/<C-R>"<CR>:vimgrep /<C-R>"/g **/*<CR>
 
 " short for vimgrep
 cnoremap vg vimgrep<space>
@@ -209,9 +211,6 @@ cnoremap sudow w !sudo tee % > /dev/null
 
 " vertical terminal
 cnoremap vterm vertical term
-
-" remove all white space in the end of line
-nnoremap <F2> :call TrimWhitespace()<CR>
 
 " turn off highlighting
 nnoremap <F3> :noh<CR>

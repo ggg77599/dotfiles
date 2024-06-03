@@ -84,6 +84,7 @@ bind '"\e[Z":menu-complete' # Shift-Tab auto complete
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_DEFAULT_COMMAND='rg --files'
 _fzf_setup_completion dir tree
 _fzf_setup_completion path git kubectl kc sopsd
 _fzf_setup_completion path code
@@ -92,6 +93,7 @@ _fzf_setup_completion path sops
 
 shopt -s cdable_vars
 dev=~/Development
+venv=~/venv
 
 
 
