@@ -8,7 +8,9 @@
     co = checkout
     d = difftool
     b = branch
+    bs = branch --sort=committerdate
     f = fetch --all
+    fp = fetch --prune
     cot = checkout --track
     mg = merge --no-ff --no-commit
     rebase-c = rebase --continue
@@ -21,16 +23,26 @@
     lu = ls-files --other --exclude-standard
     # list modified files
     lm = diff --name-only --diff-filter=M
-    # list added files
-    la = diff HEAD --name-only --diff-filter=A
+    # list staged/added files
+    la = diff --name-only --cached
     # list deleted files
     ld = diff --name-only --diff-filter=D
     # update all submodule
     supdate = submodule update --init --recursive
+    # show all submodule status
+    ss = submodule status
     # fetch unshallow
     ff = fetch --unshallow
     # diff name-only
     dn = diff --relative --name-only
+    # show branch's first commit
+    bf = log master... --oneline --pretty=format:%h | tail -1
+    # get branch's first parent
+    p = merge-base origin/HEAD @
+    # get tags from current commit
+    tc = tag --points-at
+    # get branches from current commit
+    bc = branch --all --contains
 [http]
     sslVerify = false
     version = HTTP/1.1
@@ -45,6 +57,7 @@
     quotepath = off
     autocrlf = input
     ignorecase = false
+    hooksPath = ~/gitconfig/hooks
 [color]
     ui = true
 [diff]

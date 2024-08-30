@@ -28,6 +28,9 @@ augroup filetypedetect
     " for open cl code
     autocmd BufRead,BufNewFile *.cl set filetype=c
     autocmd BufRead,BufNewFile .util.* set filetype=bash
+    autocmd BufRead,BufNewFile gitconfig* set filetype=gitconfig
+    autocmd BufRead,BufNewFile vimrc* set filetype=vim
+    autocmd BufRead,BufNewFile ~/.kube/* set filetype=yaml
 
     " set file indent
     autocmd BufRead *.html setlocal ts=2 sw=2 sts=2

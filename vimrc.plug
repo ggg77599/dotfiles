@@ -1,8 +1,13 @@
 
 call plug#begin('~/.vim/plugged')
 
+" bookmark
+Plug 'MattesGroeger/vim-bookmarks'
+
 " highlight keyword
 Plug 'lfv89/vim-interestingwords'
+
+"Plug 'github/copilot.vim'
 
 " hard time
 "Plug 'takac/vim-hardtime'
@@ -34,6 +39,9 @@ Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --go-completer ' }
 
 " surround "'({[
 Plug 'tpope/vim-surround'
+
+" repeat
+Plug 'tpope/vim-repeat'
 
 " maximal current version
 Plug 'szw/vim-maximizer'
@@ -173,5 +181,7 @@ nnoremap gr :YcmCompleter GoToReferences<CR>
 " max current windows
 nnoremap <Leader>m :MaximizerToggle<CR>
 
+" fzf
+vnoremap <leader>a/ y/<C-R>"<CR>:Rg <C-R>"<CR>
 
 
