@@ -5,7 +5,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'lfv89/vim-interestingwords'
 
 " hard time
-Plug 'takac/vim-hardtime'
+"Plug 'takac/vim-hardtime'
 
 " improve search
 " can be replaced by airline, show the search index in right bottom
@@ -140,12 +140,12 @@ nnoremap <silent> <leader>k :call InterestingWords('n')<cr>
 vnoremap <silent> <leader>k :call InterestingWords('v')<cr>
 nnoremap <silent> <leader>K :call UncolorAllWords()<cr>
 
-" hardtime
-let g:hardtime_default_on = 1
-let g:hardtime_showmsg = 1
-" make up and down by j k available
-let g:list_of_normal_keys = ["h", "l", "-", "+", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
-let g:list_of_visual_keys = ["h", "l", "-", "+", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+"" hardtime
+"let g:hardtime_default_on = 1
+"let g:hardtime_showmsg = 1
+"" make up and down by j k available
+"let g:list_of_normal_keys = ["h", "l", "-", "+", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+"let g:list_of_visual_keys = ["h", "l", "-", "+", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
 
 "--------------------------------------------------------
 
