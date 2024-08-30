@@ -1,6 +1,8 @@
 
 " import vim-plug plugin and settings
-source ~/.vimrc.plug
+if !has("nvim")
+  source ~/.vimrc.plug
+endif
 
 
 "-------------------------------------------------------- autocmd
@@ -41,6 +43,7 @@ augroup filetypedetect
     " run program
     autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
     autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    autocmd filetype rust   nnoremap <F12> :w <bar> exec '!clear && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>
     autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
     autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
     autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
@@ -159,6 +162,9 @@ set spell
 
 " set max text length of a line
 "set textwidth=79
+
+" disable mouse mode
+set mouse=""
 
 "------------------------------------------------------ highlight
 

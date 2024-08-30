@@ -10,6 +10,7 @@ brew install fzf  # fuzzy search
 brew install ripgrep  # grep alternative
 brew install wget
 brew install tldr  # man alternative
+brew install sops
 #brew deps --tree --installed
 
 # install software
