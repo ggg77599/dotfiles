@@ -26,7 +26,15 @@ alias gotestv='go test --tags dynamic -v '
 alias golint='golangci-lint --build-tags dynamic run '
 alias golintv='golangci-lint --build-tags dynamic run -v '
 alias sopsd='sops --input-type dotenv --output-type dotenv'
+alias docker-compose='docker compose'
 #alias readlink='greadlink -f'
+
+# for Golang
+#alias gotest='go test --tags dynamic '
+#alias gotestv='go test --tags dynamic -v '
+#alias golint='golangci-lint --build-tags dynamic run '
+#alias golintv='golangci-lint --build-tags dynamic run -v '
+#alias sopsd='sops --input-type dotenv --output-type dotenv'
 
 color_prompt=yes
 
