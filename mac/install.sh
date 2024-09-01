@@ -11,6 +11,8 @@ brew install ripgrep  # grep alternative
 brew install wget
 brew install tldr  # man alternative
 brew install sops
+brew install vim
+brew install neovim
 #brew deps --tree --installed
 
 # install software
@@ -33,4 +35,10 @@ brew install --cask toggl-track
 # at least open those app once
 brew install --cask --no-quarantine qlmarkdown        # preview markdown
 brew install --cask --no-quarantine syntax-highlight  # preview code with highlight
+
+# language support
+brew install fnm  # node.js version manager
+brew install rustup  # rust version manager
+brew install go
+brew install python
 

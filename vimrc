@@ -41,6 +41,7 @@ augroup filetypedetect
     autocmd BufRead *.sh setlocal ts=2 sw=2 sts=2
     autocmd BufRead *.go setlocal ts=2 sw=2 sts=2 noexpandtab
     autocmd BufRead *.proto setlocal ts=2 sw=2 sts=2
+    autocmd BufRead *.lua setlocal ts=2 sw=2 sts=2
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " run program
