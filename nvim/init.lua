@@ -1,4 +1,3 @@
-
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 vim.g.mapleader = " "
@@ -12,4 +11,4 @@ require("config.lazy")
 
 
 -- other setting just for neovim
-vim.opt.guicursor = ""  -- make insert mode cursor in block shape
+vim.opt.guicursor = "" -- make insert mode cursor in block shape
