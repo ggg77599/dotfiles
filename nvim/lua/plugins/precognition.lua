@@ -1,8 +1,8 @@
 return {
-    "tris203/precognition.nvim",
-    --event = "VeryLazy",
-    opts = {
-    -- startVisible = true,
+  "tris203/precognition.nvim",
+  event = "VeryLazy",
+  opts = {
+    startVisible = false,
     -- showBlankVirtLine = true,
     -- highlightColor = { link = "Comment" },
     -- hints = {
@@ -26,5 +26,11 @@ return {
     -- disabled_fts = {
     --     "startify",
     -- },
-    },
+  },
+  config = function()
+    -- https://github.com/tris203/precognition.nvim/issues/18
+    vim.keymap.set('n', '<leader>pc', function()
+      require('precognition').toggle()
+    end, { desc = 'toggle precognition', silent = true })
+  end
 }
