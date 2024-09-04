@@ -62,8 +62,12 @@ return {
         },
         servers = {
           ['lua_ls'] = { 'lua' },
+          ['gopls'] = { 'go' },
           ['rust_analyzer'] = { 'rust' },
           ['bashls'] = { 'sh' },
+          ['pyright'] = { 'python' },
+          ['jsonls'] = { 'json' },
+          ['clang-format'] = { 'proto' },
         }
       })
 
@@ -80,8 +84,10 @@ return {
           'lua_ls',
           'gopls',
           'rust_analyzer',
-          'pyright',
           'bashls',
+          'pyright',
+          'jsonls',
+          'pbls',
         },
         handlers = {
           function(server_name)
