@@ -166,7 +166,7 @@ set noswapfile
 set spell
 
 " set max text length of a line
-"set textwidth=79
+set textwidth=80
 
 " disable mouse mode
 set mouse=""
@@ -242,7 +242,7 @@ nnoremap <Leader>o :b#<CR>
 nnoremap <Leader>e :Explore<CR>
 
 " diff split windows, each windows do diffthis command
-cnoremap diff :windo diffthis
+"cnoremap diff :windo diffthis
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
