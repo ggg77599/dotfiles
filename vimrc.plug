@@ -7,6 +7,7 @@ Plug 'MattesGroeger/vim-bookmarks'
 " highlight keyword
 Plug 'lfv89/vim-interestingwords'
 
+" github copilot
 "Plug 'github/copilot.vim'
 
 " hard time
@@ -184,4 +185,6 @@ nnoremap <Leader>m :MaximizerToggle<CR>
 " fzf
 vnoremap <leader>a/ y/<C-R>"<CR>:Rg <C-R>"<CR>
 
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
 

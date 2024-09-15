@@ -34,8 +34,6 @@ alias kc='kubectl'
 
 alias giveMeWiFi="/usr/sbin/networksetup -setnetworkserviceenabled Wi-Fi on"
 
-alias gotest='go test --tags dynamic '
-alias gotestv='go test --tags dynamic -v '
 alias golint='golangci-lint --build-tags dynamic run '
 alias golintv='golangci-lint --build-tags dynamic run -v '
 alias sopsd='sops --input-type dotenv --output-type dotenv'

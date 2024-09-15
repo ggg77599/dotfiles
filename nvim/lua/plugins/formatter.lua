@@ -4,6 +4,7 @@ return {
 	opts = {},
 	event = { "BufReadPre", "BufNewFile" },
 	config = function()
+		local timeout = 1500
 		local conform = require("conform")
 
 		conform.setup({
@@ -12,6 +13,7 @@ return {
 				proto = { "clang-format" },
 				go = { "gofumpt", "goimports" },
 				lua = { "stylua" },
+				yaml = { "prettier" },
 			},
 		})
 
@@ -19,14 +21,14 @@ return {
 			conform.format({
 				lsp_fallback = true,
 				async = false,
-				timeout_ms = 1500,
+				timeout_ms = timeout,
 			})
 		end, { desc = "Format file or range (in visual mode)" })
 
 		conform.setup({
 			format_on_save = {
 				-- These options will be passed to conform.format()
-				timeout_ms = 1500,
+				timeout_ms = timeout,
 				lsp_format = "fallback",
 			},
 		})

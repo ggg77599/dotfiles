@@ -66,18 +66,24 @@ return {
 				-- language servers list
 				ensure_installed = {
 					-- lsp servers
-					"lua_ls",
-					"gopls",
-					"rust_analyzer",
-					"bashls",
-					"pyright",
-					"jsonls",
-					"pbls",
+					"bash-language-server bashls", -- bash
+					"gopls", -- golang
+					"jsonls", -- json
+					"lua_ls", -- lua
+					"pbls", -- protobuf
+					"pyright", -- python
+					"rust_analyzer", -- rust
 					-- formatter servers
-					"stylua",
-					"goimports",
-					"gofumpt",
 					"clang-format",
+					"gofumpt", -- golang format
+					"goimports", -- golang auto import
+					"gotests", -- golang create tests
+					"prettier", -- yaml
+					"stylua", -- lua
+					-- linter
+					"golangci-lint",
+					-- dap
+					"delve",
 				},
 				handlers = {
 					function(server_name)

@@ -62,7 +62,8 @@
     ui = true
 [diff]
     # make diff using vimdiff side-by-side mode
-    tool = vimdiff
+    # tool = vimdiff
+    tool = nvimdiff
     # set relative will break difftoll if not in the root of git repo
     #relative = true
 [difftool]
@@ -70,8 +71,11 @@
     # make me able to cancel when a lot of files need to diff, :cq
     trustExitCode = true
 [difftool "vimdiff"]
-    # overwrite -R option
+    # overwrite -R (read-only) option
     cmd = vimdiff "$LOCAL" "$REMOTE"
+[difftool "nvimdiff"]
+    # overwrite -R (read-only) option
+    cmd = nvim -d "$LOCAL" "$REMOTE"
 [pull]
     rebase = false
 [user]
