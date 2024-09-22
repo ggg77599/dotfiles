@@ -1,4 +1,8 @@
--- reference: https://andrewcourter.substack.com/p/configure-linting-formatting-and
+-- reference:
+-- https://andrewcourter.substack.com/p/configure-linting-formatting-and
+-- https://github.com/stevearc/conform.nvim/issues/104
+-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+--
 return {
 	"stevearc/conform.nvim",
 	opts = {},
@@ -13,7 +17,7 @@ return {
 				proto = { "clang-format" },
 				go = { "gofumpt", "goimports" },
 				lua = { "stylua" },
-				yaml = { "prettier" },
+				yaml = { "yamlfmt" },
 			},
 		})
 

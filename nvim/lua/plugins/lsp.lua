@@ -33,6 +33,8 @@ return {
 			{ "hrsh7th/nvim-cmp" }, -- Required
 			{ "hrsh7th/cmp-nvim-lsp" }, -- Required
 			{ "L3MON4D3/LuaSnip" }, -- Required
+			{ "hrsh7th/cmp-path" }, -- path completion
+			{ "hrsh7th/cmp-buffer" }, -- path completion
 		},
 		config = function()
 			-- lsp setup
@@ -66,7 +68,7 @@ return {
 				-- language servers list
 				ensure_installed = {
 					-- lsp servers
-					"bash-language-server bashls", -- bash
+					"bashls", -- bash
 					"gopls", -- golang
 					"jsonls", -- json
 					"lua_ls", -- lua
@@ -74,16 +76,15 @@ return {
 					"pyright", -- python
 					"rust_analyzer", -- rust
 					-- formatter servers
-					"clang-format",
-					"gofumpt", -- golang format
-					"goimports", -- golang auto import
-					"gotests", -- golang create tests
-					"prettier", -- yaml
-					"stylua", -- lua
-					-- linter
-					"golangci-lint",
+					-- "clang-format",
+					-- "gofumpt", -- golang format
+					-- "goimports", -- golang auto import
+					-- "gotests", -- golang create tests
+					-- "stylua", -- lua
+					---- linter
+					-- "golangci-lint",
 					-- dap
-					"delve",
+					-- "delve",
 				},
 				handlers = {
 					function(server_name)
@@ -101,6 +102,8 @@ return {
 				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "gopls" },
+					{ name = "path" }, -- path completion
+					{ name = "buffer" }, -- buffer completion
 				},
 				mapping = {
 					-- If nothing is selected (including preselections) add a newline as usual.

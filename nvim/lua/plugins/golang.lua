@@ -9,6 +9,10 @@ return {
 			require("gotests").setup()
 		end,
 	},
+	{
+    -- for unit test coverage
+		"arp242/gopher.vim",
+	},
 	-- {
 	-- 	"fatih/vim-go",
 	-- 	lazy = true,
