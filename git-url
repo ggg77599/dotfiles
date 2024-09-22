@@ -1,0 +1,103 @@
+#!/bin/bash
+set -e
+
+# Install
+# copy this file beside git(dirname `which git`), then the git command will
+# automatically find the command.
+
+# git-url prints a URL to a file
+# usage
+# git url [remote/branch] [file]
+# example
+# git url                              # https://mrgnas.ddns.net:10443/ggg77599/dotfiles
+# git url origin                       # https://mrgnas.ddns.net:10443/ggg77599/dotfiles
+# git url origin/master                # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/master
+# git url README.md                    # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/<current branch>/README.md
+# git url origin README.md             # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/<current branch>/README.md
+# git url origin/master README.md      # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/master/README.md
+# git url github                       # https://github.com/ggg77599/dotfiles
+# git url github/master                # https://github.com/ggg77599/dotfiles/blob/master
+# git url github README.md             # https://github.com/ggg77599/dotfiles/blob/<current branch>/README.md
+# git url github/master README.md      # https://github.com/ggg77599/dotfiles/blob/master/README.md
+USAGE="usage: git url [remote/branch] [file]"
+
+if [ $# -gt 2 ]; then
+    echo "too many parameters. parameter count $#. $USAGE"
+fi
+
+remote=""
+branch=""
+file="$2"
+if [ $# -eq 2 ]; then
+    if [[ "$1" == *"/"* ]]; then
+        remote=${1%%/*}
+        branch=${1#*/}
+    else
+        remote=$1
+        branch=$(git rev-parse --abbrev-ref HEAD)  # get current branch
+    fi
+
+    if [[ "$(git remote)" != *"$remote"* ]]; then
+        # FIXME: this place use contains substring, so "ori" will also pass
+        echo "no such remote: $remote. $USAGE"
+        exit 1
+    fi
+
+    if [[ "$(git branch --remote)" != *"$remote/$branch"* ]]; then
+        # FIXME: this place use contains substring, so "mas" will also pass
+        echo "no such remote branch: $branch. $USAGE"
+        exit 1
+    fi
+
+    if [ ! -f "$file"  ]; then
+        echo "no such file: $file. $USAGE"
+        exit 1
+    fi
+elif [ $# -eq 1 ]; then
+    if [ -f "$1"  ]; then
+        remote="origin"
+        branch=$(git rev-parse --abbrev-ref HEAD)  # get current branch
+        file=$1
+    elif [[ "$1" == *"/"* ]]; then
+        remote=${1%%/*}
+        branch=${1#*/}
+    else
+        remote=$1
+        branch=""
+    fi
+
+    if [[ "$(git branch --remote)" != *"$remote/$branch"* ]]; then
+        # FIXME: this place use contains substring, so "mas" will also pass
+        echo "no such remote branch: $branch. $USAGE"
+        exit 1
+    fi
+
+elif [ $# -eq 0 ]; then
+    remote="origin"
+fi
+
+
+relative_file_path=$(git ls-files --full-name $file)
+remote_url=$(git remote get-url $remote | sed 's/\.git//g')
+
+# this is my special rule for my NAS
+if [[ "$remote_url" == *"mrgnas.ddns.net:10022"* ]]; then
+    #echo "enter special rules"
+    remote_url=$(echo $remote_url | sed 's|10022|10443|g')
+    remote_url=$(echo $remote_url | sed 's|ssh://git@|https://|g')
+# start with git@
+elif [[ "$remote_url" == "git@"* ]]; then
+    #echo "start with git@"
+    remote_url=$(echo $remote_url | sed 's|:|/|g')
+    remote_url=$(echo $remote_url | sed 's|git@|https://|g')
+fi
+
+
+if [[ -z $branch && -z "$file" ]]; then
+    echo $remote_url
+elif [ -z "$file" ]; then
+    echo $remote_url/blob/$branch
+else
+    echo $remote_url/blob/$branch/$relative_file_path
+fi
+
