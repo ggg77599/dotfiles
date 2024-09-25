@@ -1,0 +1,48 @@
+#!/bin/bash
+set -e
+
+# I want a git worktree(wt) util to help me create delete lock
+# also need bash complete
+
+# usage
+# git wt add <branch> name
+# git wt delete name
+# git wt ls
+# git wt cd name
+
+# reference
+#   https://github.com/yankeexe/git-worktree-switcher
+
+# TODO
+# bash completion
+# USAGE
+
+USAGE="usage: git wt [add|delete|ls|cd] ..."
+
+if [ $# -lt 1 ]; then
+    echo "$USAGE"
+    exit 1
+fi
+
+basePath=$(git worktree list | awk '{print $1}' | sort | head -1)
+
+if [[ $1 == "add" && $# -eq 3 ]]; then
+    git worktree add "${basePath}_$2" $3
+    git wt cd $2
+elif [ $1 == "delete" ]; then
+    echo "not implemented"
+elif [[ $1 == "ls" && $# -eq 1 ]]; then
+    git worktree list
+elif [[ $1 == "cd" && $# -lt 3 ]]; then
+    if [ $# -eq 1 ]; then
+        cd $basePath
+    else
+        target="${basePath}_$2"
+        cd $target
+    fi
+    exec $SHELL
+else
+    echo "$USAGE"
+    exit 1
+fi
+

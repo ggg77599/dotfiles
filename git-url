@@ -23,6 +23,7 @@ USAGE="usage: git url [remote/branch] [file]"
 
 if [ $# -gt 2 ]; then
     echo "too many parameters. parameter count $#. $USAGE"
+    exit 1
 fi
 
 remote=""
@@ -78,7 +79,7 @@ fi
 
 
 relative_file_path=$(git ls-files --full-name $file)
-remote_url=$(git remote get-url $remote | sed 's/\.git//g')
+remote_url=$(git remote get-url $remote | sed 's/\.git$//g')
 
 # this is my special rule for my NAS
 if [[ "$remote_url" == *"mrgnas.ddns.net:10022"* ]]; then
@@ -90,13 +91,18 @@ elif [[ "$remote_url" == "git@"* ]]; then
     #echo "start with git@"
     remote_url=$(echo $remote_url | sed 's|:|/|g')
     remote_url=$(echo $remote_url | sed 's|git@|https://|g')
+elif [[ "$remote_url" == "ssh://git@"* ]]; then
+    #echo "start with ssh://git@"
+    remote_url=$(echo $remote_url | sed 's|^ssh://||g')
+    remote_url=$(echo $remote_url | sed 's|:|/|g')
+    remote_url=$(echo $remote_url | sed 's|git@|https://|g')
 fi
 
 
 if [[ -z $branch && -z "$file" ]]; then
     echo $remote_url
 elif [ -z "$file" ]; then
-    echo $remote_url/blob/$branch
+    echo $remote_url/tree/$branch
 else
     echo $remote_url/blob/$branch/$relative_file_path
 fi
