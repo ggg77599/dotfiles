@@ -33,14 +33,8 @@ elif [ $1 == "delete" ]; then
     echo "not implemented"
 elif [[ $1 == "ls" && $# -eq 1 ]]; then
     git worktree list
-elif [[ $1 == "cd" && $# -lt 3 ]]; then
-    if [ $# -eq 1 ]; then
-        cd $basePath
-    else
-        target="${basePath}_$2"
-        cd $target
-    fi
-    exec $SHELL
+elif [[ $1 == "cd" ]]; then
+    echo "use wcd instead"
 else
     echo "$USAGE"
     exit 1

@@ -79,3 +79,20 @@ checksum()
     echo sha256
     sha256sum $1
 }
+
+# git worktree cd
+wcd()
+{
+target=$(git worktree list | awk '{print $1}' | sort | head -1)
+if [ $# -ne 0 ]; then
+    target="${target}_$1"
+fi
+
+tmpfile=$(mktemp)
+echo "#!/bin/bash" > $tmpfile
+echo "cd $target" >> $tmpfile
+. $tmpfile  # do the cd
+echo "cd $target"
+rm -f -- $tmpfile
+}
+
