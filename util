@@ -80,8 +80,8 @@ checksum()
     sha256sum $1
 }
 
-# git worktree cd
-wcd()
+# git worktree co [worktree name]
+wco()
 {
 target=$(git worktree list | awk '{print $1}' | sort | head -1)
 if [ $# -ne 0 ]; then
@@ -95,4 +95,5 @@ echo "cd $target" >> $tmpfile
 echo "cd $target"
 rm -f -- $tmpfile
 }
+
 

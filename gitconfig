@@ -43,6 +43,8 @@
     tc = tag --points-at
     # get branches from current commit
     bc = branch --all --contains
+    # reset remote hard, because @{u}, @{upstream} is too hard to type
+    reset-remote-hard = reset --hard @{upstream}
 [http]
     sslVerify = false
     version = HTTP/1.1
