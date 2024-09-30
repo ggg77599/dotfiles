@@ -46,14 +46,14 @@ augroup filetypedetect
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " run program
-    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
-    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
-    autocmd filetype rust   nnoremap <F12> :w <bar> exec '!clear && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>
-    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear && python ' shellescape('%') <CR>
-    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
-    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear && bash ' shellescape('%') <CR>
-    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear && go run .' <CR>
-    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear && go run ' shellescape('%') <CR>
+    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear > /dev/null && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear > /dev/null && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    autocmd filetype rust   nnoremap <F12> :w <bar> exec '!clear > /dev/null && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>
+    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear > /dev/null && python ' shellescape('%') <CR>
+    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear > /dev/null && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
+    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>
+    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear > /dev/null && go run .' <CR>
+    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>
 
     " remove all trailing whitespace
     autocmd BufWritePre *\(.out\|.diff\)\@<! :call TrimWhitespace()
@@ -297,4 +297,7 @@ command! -nargs=1 Redir silent call Redir(<f-args>)
 
 nnoremap <silent> <Leader>t :call <SID>ToggleTerminal()<CR>
 tnoremap <silent> <Leader>t <C-w>N:call <SID>ToggleTerminal()<CR>
+
+" compare to Ctrl-G to show the current file name
+nnoremap <silent> <Leader>g :!git url %<CR>
 
