@@ -9,7 +9,7 @@ return {
 	},
 	{
 		"mtdl9/vim-log-highlighting", -- log
-		ft = "*.log",
+		ft = "log",
 	},
 	{
 		"hashivim/vim-terraform", -- terraform

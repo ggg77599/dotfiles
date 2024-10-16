@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Check if we are on master branch
+if test $(git rev-parse --abbrev-ref HEAD) = "master" ; then
+  echo "Cannot commit on master"
+  exit 1
+fi
+
+echo "Add 'SKIP_GIT_HOOKS=1' in front of command to SKIP check"
+
+if [[ (! -z ${SKIP_GIT_HOOKS} ) && ${SKIP_GIT_HOOKS}=1 ]]; then
+  echo "Skip git hooks pre-commit"
+  exit 0
+fi
+
+# Run local pre-commit hook if exists
+echo "Run local pre-commit hook if exists"
+if [ -e ./.git/hooks/pre-commit ]; then
+  ./.git/hooks/pre-commit "$@"
+else
+  exit 0
+fi
+

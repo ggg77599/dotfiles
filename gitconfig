@@ -7,6 +7,7 @@
     r = remote -v
     co = checkout
     d = difftool
+    dt = -c core.pager="less" difftool --tool=difftastic
     b = branch
     bs = branch --sort=committerdate
     f = fetch --all
@@ -59,9 +60,10 @@
     quotepath = off
     autocrlf = input
     ignorecase = false
-    hooksPath = ~/gitconfig/hooks
+    hooksPath = ~/.gitconfighook
 [color]
     ui = true
+    pager = true
 [diff]
     # make diff using vimdiff side-by-side mode
     # tool = vimdiff
@@ -78,6 +80,8 @@
 [difftool "nvimdiff"]
     # overwrite -R (read-only) option
     cmd = nvim -d "$LOCAL" "$REMOTE"
+[difftool "difftastic"]
+    cmd = difft --display side-by-side-show-both "$LOCAL" "$REMOTE"
 [pull]
     rebase = false
 [user]

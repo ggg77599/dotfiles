@@ -20,6 +20,7 @@ return {
 		"tpope/vim-repeat",
 	},
 	{
+		-- contains search index
 		"vim-airline/vim-airline",
 	},
 }

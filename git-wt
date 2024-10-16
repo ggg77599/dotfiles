@@ -27,16 +27,31 @@ fi
 basePath=$(git worktree list | awk '{print $1}' | sort | head -1)
 
 if [[ $1 == "add" && $# -eq 3 ]]; then
-    git worktree add "${basePath}_$2" $3
-    git wt cd $2
-elif [ $1 == "delete" ]; then
-    echo "not implemented"
+    git worktree add "${basePath}_$2" "$3"
+    echo "run the following command to enter the worktree"
+    echo
+    echo "wco $2"
+    echo
+elif [[ "$1" == "delete" && $# -eq 2 ]]; then
+    cd "${basePath}_$2"
+
+    # check files
+    if [[ $(git status --porcelain) ]]; then
+        echo "worktree has untracked/uncommit files, please remove/commit them"
+        exit 1
+    fi
+
+    git worktree remove "${basePath}_$2"
+
+    echo "run the following command to enter the root worktree"
+    echo
+    echo "cd ${basePath}"
+    echo
 elif [[ $1 == "ls" && $# -eq 1 ]]; then
     git worktree list
 elif [[ $1 == "cd" ]]; then
-    echo "use wcd instead"
+    echo "use wco instead"
 else
     echo "$USAGE"
     exit 1
 fi
-

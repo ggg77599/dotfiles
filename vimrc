@@ -96,8 +96,11 @@ set expandtab
 " set enable 256 color
 set t_Co=256
 
-" always keep at least 20 lines visible
+" always keep at least 20 lines visible (top/down)
 set scrolloff=20
+
+" always keep at least 50 lines visible (left/right)
+set sidescrolloff=50
 
 " show current line
 set cursorline
