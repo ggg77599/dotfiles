@@ -1,151 +1,159 @@
--- return {
---     "neovim/nvim-lspconfig",
---     dependencies = {
---         "williamboman/mason.nvim",
---         "williamboman/mason-lspconfig.nvim",
---
---         "hrsh7th/cmp-nvim-lsp",
---         "hrsh7th/cmp-buffer",
---         "hrsh7th/cmp-path",
---         "hrsh7th/cmp-cmdline",
---         "hrsh7th/nvim-cmp",
---         "L3MON4D3/LuaSnip",
---         "saadparwaiz1/cmp_luasnip",
---         "j-hui/fidget.nvim",
---     },
---     conifg = function()
---         require("mason").setup()
---         require("mason-lspconfig").setup()
---     end
--- }
-
 return {
-	{
-		"VonHeikemen/lsp-zero.nvim",
-		branch = "v4.x",
-		dependencies = {
-			-- LSP Support
-			{ "neovim/nvim-lspconfig" }, -- Required
-			{ "williamboman/mason.nvim" }, -- Optional
-			{ "williamboman/mason-lspconfig.nvim" }, -- Optional
+  {
+    "neovim/nvim-lspconfig", -- Required
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
 
-			-- Autocompletion
-			{ "hrsh7th/nvim-cmp" }, -- Required
-			{ "hrsh7th/cmp-nvim-lsp" }, -- Required
-			{ "L3MON4D3/LuaSnip" }, -- Required
-			{ "hrsh7th/cmp-path" }, -- path completion
-			{ "hrsh7th/cmp-buffer" }, -- path completion
-		},
-		config = function()
-			-- lsp setup
-			local lsp_zero = require("lsp-zero")
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/nvim-cmp",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "j-hui/fidget.nvim",
+    },
+    config = function()
+      vim.api.nvim_create_autocmd('LspAttach', {
+        desc = 'LSP actions',
+        callback = function(event)
+          local opts = { buffer = event.buf }
 
-			-- lsp_attach is where you enable features that only work
-			-- if there is a language server active in the file
-			local lsp_attach = function(client, bufnr)
-				local opts = { buffer = bufnr }
+          -- these will be buffer-local keybindings
+          -- because they only work if you have an active language server
 
-				vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-				vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-				vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-				vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-				vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-				vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-				vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-				vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-				vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-				vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-			end
+          vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+          vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+          vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+          vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+          vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
 
-			lsp_zero.extend_lspconfig({
-				sign_text = true,
-				lsp_attach = lsp_attach,
-				capabilities = require("cmp_nvim_lsp").default_capabilities(),
-			})
+          vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+          vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+          vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+          vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
 
-			require("mason").setup({})
-			require("mason-lspconfig").setup({
-				-- language servers list
-				ensure_installed = {
-					-- lsp servers
-					"bashls", -- bash
-					"gopls", -- golang
-					"jsonls", -- json
-					"lua_ls", -- lua
-					"pbls", -- protobuf
-					"pyright", -- python
-					"rust_analyzer", -- rust
-					-- formatter servers
-					-- "clang-format",
-					-- "gofumpt", -- golang format
-					-- "goimports", -- golang auto import
-					-- "gotests", -- golang create tests
-					-- "stylua", -- lua
-					---- linter
-					-- "golangci-lint",
-					-- dap
-					-- "delve",
-				},
-				handlers = {
-					function(server_name)
-						require("lspconfig")[server_name].setup({})
-					end,
-				},
-			})
+          -- renam by saecki/live-rename.nvim
+          -- vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+        end
+      })
 
-			-- select candidate by tab and press enter to confirm
-			-- https://github.com/hrsh7th/nvim-cmp/discussions/1498
-			local cmp = require("cmp")
-			local cmp_action = lsp_zero.cmp_action()
+      local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-			cmp.setup({
-				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "gopls" },
-					{ name = "path" }, -- path completion
-					{ name = "buffer" }, -- buffer completion
-				},
-				mapping = {
-					-- If nothing is selected (including preselections) add a newline as usual.
-					-- If something has explicitly been selected by the user, select it.
-					["<Enter>"] = function(fallback)
-						-- Don't block <CR> if signature help is active
-						-- https://github.com/hrsh7th/cmp-nvim-lsp-signature-help/issues/13
-						if
-							not cmp.visible()
-							or not cmp.get_selected_entry()
-							or cmp.get_selected_entry().source.name == "nvim_lsp_signature_help"
-						then
-							fallback()
-						else
-							cmp.confirm({
-								-- Replace word if completing in the middle of a word
-								-- https://github.com/hrsh7th/nvim-cmp/issues/664
-								behavior = cmp.ConfirmBehavior.Replace,
-								-- Don't select first item on CR if nothing was selected
-								select = false,
-							})
-						end
-					end,
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							local entries = cmp.get_entries()
-							cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+      require('mason').setup({})
+      require('mason-lspconfig').setup({
+        -- language servers list
+        ensure_installed = {
+          -- lsp servers
+          "bashls",        -- bash
+          "gopls",         -- golang
+          "jsonls",        -- json
+          "lua_ls",        -- lua
+          "pbls",          -- protobuf
+          "pyright",       -- python
+          "rust_analyzer", -- rust
+          -- formatter servers
+          -- "clang-format",
+          -- "gofumpt", -- golang format
+          -- "goimports", -- golang auto import
+          -- "gotests", -- golang create tests
+          -- "stylua", -- lua
+          ---- linter
+          -- "golangci-lint",
+          -- dap
+          -- "delve",
+        },
+        handlers = {
+          function(server_name)
+            require('lspconfig')[server_name].setup({
+              capabilities = lsp_capabilities,
+            })
+          end,
 
-							if #entries == 1 then
-								cmp.confirm()
-							end
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				},
-				snippet = {
-					expand = function(args)
-						vim.snippet.expand(args.body)
-					end,
-				},
-			})
-		end,
-	},
+          -- customized language server
+          -- https://lsp-zero.netlify.app/blog/you-might-not-need-lsp-zero
+          lua_ls = function()
+            require('lspconfig').lua_ls.setup({
+              capabilities = lsp_capabilities,
+              ---
+              -- This is where you place
+              -- your custom config
+              --
+              settings = {
+                Lua = {
+                  runtime = {
+                    version = 'LuaJIT'
+                  },
+                  diagnostics = {
+                    globals = { 'vim' },
+                  },
+                  workspace = {
+                    library = {
+                      vim.env.VIMRUNTIME,
+                    }
+                  }
+                }
+              }
+            })
+          end,
+        },
+      })
+
+      local cmp = require('cmp')
+      local luasnip = require("luasnip")
+
+      cmp.setup({
+        sources = {
+          { name = 'luasnip' }, -- For luasnip users.
+          { name = 'nvim_lsp' },
+        },
+        {
+          { name = "path" },   -- path completion
+          { name = "buffer" }, -- buffer completion
+        },
+        mapping = cmp.mapping.preset.insert({
+          -- https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
+          ['<CR>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              if luasnip.expandable() then
+                luasnip.expand()
+              else
+                cmp.confirm({
+                  select = true,
+                })
+              end
+            else
+              fallback()
+            end
+          end),
+
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.locally_jumpable(1) then
+              luasnip.jump(1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        }),
+        snippet = {
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+          end,
+        },
+      })
+    end
+  }
 }
