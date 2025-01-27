@@ -35,10 +35,11 @@ alias giveMeWiFi="/usr/sbin/networksetup -setnetworkserviceenabled Wi-Fi on"
 alias golint='golangci-lint --build-tags dynamic run '
 alias golintv='golangci-lint --build-tags dynamic run -v '
 alias sopsd='sops --input-type dotenv --output-type dotenv'
-alias docker-compose='docker compose'
+alias rg='rg --hidden'
+#alias docker-compose='docker compose'
 #alias readlink='greadlink -f'
 
-alias vim='nvim'
+#alias vim='nvim'
 
 # for Golang
 #alias gotest='go test --tags dynamic '
@@ -102,6 +103,7 @@ bind '"\e[Z":menu-complete' # Shift-Tab auto complete
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+#export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_DEFAULT_COMMAND='rg --files'
 _fzf_setup_completion dir tree
 _fzf_setup_completion path git kubectl kc sopsd

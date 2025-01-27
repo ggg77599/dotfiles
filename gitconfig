@@ -1,7 +1,7 @@
 [alias]
     adog = log --all --oneline --graph
     l = log --graph --all --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)%n''        %C(cyan)%aD%C(reset) - %C(dim white)%an%C(reset)'
-    tls = ls-tree -r master --name-only
+    tls = ls-tree -r HEAD --name-only
     fls = ls-files
     s = status
     r = remote -v
@@ -19,7 +19,10 @@
     ress = restore --staged
     res = restore
     wt = worktree
+    # fetch master from origin
     fm = fetch origin master:master
+    # fetch main from origin
+    fmm = fetch origin main:main
     # list untracked files
     lu = ls-files --other --exclude-standard
     # list modified files
@@ -37,7 +40,7 @@
     # diff name-only
     dn = diff --relative --name-only
     # show branch's first commit
-    bf = log master... --oneline --pretty=format:%h | tail -1
+    bf = log origin/HEAD... --oneline --pretty=format:%h | tail -1
     # get branch's first parent
     p = merge-base origin/HEAD @
     # get tags from current commit

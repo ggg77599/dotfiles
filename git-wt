@@ -36,6 +36,7 @@ elif [[ "$1" == "delete" && $# -eq 2 ]]; then
     cd "${basePath}_$2"
 
     # check files
+    # TODO: add -f optional to force delete all the files
     if [[ $(git status --porcelain) ]]; then
         echo "worktree has untracked/uncommit files, please remove/commit them"
         exit 1

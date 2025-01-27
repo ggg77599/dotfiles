@@ -8,10 +8,16 @@ if [[ (! -z ${SKIP_GIT_HOOKS} ) && ${SKIP_GIT_HOOKS}=1 ]]; then
 fi
 
 # Check if we are on master branch
-if test $(git rev-parse --abbrev-ref HEAD) = "master" ; then
-  echo "Cannot commit on master"
-  exit 1
-fi
+#if test $(git rev-parse --abbrev-ref HEAD) = "master" ; then
+#if test $(git branch --show-current) = "master" ; then
+#  echo "Cannot commit on master"
+#  exit 1
+#fi
+
+#if test $(git branch --show-current) = "main" ; then
+#  echo "Cannot commit on main"
+#  exit 1
+#fi
 
 # Run local pre-commit hook if exists
 echo "Run local pre-commit hook if exists"

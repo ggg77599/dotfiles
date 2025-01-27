@@ -19,7 +19,8 @@ if has("autocmd")
   filetype plugin indent on
 endif
 
-augroup filetypedetect
+" the augroup name `filetypedetect` is conflict with `sheerun/vim-polyglot`
+augroup filetypedetect_vimrc
 
     " when I edit makefile, vim will not use space to replace tab
     autocmd FileType make setlocal noexpandtab
@@ -245,7 +246,7 @@ nnoremap <Leader>o :b#<CR>
 nnoremap <Leader>e :Explore<CR>
 
 " diff split windows, each windows do diffthis command
-"cnoremap diff :windo diffthis
+cnoremap diff :windo diffthis
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
