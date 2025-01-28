@@ -9,6 +9,6 @@ vim.cmd.source("~/.vimrc")
 -- enable package manage
 require("config.lazy")
 
-
 -- other setting just for neovim
 vim.opt.guicursor = "" -- make insert mode cursor in block shape
+vim.opt.hlsearch = true

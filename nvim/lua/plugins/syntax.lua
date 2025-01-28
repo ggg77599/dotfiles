@@ -1,18 +1,11 @@
 return {
 	{
-		"towolf/vim-helm", -- helm
-		ft = "yaml",
-	},
-	{
 		"mfukar/robotframework-vim", -- python robotframework
-		ft = "python",
+		dependencies = {
+			{ "sheerun/vim-polyglot" }, -- to make it loaded after vim-polyglot
+		},
 	},
 	{
-		"mtdl9/vim-log-highlighting", -- log
-		ft = "log",
-	},
-	{
-		"hashivim/vim-terraform", -- terraform
-		ft = "*.tf",
+		"sheerun/vim-polyglot", -- A collection of language packs for Vim
 	},
 }

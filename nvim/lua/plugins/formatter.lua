@@ -4,12 +4,12 @@
 -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 --
 return {
-  "stevearc/conform.nvim",
-  opts = {},
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    local timeout = 2500
-    local conform = require("conform")
+	"stevearc/conform.nvim",
+	opts = {},
+	event = { "BufReadPre", "BufNewFile" },
+	config = function()
+		local timeout = 3500
+		local conform = require("conform")
 
     conform.setup({
       formatters_by_ft = {
