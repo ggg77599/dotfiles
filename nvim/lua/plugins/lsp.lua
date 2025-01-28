@@ -48,19 +48,16 @@ return {
 					-- lsp servers
 					"bashls", -- bash
 					"gopls", -- golang
-					"jsonls", -- json
 					"lua_ls", -- lua
-					"pbls", -- protobuf
-					-- "pyright",       -- python
+					"pylsp", -- python, python-lsp-server
 					"rust_analyzer", -- rust
-					-- formatter servers
-					-- "clang-format",
-					-- "gofumpt", -- golang format
-					-- "goimports", -- golang auto import
-					-- "gotests", -- golang create tests
-					-- "stylua", -- lua
-					---- linter
-					-- "golangci-lint",
+					"pbls", -- protobuf
+					"helm_ls", -- helm
+					"jsonls", -- json
+					"terraformls", -- terraform
+					"yamlls", -- yaml
+					-- "robotframework_ls", -- robotframework
+
 					-- dap
 					-- "delve",
 				},
@@ -98,31 +95,29 @@ return {
 						})
 					end,
 
-					-- make robotframework_ls format the code by robotidy
-					robotframework_ls = function()
-						require("lspconfig").robotframework_ls.setup({
+					-- setup python language server ruff
+					-- TODO: run the following commands to install the 3rd packages
+					-- :PylspInstall python-lsp-black
+					-- :PylspInstall pyls-isort
+					pylsp = function()
+						require("lspconfig").pylsp.setup({
 							capabilities = lsp_capabilities,
-							cmd = { "robotframework_ls" },
 							settings = {
-								robot = {
-									codeFormatter = "robotidy",
+								pylsp = {
+									plugins = {
+										pycodestyle = {
+											enabled = false,
+										},
+										black = {
+											enabled = true,
+										},
+									},
 								},
 							},
 						})
 					end,
 
-					-- setup python language server ruff
-					ruff = function()
-						require("lspconfig").ruff.setup({
-							capabilities = lsp_capabilities,
-							init_options = {
-								settings = {
-									-- Ruff language server settings go here
-									lineLength = 120, -- to match black's setting from xbc-server
-								},
-							},
-						})
-					end,
+					-- TODO: shfmt, shellcheck
 				},
 			})
 
@@ -133,9 +128,9 @@ return {
 				sources = {
 					{ name = "luasnip" }, -- For luasnip users.
 					{ name = "nvim_lsp" },
+					{ name = "path" }, -- path completion
 				},
 				{
-					{ name = "path" }, -- path completion
 					{ name = "buffer" }, -- buffer completion
 				},
 				mapping = cmp.mapping.preset.insert({
