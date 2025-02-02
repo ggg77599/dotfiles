@@ -47,14 +47,33 @@ augroup filetypedetect_vimrc
     "autocmd FileType python setlocal ts=2 sw=2 sts=2
 
     " run program
-    autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear > /dev/null && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
-    autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear > /dev/null && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
-    autocmd filetype rust   nnoremap <F12> :w <bar> exec '!clear > /dev/null && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>
-    autocmd filetype python nnoremap <F12> :w <bar> exec '!clear > /dev/null && python ' shellescape('%') <CR>
-    autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear > /dev/null && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
-    autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>
+    "autocmd filetype c      nnoremap <F12> :w <bar> exec '!clear > /dev/null && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    "autocmd filetype cpp    nnoremap <F12> :w <bar> exec '!clear > /dev/null && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>
+    "autocmd filetype rust   nnoremap <F12> :w <bar> exec '!clear > /dev/null && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>
+    "autocmd filetype python nnoremap <F12> :w <bar> exec '!clear > /dev/null && python ' shellescape('%') <CR>
+    "autocmd filetype java   nnoremap <F12> :w <bar> exec '!clear > /dev/null && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>
+    "autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>
+    "autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>
+    " using BufEnter,BufRead to let keymap reset every time we enter a buffer
+    autocmd BufEnter,BufRead *
+                \ if &filetype == 'c' |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>|
+                \ elseif &filetype == 'cpp'    |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>|
+                \ elseif &filetype == 'rust'   |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>|
+                \ elseif &filetype == 'python' |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && python ' shellescape('%') <CR>|
+                \ elseif &filetype == 'java'   |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>|
+                \ elseif &filetype == 'sh'     |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>|
+                \ elseif &filetype == 'go'     |
+                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>|
+                \ endif |
+
+    " run project
     autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear > /dev/null && go run .' <CR>
-    autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>
 
     " remove all trailing whitespace
     autocmd BufWritePre *\(.out\|.diff\)\@<! :call TrimWhitespace()
