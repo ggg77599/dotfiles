@@ -14,11 +14,12 @@ return {
 		local conform = require("conform")
 
 		require("mason-conform").setup({
-			ensure_installed = {
+			ensure_installed = { -- not work !?
 				"clang-format",
 				"gofumpt", -- golang format
 				"goimports", -- golang auto import
 				"gotests", -- golang create tests
+				"gci", -- golang import order
 				"stylua", -- lua
 				"yamlfmt", -- yaml
 				"shfmt", -- shell
@@ -30,7 +31,7 @@ return {
 			formatters_by_ft = {
 				json = { "clang-format" },
 				proto = { "clang-format" },
-				go = { "gofumpt", "goimports" },
+				go = { "gofumpt", "goimports", "gci" },
 				lua = { "stylua" },
 				yaml = { "yamlfmt" },
 				-- shellharden might break some scripts, which is not secure enough
@@ -51,6 +52,29 @@ return {
 			},
 		})
 
+		-- overwrite formatter parameter
+		-- TODO: shellcheck
+		require("conform").formatters.shfmt = {
+			prepend_args = { "-sr" },
+		}
+		require("conform").formatters.yamlfmt = {
+			prepend_args = { "-formatter", "pad_line_comments=2" },
+		}
+		require("conform").formatters.gci = {
+			-- copy the setting from the .golangci.yml
+			args = {
+				"write",
+				"--section",
+				"standard",
+				"--section",
+				"default",
+				"--custom-order",
+				"--skip-generated",
+				"$FILENAME",
+			},
+		}
+
+		-- keymaps
 		vim.keymap.set({ "n", "v" }, "<leader>=", function()
 			conform.format({
 				lsp_fallback = true,
@@ -59,9 +83,15 @@ return {
 			})
 		end, { desc = "Format file or range (in visual mode)" })
 
-		vim.keymap.set("c", "W", "noautocmd w", {
-			desc = "Save without formating the file",
-		})
+		-- W command to save without formatting
+		-- To prevent affecting the search, we don't use the keymap.set
+		-- https://stackoverflow.com/questions/30836269/how-to-map-a-key-in-command-line-mode-but-not-in-search-mode
+		vim.api.nvim_create_user_command("W", function()
+			-- command! -nargs=* -complete=file -range=% -bang -bar W noautocmd w
+			-- TODO: currently, I don't need other parameter, but save it for future
+			-- reference
+			vim.cmd("noautocmd w")
+		end, {})
 
 		conform.setup({
 			format_on_save = {

@@ -1,5 +1,5 @@
 [alias]
-    adog = log --all --oneline --graph
+    adog = log --all --decorate --oneline --graph
     l = log --graph --all --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)%n''        %C(cyan)%aD%C(reset) - %C(dim white)%an%C(reset)'
     tls = ls-tree -r HEAD --name-only
     fls = ls-files

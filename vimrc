@@ -2,6 +2,8 @@
 " import vim-plug plugin and settings
 if !has("nvim")
   source ~/.vimrc.plug
+else
+  "autocmd TermOpen * startinsert
 endif
 
 
@@ -55,24 +57,42 @@ augroup filetypedetect_vimrc
     "autocmd filetype sh     nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>
     "autocmd filetype go     nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>
     " using BufEnter,BufRead to let keymap reset every time we enter a buffer
+    "autocmd BufEnter,BufRead *
+    "            \ if &filetype == 'c' |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>|
+    "            \ elseif &filetype == 'cpp'    |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>|
+    "            \ elseif &filetype == 'rust'   |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>|
+    "            \ elseif &filetype == 'python' |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && python ' shellescape('%') <CR>|
+    "            \ elseif &filetype == 'java'   |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>|
+    "            \ elseif &filetype == 'sh'     |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>|
+    "            \ elseif &filetype == 'go'     |
+    "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>|
+    "            \ endif |
+    " open terminal to run command
+    " TODO: fix shell escape issue
     autocmd BufEnter,BufRead *
                 \ if &filetype == 'c' |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && gcc ' shellescape('%') ' && ./a.out && rm a.out' <CR>|
+                \   nnoremap <F12> :w <bar> term gcc % -o a.out && ./a.out && rm a.out <CR>|
                 \ elseif &filetype == 'cpp'    |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && g++ ' shellescape('%') ' && ./a.out && rm a.out' <CR>|
+                \   nnoremap <F12> :w <bar> term g++ % -o a.out && ./a.out && rm a.out <CR>|
                 \ elseif &filetype == 'rust'   |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && rustc ' shellescape('%') ' -o a.out && ./a.out && rm a.out' <CR>|
+                \   nnoremap <F12> :w <bar> term rustc % -o a.out && ./a.out && rm a.out <CR>|
                 \ elseif &filetype == 'python' |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && python ' shellescape('%') <CR>|
+                \   nnoremap <F12> :w <bar> term python % <CR>|
                 \ elseif &filetype == 'java'   |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && javac ' shellescape('%') ' && java ' shellescape('%:r') <CR>|
+                \   nnoremap <F12> :w <bar> term javac % && java %:r <CR>|
                 \ elseif &filetype == 'sh'     |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && bash ' shellescape('%') <CR>|
+                \   nnoremap <F12> :w <bar> term bash % <CR>|
                 \ elseif &filetype == 'go'     |
-                \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>|
+                \   nnoremap <F12> :w <bar> term go run % <CR>|
                 \ endif |
 
-    " run project
+    " run golang project
     autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear > /dev/null && go run .' <CR>
 
     " remove all trailing whitespace
@@ -256,6 +276,8 @@ nnoremap <F4> :e ++enc=big5<CR>
 nnoremap <F5> :%!python -m json.tool<CR>
 
 " copy selected content to OS clipboard
+" :h change.txt
+" :h primary-selection
 vnoremap <Leader>y "*y
 
 " open directory view
@@ -264,8 +286,11 @@ nnoremap <Leader>o :b#<CR>
 " open directory explore
 nnoremap <Leader>e :Explore<CR>
 
+" close the 1st splited window
+nnoremap <Leader>c :1close<CR>
+
 " diff split windows, each windows do diffthis command
-cnoremap diff :windo diffthis
+"cnoremap diff :windo diffthis
 
 "-------------------------------------------------------- Command
 command Todo noautocmd vimgrep /TODO\|FIXME/gj % | cw
@@ -277,22 +302,22 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-let s:term_buf_nr = -1
-function! s:ToggleTerminal() abort
-    if s:term_buf_nr == -1
-        execute "botright terminal"
-        let s:term_buf_nr = bufnr("$")
-    else
-        try
-            execute "bdelete! " . s:term_buf_nr
-        catch
-            let s:term_buf_nr = -1
-            call <SID>ToggleTerminal()
-            return
-        endtry
-        let s:term_buf_nr = -1
-    endif
-endfunction
+"let s:term_buf_nr = -1
+"function! s:ToggleTerminal() abort
+"    if s:term_buf_nr == -1
+"        execute "botright terminal"
+"        let s:term_buf_nr = bufnr("$")
+"    else
+"        try
+"            execute "bdelete! " . s:term_buf_nr
+"        catch
+"            let s:term_buf_nr = -1
+"            call <SID>ToggleTerminal()
+"            return
+"        endtry
+"        let s:term_buf_nr = -1
+"    endif
+"endfunction
 
 " redir(ect)
 " reference:
@@ -318,9 +343,19 @@ function! Redir(cmd)
 endfunction
 command! -nargs=1 Redir silent call Redir(<f-args>)
 
-nnoremap <silent> <Leader>t :call <SID>ToggleTerminal()<CR>
-tnoremap <silent> <Leader>t <C-w>N:call <SID>ToggleTerminal()<CR>
+"nnoremap <silent> <Leader>t :call <SID>ToggleTerminal()<CR>
+"tnoremap <silent> <Leader>t <C-w>N:call <SID>ToggleTerminal()<CR>
 
 " compare to Ctrl-G to show the current file name
 nnoremap <silent> <Leader>g :!git url %<CR>
+
+" make Ctrl-A to move to the beginning of the line
+cnoremap <C-a> <Home>
+
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" delete selected content before paste it
+" https://vi.stackexchange.com/questions/38859/what-does-mode-x-mean-in-neovim
+xnoremap <leader>p "_dP
 

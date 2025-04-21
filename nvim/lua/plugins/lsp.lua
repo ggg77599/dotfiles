@@ -12,7 +12,7 @@ return {
 			"hrsh7th/nvim-cmp",
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
-			"j-hui/fidget.nvim",
+			-- "j-hui/fidget.nvim",
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -33,9 +33,15 @@ return {
 					vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 					vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
 					vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-
-					-- renam by saecki/live-rename.nvim
+					-- rename by saecki/live-rename.nvim
 					-- vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+
+					-- close quickfix menu after selecting choice
+					-- TODO: only when w:quickfix_title == "References" set this auto command
+					vim.api.nvim_create_autocmd("FileType", {
+						pattern = { "qf" },
+						command = [[nnoremap <buffer> <CR> <CR>:cclose<CR>]],
+					})
 				end,
 			})
 
@@ -51,15 +57,13 @@ return {
 					"lua_ls", -- lua
 					"pylsp", -- python, python-lsp-server
 					"rust_analyzer", -- rust
-					"pbls", -- protobuf
+					-- "pbls", -- protobuf
+					"buf_ls", -- protobuf
 					"helm_ls", -- helm
 					"jsonls", -- json
 					"terraformls", -- terraform
 					"yamlls", -- yaml
-					-- "robotframework_ls", -- robotframework
-
-					-- dap
-					-- "delve",
+					"robotframework_ls", -- robotframework
 				},
 				handlers = {
 					function(server_name)
@@ -70,7 +74,7 @@ return {
 
 					-- customized language server
 					-- https://lsp-zero.netlify.app/blog/you-might-not-need-lsp-zero
-					lua_ls = function()
+					["lua_ls"] = function()
 						require("lspconfig").lua_ls.setup({
 							capabilities = lsp_capabilities,
 							---
@@ -95,16 +99,21 @@ return {
 						})
 					end,
 
-					-- setup python language server ruff
-					-- TODO: run the following commands to install the 3rd packages
+					-- TODO: run the following commands automatically to install the 3rd packages
 					-- :PylspInstall python-lsp-black
 					-- :PylspInstall pyls-isort
-					pylsp = function()
+					["pylsp"] = function()
 						require("lspconfig").pylsp.setup({
 							capabilities = lsp_capabilities,
 							settings = {
 								pylsp = {
 									plugins = {
+										autopep8 = {
+											enabled = false,
+										},
+										yapf = {
+											enabled = false,
+										},
 										pycodestyle = {
 											enabled = false,
 										},
@@ -117,7 +126,23 @@ return {
 						})
 					end,
 
-					-- TODO: shfmt, shellcheck
+					["helm_ls"] = function()
+						require("lspconfig").helm_ls.setup({
+							settings = {
+								["helm-ls"] = {
+									-- valuesFiles = {
+									-- 	mainValuesFile = "charts/app/values.yaml",
+									-- },
+									yamlls = {
+										-- the helm-ls plugin will use yamlls to provide yaml
+										-- language server features
+										-- https://github.com/mrjosh/helm-ls?tab=readme-ov-file#default-configuration
+										enabled = false,
+									},
+								},
+							},
+						})
+					end,
 				},
 			})
 
@@ -175,6 +200,14 @@ return {
 					end,
 				},
 			})
+		end,
+	},
+	{
+		-- dim the unused variable
+		"askfiy/lsp_extra_dim",
+		event = { "LspAttach" },
+		config = function()
+			require("lsp_extra_dim").setup()
 		end,
 	},
 }

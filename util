@@ -15,7 +15,7 @@ dirdiff() {
     shift
     DIR2=$(printf '%q' "$1")
     shift
-    vim "$@" -c "DirDiff $DIR1 $DIR2"
+    nvim "$@" -c "DirDiff $DIR1 $DIR2"
 }
 
 create_venv() {
@@ -56,6 +56,11 @@ nonascii() {
     LANG=C rg -P '[^\x00-\x7f]'
 }
 
+nonewline() {
+    # find . -type f -print0 | xargs -0 -L1 bash -c 'test "$(tail -c 1 "$0")" && echo "No new line at end of $0"'
+    find . -type f -print0 | xargs -0 -L1 bash -c 'test "$(tail -c 1 "$0")" && echo "$0"'
+}
+
 showOS() {
     unameOut="$(uname -s)"
     case "$unameOut" in
@@ -92,4 +97,23 @@ wco() {
     rm -f -- "$tmpfile"
 }
 
+swagweb() {
+    swag init -d web -g web.go --parseDependency --parseInternal --parseDepth 3 --markdownFiles ./docs
+    rm -f docs/docs.go
+    python3 -m http.server -d docs 8081
+}
 
+helmChartCheck() {
+    echo "check file 'charts/app/values.yaml' which variable is not used in template"
+    # check value file variables in template
+    for var in $(yq -o=props '... comments=""' charts/app/values.yaml | awk '{print $1}'); do
+        #echo $var
+        grep -r ".Values.$var" ./charts/app/templates/ >/dev/null
+        if [ $? -ne 0 ]; then
+            echo "Unused variable: $var"
+        fi
+    done
+
+    # check template variables in value file
+    # grep -r  '{{ .* }}' charts/app/templates/
+}
