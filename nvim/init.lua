@@ -3,6 +3,11 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- enable neovim to read project level configuration `.nvim.lua`,
+-- I store all project level config in the `nvim/lua/local`
+-- TODO: rename the folder to better name
+vim.opt.exrc = true
+
 -- source my vimrc config before I have time to convert all the setting to lua
 vim.cmd.source("~/.vimrc")
 

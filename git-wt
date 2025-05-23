@@ -28,6 +28,12 @@ basePath=$(git worktree list | awk '{print $1}' | sort | head -1)
 
 if [[ $1 == "add" && $# -eq 3 ]]; then
     git worktree add "${basePath}_$2" "$3"
+    # copy noevim project level config
+    if [ -e "${basePath}/.nvim.lua" ]; then
+        # -R to preserve symbolic links
+        cp -R "${basePath}/.nvim.lua" "${basePath}_$2/.nvim.lua"
+        echo "copy ${basePath}/.nvim.lua to ${basePath}_$2/.nvim.lua"
+    fi
     echo "run the following command to enter the worktree"
     echo
     echo "wco $2"
