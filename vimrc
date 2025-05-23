@@ -74,26 +74,30 @@ augroup filetypedetect_vimrc
     "            \   nnoremap <F12> :w <bar> exec '!clear > /dev/null && go run ' shellescape('%') <CR>|
     "            \ endif |
     " open terminal to run command
+    " 1. save
+    " 2. open terminal and run command ( remove binary if exist )
+    " 3. `A` for enter insert mode
     " TODO: fix shell escape issue
     autocmd BufEnter,BufRead *
                 \ if &filetype == 'c' |
-                \   nnoremap <F12> :w <bar> term gcc % -o a.out && ./a.out && rm a.out <CR>|
+                \   nnoremap <F12> :w <bar> term gcc % -o a.out && ./a.out && rm a.out <CR>A|
                 \ elseif &filetype == 'cpp'    |
-                \   nnoremap <F12> :w <bar> term g++ % -o a.out && ./a.out && rm a.out <CR>|
+                \   nnoremap <F12> :w <bar> term g++ % -o a.out && ./a.out && rm a.out <CR>A|
                 \ elseif &filetype == 'rust'   |
-                \   nnoremap <F12> :w <bar> term rustc % -o a.out && ./a.out && rm a.out <CR>|
+                \   nnoremap <F12> :w <bar> term rustc % -o a.out && ./a.out && rm a.out <CR>A|
                 \ elseif &filetype == 'python' |
-                \   nnoremap <F12> :w <bar> term python % <CR>|
+                \   nnoremap <F12> :w <bar> term python % <CR>A|
                 \ elseif &filetype == 'java'   |
-                \   nnoremap <F12> :w <bar> term javac % && java %:r <CR>|
+                \   nnoremap <F12> :w <bar> term javac % && java %:r <CR>A|
                 \ elseif &filetype == 'sh'     |
-                \   nnoremap <F12> :w <bar> term bash % <CR>|
+                \   nnoremap <F12> :w <bar> term bash % <CR>A|
                 \ elseif &filetype == 'go'     |
-                \   nnoremap <F12> :w <bar> term go run % <CR>|
+                \   nnoremap <F12> :w <bar> term go run % <CR>A|
                 \ endif |
+    " TODO: open float terminal to run command
 
     " run golang project
-    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear > /dev/null && go run .' <CR>
+    autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear > /dev/null && go run .' <CR>A
 
     " remove all trailing whitespace
     autocmd BufWritePre *\(.out\|.diff\)\@<! :call TrimWhitespace()
@@ -209,7 +213,7 @@ set noswapfile
 set spell
 
 " set max text length of a line
-set textwidth=80
+"set textwidth=80
 
 " disable mouse mode
 set mouse=""
@@ -346,16 +350,42 @@ command! -nargs=1 Redir silent call Redir(<f-args>)
 "nnoremap <silent> <Leader>t :call <SID>ToggleTerminal()<CR>
 "tnoremap <silent> <Leader>t <C-w>N:call <SID>ToggleTerminal()<CR>
 
-" compare to Ctrl-G to show the current file name
-nnoremap <silent> <Leader>g :!git url %<CR>
+" compare to Ctrl-G to show the current file name with line number selected
+nnoremap <silent> <Leader>g :exec '!git url -n' line(".") shellescape('%') <CR>
+nnoremap <silent> <Leader>gm :exec '!git url -n' line(".") '$(git symbolic-ref refs/remotes/origin/HEAD --short)' shellescape('%') <CR>
+xnoremap <silent> <Leader>g :<C-U>exec '!git url -n' line("'<") '-n' line("'>") shellescape('%') <CR>
+xnoremap <silent> <Leader>gm :<C-U>exec '!git url -n' line("'<") '-n' line("'>") '$(git symbolic-ref refs/remotes/origin/HEAD --short)' shellescape('%') <CR>
 
 " make Ctrl-A to move to the beginning of the line
 cnoremap <C-a> <Home>
 
+" move selected content up and down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 " delete selected content before paste it
 " https://vi.stackexchange.com/questions/38859/what-does-mode-x-mean-in-neovim
+" https://stackoverflow.com/questions/11993851/how-to-delete-not-cut-in-vim
 xnoremap <leader>p "_dP
+
+" make J to keep cursor position
+nnoremap J mzJ`z
+
+" make adjust window size faster
+nnoremap <C-w>> 10<C-w>>
+nnoremap <C-w>< 10<C-w><
+nnoremap <C-w>+ 5<C-w>+
+nnoremap <C-w>- 5<C-w>-
+
+" make (c)hange can modify (i)nside two slash `/` dash '-'
+" https://stackoverflow.com/questions/23666171/vim-capture-in-between-slashes
+onoremap <silent> i/ :<C-U>normal! T/vt/<CR>
+onoremap <silent> i- :<C-U>normal! F-vf-<CR>
+
+"" make select/visual mode can choose (i)nside / (a)round two slash `/` dash '-'
+xnoremap <silent> i/ :<C-U>normal! T/vt/<CR>
+xnoremap <silent> a/ :<C-U>normal! F/vf/<CR>
+
+" make (c)hange can modify (a)round two slash `/`
+onoremap <silent> a/ :<C-U>normal! F/vf/<CR>
 
