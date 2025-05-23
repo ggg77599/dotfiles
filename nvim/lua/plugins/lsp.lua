@@ -36,11 +36,10 @@ return {
 					-- rename by saecki/live-rename.nvim
 					-- vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 
-					-- close quickfix menu after selecting choice
-					-- TODO: only when w:quickfix_title == "References" set this auto command
+					-- shift-enter to close quickfix menu after selecting choice
 					vim.api.nvim_create_autocmd("FileType", {
 						pattern = { "qf" },
-						command = [[nnoremap <buffer> <CR> <CR>:cclose<CR>]],
+						command = [[nnoremap <buffer> <S-CR> <CR>:cclose<CR>]],
 					})
 				end,
 			})
@@ -202,12 +201,13 @@ return {
 			})
 		end,
 	},
-	{
-		-- dim the unused variable
-		"askfiy/lsp_extra_dim",
-		event = { "LspAttach" },
-		config = function()
-			require("lsp_extra_dim").setup()
-		end,
-	},
+	-- {
+	-- 	-- dim the unused variable
+	-- 	-- this plugin is not working well with the latest nvim
+	-- 	"askfiy/lsp_extra_dim",
+	-- 	event = { "LspAttach" },
+	-- 	config = function()
+	-- 		require("lsp_extra_dim").setup()
+	-- 	end,
+	-- },
 }

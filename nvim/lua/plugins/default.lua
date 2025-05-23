@@ -24,6 +24,13 @@ return {
 		"vim-airline/vim-airline",
 	},
 	-- {
+	-- 	"nvim-lualine/lualine.nvim",
+	-- 	-- dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	config = function()
+	-- 		require("lualine").setup()
+	-- 	end,
+	-- },
+	-- {
 	-- 	-- press enter to confirm, Esc to cancel
 	-- 	-- this package will rename variable to a lowercase variable then replace
 	-- 	it again, it will make Golang throw an un-exported error
@@ -46,9 +53,10 @@ return {
 		"smjonas/inc-rename.nvim",
 		config = function()
 			require("inc_rename").setup()
-			-- TODO: add cursor variable to the command
-			-- vim.keymap.set("n", "<leader>r", ":IncRename " .. vim.fn.expand("<cword>"))
-			vim.keymap.set("n", "<leader>r", ":IncRename ")
+
+			vim.keymap.set("n", "<leader>r", function()
+				return ":IncRename " .. vim.fn.expand("<cword>")
+			end, { expr = true })
 		end,
 	},
 }

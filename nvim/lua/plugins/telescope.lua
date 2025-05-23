@@ -14,6 +14,9 @@ return {
 		-- :h i_CTRL-R for more detail, CTRL-R 0 is the register 0
 		vim.keymap.set("v", "<leader>fg", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", {})
 
-		-- TODO: grep from current cursor variable
+		-- search for the current word under the cursor
+		vim.keymap.set("n", "<leader>fw", function()
+			return "y<ESC>:Telescope live_grep default_text=" .. vim.fn.expand("<cword>") .. "<CR>"
+		end, { expr = true })
 	end,
 }

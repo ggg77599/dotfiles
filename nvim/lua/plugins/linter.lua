@@ -16,7 +16,7 @@ return {
 		require("mason-nvim-lint").setup({
 			ensure_installed = {
 				"golangci-lint",
-				"tflint",
+				-- "tflint",  # tflint will cause CPI high in my machine
 			},
 		})
 
