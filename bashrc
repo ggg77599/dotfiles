@@ -95,21 +95,34 @@ esac
 export TERM="xterm-256color"
 export LC_ALL=en_US.UTF-8
 
-#set show-all-if-ambiguous on
+# setup tab for auto complete, show-all-if-ambiguous on
 bind '"\e[Z":menu-complete' # Shift-Tab auto complete
 
+# setup customized cd name
+shopt -s cdable_vars
+dev=~/Development
+venv=~/venv
+
+## ======================== package settings ==================================
+
+# setup fnm for node, npm
+eval "$(fnm env --use-on-cd --shell bash)"
+
+# setup rustup-init for rustc, cargo
+# DO NOT add `$(brew --prefix rustup)/bin` to the path, I would like to use rustup-init to manage my rust version
+# https://rust-lang.github.io/rustup/installation/other.html#homebrew
+. "$HOME/.cargo/env"
+
+# setup bash completion, need to place bash-complete before fzf, or it will disable some command completion
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
-# need to place bash-complete before fzf, or it will disable some command completion
-# fzf
+
+# setup fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 #export FZF_DEFAULT_COMMAND='rg --files --hidden'
-export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 _fzf_setup_completion dir tree
 _fzf_setup_completion path git kubectl kc sopsd
 _fzf_setup_completion path code
 _fzf_setup_completion path sops
-
-shopt -s cdable_vars
-dev=~/Development
-venv=~/venv
+_fzf_setup_completion path gotest
