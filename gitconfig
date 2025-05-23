@@ -7,6 +7,7 @@
     r = remote -v
     co = checkout
     d = difftool
+    # diff with structural diff tool difftactic
     dt = -c core.pager="less" difftool --tool=difftastic
     b = branch
     bs = branch --sort=committerdate
@@ -14,13 +15,19 @@
     fp = fetch --prune
     cot = checkout --track
     mg = merge --no-ff --no-commit
-    rebase-c = rebase --continue
-    rebase-a = rebase --abort
+    rebase-c = rebase --continue  # deprecated
+    rebase-a = rebase --abort  # deprecated
+    cm = commit -m
+    cf = commit --fixup  # fixup commit
+    ri = rebase -i --autosquash  # interactive rebase with autosquash fixup commit
+    ra = rebase --abort
+    rc = rebase --continue
+    rs = rebase --skip
     ress = restore --staged
     res = restore
     wt = worktree
     # fetch master from origin
-    fm = fetch origin master:master
+    fm = !git fetch origin master:master || git fetch origin main:main
     # fetch main from origin
     fmm = fetch origin main:main
     # list untracked files
@@ -49,6 +56,8 @@
     bc = branch --all --contains
     # reset remote hard, because @{u}, @{upstream} is too hard to type
     reset-remote-hard = reset --hard @{upstream}
+    # get remote default branch
+    rh = symbolic-ref refs/remotes/origin/HEAD --short
 [http]
     sslVerify = false
     version = HTTP/1.1
@@ -63,7 +72,8 @@
     quotepath = off
     autocrlf = input
     ignorecase = false
-    hooksPath = ~/.gitconfighook
+    hooksPath = ~/.gitconfighook  # global git hooks
+    excludesFile = ~/.gitignore  # global git ignore
 [color]
     ui = true
     pager = true

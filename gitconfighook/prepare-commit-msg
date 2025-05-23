@@ -3,10 +3,10 @@
 # reference https://stackoverflow.com/questions/5823772/append-ticket-number-using-git-commit-hooks
 # check in dev folder https://unix.stackexchange.com/questions/6435/how-to-check-if-pwd-is-a-subdirectory-of-a-given-path
 
-#if [[ (! -z ${SKIP_GIT_HOOKS} ) && ${SKIP_GIT_HOOKS}=1 ]]; then
-#  echo "Skip git hooks prepare-commit-msg"
-#  exit 0
-#fi
+if [[ (! -z ${SKIP_GIT_HOOKS} ) && ${SKIP_GIT_HOOKS}=1 ]]; then
+  echo "Skip git hooks prepare-commit-msg"
+  exit 0
+fi
 
 COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
@@ -32,6 +32,15 @@ if [[ ${branch_name} != *\/* ]]; then
     exit 0
 fi
 
+# get current comment message
+msg=$(head -n 1 ${COMMIT_MSG_FILE})
+
+# skip if commit message is "squash! ", "fixup! " or "amend! ", to make git-rebase remain original behavior
+if [[ $msg == squash\!* || $msg == fixup\!* || $msg == amend\!* ]]; then
+    echo "commit message is squash! or fixup! or amend!, skip append message"
+    exit 0
+fi
+
 pr_type=${branch_name%/*}
 pr_name=${branch_name#*/}
 pr_id=${pr_name%%_*}
@@ -40,7 +49,6 @@ echo "pr_name: ${pr_name}"
 echo "pr_id: ${pr_id}"
 
 # already appended, skip
-msg=$(head -n 1 ${COMMIT_MSG_FILE})
 if [[ $msg == "$pr_type: $pr_id"* ]]; then
     echo "already appended, skip"
     exit 0
