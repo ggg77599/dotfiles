@@ -56,7 +56,7 @@
     bc = branch --all --contains
     # reset remote hard, because @{u}, @{upstream} is too hard to type
     reset-remote-hard = reset --hard @{upstream}
-    # get remote default branch
+    # get remote default branch, (r)emote (h)ead
     rh = symbolic-ref refs/remotes/origin/HEAD --short
 [http]
     sslVerify = false

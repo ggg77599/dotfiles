@@ -1,14 +1,13 @@
 return {
-	-- TODO: add toggle to temporarily disable this plugin
 	{
 		"folke/which-key.nvim",
+		enabled = false, -- TODO: add toggle to temporarily disable this plugin
 		event = "VeryLazy",
 		opts = {
 			-- your configuration comes here
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 		},
-		enable = false,
 		keys = {
 			{
 				"<leader>?",
