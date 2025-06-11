@@ -58,6 +58,8 @@
     reset-remote-hard = reset --hard @{upstream}
     # get remote default branch, (r)emote (h)ead
     rh = symbolic-ref refs/remotes/origin/HEAD --short
+    # show branch and tracked upstream branch
+    bt = branch -vv
 [http]
     sslVerify = false
     version = HTTP/1.1

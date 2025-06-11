@@ -99,11 +99,17 @@ augroup filetypedetect_vimrc
     " run golang project
     autocmd filetype go     nnoremap <F10> :w <bar> exec '!clear > /dev/null && go run .' <CR>A
 
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l*    lwindow
+
+augroup END
+
+augroup bufferprewrite_vimrc
     " remove all trailing whitespace
     autocmd BufWritePre *\(.out\|.diff\)\@<! :call TrimWhitespace()
 
-    autocmd QuickFixCmdPost [^l]* cwindow
-    autocmd QuickFixCmdPost l*    lwindow
+    " confirm create folder
+    autocmd BufWritePre * :call ConfirmCreateFolder()
 
 augroup END
 
@@ -291,7 +297,7 @@ nnoremap <Leader>o :b#<CR>
 nnoremap <Leader>e :Explore<CR>
 
 " close the 1st splited window
-nnoremap <Leader>c :1close<CR>
+"nnoremap <Leader>c :1close<CR>
 
 " diff split windows, each windows do diffthis command
 "cnoremap diff :windo diffthis
@@ -304,6 +310,17 @@ fun! TrimWhitespace()
     let l:save = winsaveview()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
+endfun
+
+fun! ConfirmCreateFolder()
+    let l:dir = expand("%:p:h")
+
+    if !isdirectory(l:dir)
+        if confirm("Create folder? " . l:dir, "&Yes\n&No") == 1
+            call mkdir(l:dir, "p")
+        endif
+    endif
+
 endfun
 
 "let s:term_buf_nr = -1
