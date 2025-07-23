@@ -11,11 +11,13 @@ return {
 			go = { "golangcilint" },
 			terraform = { "tflint" },
 			yaml = { "yamllint" },
+			-- sh = { "shellcheck" }, -- TODO: disable temporarily
 		}
 
 		require("mason-nvim-lint").setup({
 			ensure_installed = {
 				"golangci-lint",
+				"shellcheck",
 				-- "tflint",  # tflint will cause CPI high in my machine
 			},
 		})

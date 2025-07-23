@@ -93,7 +93,8 @@ esac
 
 # environment variable
 export TERM="xterm-256color"
-export LC_ALL=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
+export LC_COLLATE=C # to make sort work as ASCII order.
 
 # setup tab for auto complete, show-all-if-ambiguous on
 bind '"\e[Z":menu-complete' # Shift-Tab auto complete

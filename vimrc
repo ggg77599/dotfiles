@@ -31,6 +31,8 @@ augroup filetypedetect_vimrc
     " for open cl code
     autocmd BufRead,BufNewFile *.cl set filetype=c
     autocmd BufRead,BufNewFile .util.* set filetype=bash
+    autocmd BufRead,BufNewFile util.* set filetype=bash
+    autocmd BufRead,BufNewFile ssh_config* set filetype=sshconfig
     autocmd BufRead,BufNewFile gitconfig* set filetype=gitconfig
     autocmd BufRead,BufNewFile vimrc* set filetype=vim
     autocmd BufRead,BufNewFile ~/.kube/* set filetype=yaml
@@ -78,6 +80,7 @@ augroup filetypedetect_vimrc
     " 2. open terminal and run command ( remove binary if exist )
     " 3. `A` for enter insert mode
     " TODO: fix shell escape issue
+    " TODO: remove line number in terminal output
     autocmd BufEnter,BufRead *
                 \ if &filetype == 'c' |
                 \   nnoremap <F12> :w <bar> term gcc % -o a.out && ./a.out && rm a.out <CR>A|
@@ -315,6 +318,14 @@ endfun
 fun! ConfirmCreateFolder()
     let l:dir = expand("%:p:h")
 
+    " this is for oil.nvim, which allows me to control the file system like
+    " the buffer but I don't want to create folder for oil://
+    if l:dir[0:5] == "oil://"
+        " FIXME: not showing the following line in command line
+        echom "skip create folder for oil://"
+        return
+    endif
+
     if !isdirectory(l:dir)
         if confirm("Create folder? " . l:dir, "&Yes\n&No") == 1
             call mkdir(l:dir, "p")
@@ -396,6 +407,7 @@ nnoremap <C-w>- 5<C-w>-
 
 " make (c)hange can modify (i)nside two slash `/` dash '-'
 " https://stackoverflow.com/questions/23666171/vim-capture-in-between-slashes
+" https://learnvimscriptthehardway.stevelosh.com/chapters/15.html
 onoremap <silent> i/ :<C-U>normal! T/vt/<CR>
 onoremap <silent> i- :<C-U>normal! F-vf-<CR>
 

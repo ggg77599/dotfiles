@@ -25,6 +25,74 @@ create_venv() {
     fi
 }
 
+# this function is written by AI
+mkvenv() {
+    local force=0
+    local python_version=""
+    local name=""
+
+    # Parse options
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+        -f | --force)
+            force=1
+            shift
+            ;;
+        -p | --python)
+            python_version="$2"
+            shift 2
+            ;;
+        -*)
+            echo "❌ Unknown option: $1" >&2
+            return 1
+            ;;
+        *)
+            name="$1"
+            shift
+            ;;
+        esac
+    done
+
+    # Default name to current folder name
+    if [[ -z "$name" ]]; then
+        name="$(basename "$PWD")"
+    fi
+
+    local venv_root="$HOME/venv"
+    local venv_path="$venv_root/$name"
+    local python_exec="python3"
+
+    if [[ -n "$python_version" ]]; then
+        python_exec="python$python_version"
+    fi
+
+    # Check if Python executable exists
+    if ! command -v "$python_exec" > /dev/null 2>&1; then
+        echo "❌ Python interpreter not found: $python_exec" >&2
+        return 3
+    fi
+
+    mkdir -p "$venv_root"
+
+    if [[ -e "$venv_path" ]]; then
+        if [[ $force -eq 1 ]]; then
+            echo "⚠️  Removing existing virtual environment at: $venv_path"
+            rm -rf "$venv_path"
+        else
+            echo "❌ Virtual environment already exists at: $venv_path" >&2
+            echo "   Use -f to overwrite." >&2
+            return 1
+        fi
+    fi
+
+    "$python_exec" -m venv "$venv_path" || {
+        echo "❌ Failed to create virtual environment using $python_exec" >&2
+        return 2
+    }
+
+    echo "✅ Virtual environment created at: $venv_path using $python_exec"
+}
+
 venv() {
     # specified which venv will be used
     if [ -e ~/venv/"$1"/bin/activate ]; then
@@ -90,8 +158,8 @@ wco() {
     fi
 
     tmpfile=$(mktemp)
-    echo "#!/bin/bash" >"$tmpfile"
-    echo "cd $target" >>"$tmpfile"
+    echo "#!/bin/bash" > "$tmpfile"
+    echo "cd $target" >> "$tmpfile"
     . "$tmpfile" # do the cd
     echo "cd $target"
     rm -f -- "$tmpfile"
@@ -108,7 +176,7 @@ helmChartCheck() {
     # check value file variables in template
     for var in $(yq -o=props '... comments=""' charts/app/values.yaml | awk '{print $1}'); do
         #echo $var
-        grep -r ".Values.$var" ./charts/app/templates/ >/dev/null
+        grep -r ".Values.$var" ./charts/app/templates/ > /dev/null
         if [ $? -ne 0 ]; then
             echo "Unused variable: $var"
         fi

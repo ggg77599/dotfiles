@@ -3,6 +3,7 @@ return {
 		"preservim/tagbar",
 		config = function()
 			vim.keymap.set("n", "<F8>", vim.cmd.TagbarToggle)
+			vim.g.tagbar_sort = 0 -- disable sorting, order by source file
 		end,
 	},
 	{

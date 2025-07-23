@@ -10,11 +10,13 @@ return {
 		},
 		config = function()
 			-- local neotest_golang_opts = {}
+			-- for coverage setting
+			-- reference: https://github.com/fredrikaverpil/neotest-golang/blob/main/docs/recipes.md#coverage
 			local neotest_golang_opts = { -- Specify configuration
 				runner = "go",
 				go_test_args = {
 					"-v",
-					"-race",
+					"-race", -- set this will detect race condition
 					"-count=1",
 					"-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
 				},

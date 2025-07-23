@@ -53,7 +53,6 @@ return {
 		})
 
 		-- overwrite formatter parameter
-		-- TODO: shellcheck
 		require("conform").formatters.shfmt = {
 			prepend_args = { "-sr" },
 		}
