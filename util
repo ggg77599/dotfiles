@@ -121,7 +121,12 @@ venv() {
 export -f venv
 
 nonascii() {
-    LANG=C rg -P '[^\x00-\x7f]'
+    # gnu grep ( MacOS need to `brew install grep`, and use `ggrep` instead of `grep` )
+    #LANG=C grep -P '[^\x00-\x7f]' -R . --exclude-dir=".git"
+
+    # rg ( short for ripgrep )
+    #LANG=C rg -P '[^\x00-\x7f]'
+    LANG=C rg -g '!.git' '[^[:ascii:]]'
 }
 
 nonewline() {

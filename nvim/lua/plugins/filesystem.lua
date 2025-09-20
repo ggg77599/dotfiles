@@ -3,7 +3,11 @@ return {
 		"stevearc/oil.nvim", -- edit file system like a buffer
 		-- dependencies = { { "echasnovski/mini.icons", opts = {} } }, -- add icons
 		config = function()
-			require("oil").setup()
+			require("oil").setup({
+				view_options = {
+					show_hidden = true,
+				},
+			})
 
 			-- using `-` to open parent directory in Oil view
 

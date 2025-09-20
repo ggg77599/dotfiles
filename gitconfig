@@ -76,6 +76,7 @@
     ignorecase = false
     hooksPath = ~/.gitconfighook  # global git hooks
     excludesFile = ~/.gitignore  # global git ignore
+	untrackedCache = true
 [color]
     ui = true
     pager = true

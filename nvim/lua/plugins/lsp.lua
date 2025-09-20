@@ -119,6 +119,9 @@ return {
 										black = {
 											enabled = true,
 										},
+										rope_autoimport = {
+											enabled = true,
+										},
 									},
 								},
 							},

@@ -40,20 +40,6 @@ return {
 			"-",
 		}
 
-		---- golangci-lint breaking changes hotfix
-		---- https://github.com/mfussenegger/nvim-lint/issues/760
-		--require("lint").linters.golangcilint.args = {
-		--	"run",
-		--	"--output.json.path=stdout",
-		--	"--issues-exit-code=0",
-		--	"--show-stats=false",
-		--	"--output.text.print-issued-lines=false",
-		--	"--output.text.print-linter-name=false",
-		--	function()
-		--		return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
-		--	end,
-		--}
-
 		-- Show linters args for the current buffer's file type
 		vim.api.nvim_create_user_command("LintInfo", function()
 			local filetype = vim.bo.filetype

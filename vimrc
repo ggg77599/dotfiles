@@ -396,8 +396,8 @@ vnoremap K :m '<-2<CR>gv=gv
 " https://stackoverflow.com/questions/11993851/how-to-delete-not-cut-in-vim
 xnoremap <leader>p "_dP
 
-" make J to keep cursor position
-nnoremap J mzJ`z
+" make J to keep cursor position, I don't like it
+"nnoremap J mzJ`z
 
 " make adjust window size faster
 nnoremap <C-w>> 10<C-w>>

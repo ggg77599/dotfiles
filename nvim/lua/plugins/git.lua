@@ -17,6 +17,9 @@ return {
 			vim.keymap.set("n", "<leader>gd", function()
 				vim.cmd("Gvdiffsplit! HEAD")
 			end, { desc = "git diff HEAD" })
+			vim.keymap.set("n", "<leader>gh", function()
+				vim.cmd("silent 0Gclog")
+			end, { desc = "show current file's history" })
 		end,
 	},
 }

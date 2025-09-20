@@ -55,10 +55,14 @@ source "$MY_DOTFILES_DIR"/.git-completion.bash
 source "$MY_DOTFILES_DIR"/.git-prompt.sh
 
 # set git prompt
+# Keep this for useful status on modified/staged files
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUPSTREAM="auto"
 GIT_PS1_SHOWCOLORHINTS="yes"
-GIT_PS1_SHOWUNTRACKEDFILES=true
+# TURN THIS OFF to improve performance significantly
+# export GIT_PS1_SHOWUNTRACKEDFILES=true
+# Or explicitly set it to false
+#GIT_PS1_SHOWUNTRACKEDFILES=true
 
 ## set PS1 color
 ## '\u'=user, 'h'=host name, '\w'=full path
