@@ -2,7 +2,7 @@ return {
 	"mfussenegger/nvim-lint",
 	dependencies = {
 		"williamboman/mason.nvim",
-		"rshkarin/mason-nvim-lint",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	event = { "BufReadPre", "BufNewFile" },
 	config = function()
@@ -14,7 +14,7 @@ return {
 			-- sh = { "shellcheck" }, -- TODO: disable temporarily
 		}
 
-		require("mason-nvim-lint").setup({
+		require("mason-tool-installer").setup({
 			ensure_installed = {
 				"golangci-lint",
 				"shellcheck",
