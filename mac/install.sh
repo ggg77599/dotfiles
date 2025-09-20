@@ -31,16 +31,17 @@ brew install kubernetes-cli
 brew install --cask appcleaner
 brew install --cask iterm2
 brew install --cask google-chrome
-brew install --cask iina        # video player
-brew install --cask windows-app # microsoft-remote-desktop renamed
-brew install --cask visual-studio-code
-brew install --cask notion    # note taking
-brew install --cask rectangle # window management
 brew install --cask sublime-text
+brew install --cask visual-studio-code
+brew install --cask iina            # video player
+brew install --cask windows-app     # microsoft-remote-desktop renamed
+brew install --cask notion          # note taking
+brew install --cask rectangle       # window management
 brew install --cask openvpn-connect # openvpn client
 brew install --cask typora          # markdown editor
 brew install --cask obsidian        # note taking
 brew install --cask toggl-track     # time tracking
+brew install --cask keka            # decompression
 brew install --cask chatgpt
 # for work
 brew install --cask microsoft-edge

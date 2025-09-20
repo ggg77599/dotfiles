@@ -190,3 +190,15 @@ helmChartCheck() {
     # check template variables in value file
     # grep -r  '{{ .* }}' charts/app/templates/
 }
+
+_wco_completions() {
+    echo ${#COMP_WORDS[@]}
+    if [ "${#COMP_WORDS[@]}" != "2" ]; then
+        return
+    fi
+    COMPREPLY+=("now")
+    COMPREPLY+=("tomorrow")
+    COMPREPLY+=("never")
+}
+
+complete -F _wco_completions wco

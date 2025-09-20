@@ -384,8 +384,11 @@ nnoremap <silent> <Leader>gm :exec '!git url -n' line(".") '$(git symbolic-ref r
 xnoremap <silent> <Leader>g :<C-U>exec '!git url -n' line("'<") '-n' line("'>") shellescape('%') <CR>
 xnoremap <silent> <Leader>gm :<C-U>exec '!git url -n' line("'<") '-n' line("'>") '$(git symbolic-ref refs/remotes/origin/HEAD --short)' shellescape('%') <CR>
 
-" make Ctrl-A to move to the beginning of the line
-cnoremap <C-a> <Home>
+" make cursor movement in command mode just like shell's behavior
+" <Ctrl-a> move cursor to the beginning
+" https://superuser.com/questions/988868/ctrl-a-not-working-in-vim-command-line-mode
+cnoremap <C-A> <Home>
+" TODO: shift-option + left/right arrow key to move backward/forward the word
 
 " move selected content up and down
 vnoremap J :m '>+1<CR>gv=gv
