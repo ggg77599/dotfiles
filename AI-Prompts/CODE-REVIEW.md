@@ -1,0 +1,26 @@
+Code/PR review checkpoints
+- Dead Code, unused variables/imports/parameters
+- Function design: naming accuracy, Single responsibility
+- Performance
+- Type Safety
+- Error Handling
+- Code Structure & Maintainability
+- Testing & Quality Assurance
+- Security Considerations
+- Library/Dependency Upgrades - Deep Interface Analysis
+    - When libraries upgrade (especially major versions), check for interface changes
+    - Search for obsolete methods that may still exist but are no longer called by the library
+    - Verify all interface implementations match new version requirements
+    - Look for breaking changes in method signatures, return types, or behavior
+    - Use targeted searches: `grep -r "OldMethodName" .` for known changed methods
+    - Compile success ≠ functional correctness with interface changes
+- Unit test is well covered, edge cases are tested
+    - run unit test for changed code
+- write the meaningful log message.
+    - Always log some variable, not just a hardcoded string
+- comments should be meaningful and up-to-date
+- meaningful naming, include variables and function names
+- SOPS encrypted files should decrypt and check the content
+    - ask me to provide the STS token
+- list the enhancement, how to make it better
+    - better commits, logs...
