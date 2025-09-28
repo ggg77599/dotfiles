@@ -24,6 +24,9 @@ return {
 		-- contains search index
 		"vim-airline/vim-airline",
 	},
+	{
+		"google/vim-searchindex",
+	},
 	-- {
 	-- 	"nvim-lualine/lualine.nvim",
 	-- 	-- dependencies = { "nvim-tree/nvim-web-devicons" },

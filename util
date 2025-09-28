@@ -191,6 +191,84 @@ helmChartCheck() {
     # grep -r  '{{ .* }}' charts/app/templates/
 }
 
+# Open 3-pane Vim comparing two files via `comm`
+comm2vim() {
+    # --- usage helper ---
+    _comm2vim_usage() {
+        cat << 'EOF'
+Usage: comm2vim [-i] <file1> <file2>
+
+Opens Vim with 3 panes:
+- top-left  : lines unique to file1
+- top-right : lines unique to file2
+- bottom    : lines common to both
+
+Options:
+  -i   case-insensitive compare (fold case in sorting)
+
+Notes:
+- Inputs are internally sorted before running `comm` (required by `comm`).
+- Temp files are cleaned up when you exit Vim.
+EOF
+    }
+
+    # --- parse args ---
+    local case_insensitive=0 opt
+    while getopts ":ih" opt; do
+        case "$opt" in
+        i) case_insensitive=1 ;;
+        h | *)
+            _comm2vim_usage
+            return 0
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    if [ "$#" -ne 2 ]; then
+        _comm2vim_usage
+        return 1
+    fi
+
+    local f1=$1 f2=$2
+    if [ ! -f "$f1" ] || [ ! -f "$f2" ]; then
+        echo "error: both arguments must be files" >&2
+        return 2
+    fi
+
+    t1=$(mktemp)
+    t2=$(mktemp)
+    u1=$(mktemp)
+    u2=$(mktemp)
+    cm=$(mktemp)
+
+    # --- sort inputs for comm ---
+    if [ "$case_insensitive" -eq 1 ]; then
+        LC_ALL=C sort -f -- "$f1" > "$t1"
+        LC_ALL=C sort -f -- "$f2" > "$t2"
+    else
+        LC_ALL=C sort -- "$f1" > "$t1"
+        LC_ALL=C sort -- "$f2" > "$t2"
+    fi
+
+    # --- compute columns with comm ---
+    #  col 1: only in file1  => suppress col2&3 (-23)
+    #  col 2: only in file2  => suppress col1&3 (-13)
+    #  col 3: in both        => suppress col1&2 (-12)
+    comm -23 "$t1" "$t2" > "$u1"
+    comm -13 "$t1" "$t2" > "$u2"
+    comm -12 "$t1" "$t2" > "$cm"
+
+    # --- open editor in 3 panes ---
+    # Layout: open $u1, split bottom with $cm, then v-split right with $u2, focus left
+    nvim "$f1" "$f2" -O \
+        -c "tabnew $u1" \
+        -c "sp $cm" \
+        -c "wincmd k" \
+        -c "vsp $u2" \
+        -c "wincmd h"
+}
+
 _wco_completions() {
     echo ${#COMP_WORDS[@]}
     if [ "${#COMP_WORDS[@]}" != "2" ]; then
