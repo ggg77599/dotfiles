@@ -71,4 +71,7 @@ return {
 			end, {})
 		end,
 	},
+	{
+		"haodarohh/bufcomm.vim",
+	},
 }

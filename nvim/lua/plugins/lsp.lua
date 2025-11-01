@@ -66,7 +66,7 @@ return {
 				},
 				handlers = {
 					function(server_name)
-						require("lspconfig")[server_name].setup({
+						vim.lsp.config(server_name, {
 							capabilities = lsp_capabilities,
 						})
 					end,
@@ -74,7 +74,7 @@ return {
 					-- customized language server
 					-- https://lsp-zero.netlify.app/blog/you-might-not-need-lsp-zero
 					["lua_ls"] = function()
-						require("lspconfig").lua_ls.setup({
+						vim.lsp.config("lua_ls", {
 							capabilities = lsp_capabilities,
 							---
 							-- This is where you place your custom config
@@ -102,7 +102,7 @@ return {
 					-- :PylspInstall python-lsp-black
 					-- :PylspInstall pyls-isort
 					["pylsp"] = function()
-						require("lspconfig").pylsp.setup({
+						vim.lsp.config("pylsp", {
 							capabilities = lsp_capabilities,
 							settings = {
 								pylsp = {
@@ -129,7 +129,7 @@ return {
 					end,
 
 					["helm_ls"] = function()
-						require("lspconfig").helm_ls.setup({
+						vim.lsp.config("helm_ls", {
 							settings = {
 								["helm-ls"] = {
 									-- valuesFiles = {

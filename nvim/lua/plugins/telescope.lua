@@ -12,6 +12,7 @@ return {
 		vim.keymap.set("n", "<leader>fm", builtin.keymaps, {})
 
 		-- :h i_CTRL-R for more detail, CTRL-R 0 is the register 0
+		-- TODO: escape special characters in the visual selection, using escape() function
 		vim.keymap.set("v", "<leader>fg", "y<ESC>:Telescope live_grep default_text=<c-r>0<CR>", {})
 
 		-- search for the current word under the cursor
