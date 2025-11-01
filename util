@@ -134,16 +134,42 @@ nonewline() {
     find . -type f -print0 | xargs -0 -L1 bash -c 'test "$(tail -c 1 "$0")" && echo "$0"'
 }
 
-showOS() {
-    unameOut="$(uname -s)"
-    case "$unameOut" in
-    Linux*) awk -F= '/^NAME/{print $2}' /etc/os-release ;;
-    Darwin*) echo Mac ;;
+showSystemInfo() {
+    local os arch distro uname_out
+
+    uname_out="$(uname -s)"
+    arch="$(uname -m)"
+
+    case "${uname_out}" in
+    Linux*)
+        os="Linux"
+        if [[ -f /etc/os-release ]]; then
+            . /etc/os-release
+            distro="${NAME} ${VERSION}"
+        elif command -v lsb_release > /dev/null 2>&1; then
+            distro="$(lsb_release -d | cut -f2)"
+        else
+            distro="Unknown Linux distribution"
+        fi
+        ;;
+    Darwin*)
+        os="macOS"
+        # macOS version from sw_vers
+        if command -v sw_vers > /dev/null 2>&1; then
+            distro="$(sw_vers -productName) $(sw_vers -productVersion)"
+        else
+            distro="macOS (version unknown)"
+        fi
+        ;;
     *)
-        echo "UNKNOWN:${unameOut}"
+        os="Unknown:${uname_out}"
+        distro="N/A"
         ;;
     esac
-    uname -m
+
+    echo "Operating System: ${os}"
+    echo "Architecture: ${arch}"
+    [[ "${distro}" != "N/A" ]] && echo "Distribution: ${distro}"
 }
 
 checksum() {
@@ -238,9 +264,9 @@ EOF
 
     t1=$(mktemp)
     t2=$(mktemp)
-    u1=$(mktemp)
-    u2=$(mktemp)
-    cm=$(mktemp)
+    u1=$(mktemp -t only_in_file1)
+    u2=$(mktemp -t only_in_file2)
+    cm=$(mktemp -t common_in_both)
 
     # --- sort inputs for comm ---
     if [ "$case_insensitive" -eq 1 ]; then
