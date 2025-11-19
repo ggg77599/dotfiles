@@ -1,3 +1,16 @@
+#!/usr/bin/env sh
+
+### this script should be ran many times without errors
+
+# exit when any steps failed!
+set -e
+# ensures no pipeline command failure is missed
+set -o pipefail
+# prevent unset variables
+set -u
+
+# install package manager
+
 # install packages
 # colordiff
 # rg
@@ -5,22 +18,24 @@
 # tree
 # InconsolataNerdFont https://www.nerdfonts.com
 
-# install script
+# install/update git script
 version=$(git --version | awk '{print $3}')
-curl "https://raw.githubusercontent.com/git/git/v"$version"/contrib/completion/git-completion.bash" -o ~/.git-completion.bash
-curl "https://raw.githubusercontent.com/git/git/v"$version"/contrib/completion/git-prompt.sh" -o ~/.git-prompt.sh
+curl "https://raw.githubusercontent.com/git/git/v$version/contrib/completion/git-completion.bash" -o ~/.git-completion.bash
+curl "https://raw.githubusercontent.com/git/git/v$version/contrib/completion/git-prompt.sh" -o ~/.git-prompt.sh
 
 # create symbolic links
-ln -s $(PWD)/gitconfig ~/.gitconfig
-ln -s $(PWD)/vimrc ~/.vimrc
-ln -s $(PWD)/vimrc.plug ~/.vimrc.plug
+ln -s -f "$PWD/bashrc" ~/.bashrc
+ln -s -f "$PWD/gitconfig" ~/.gitconfig
+ln -s -f "$PWD/gitignore" ~/.gitignore
+ln -s -f "$PWD/profile" ~/.profile
+ln -s -f "$PWD/util" ~/.util
+ln -s -f "$PWD/vimrc" ~/.vimrc
+#ln -s -f "$PWD/vimrc.plug" ~/.vimrc.plug
+#ln -s -f "$PWD/wezterm.lua" ~/.wezterm.lua
+ln -s -f "$PWD/git-wt" /usr/local/bin/git-wt
+ln -s -f "$PWD/git-url" /usr/local/bin/git-url
 
-# interactive to set PS1_ENV
-cat << EOL >> ~/.bashrc
-#============================= added by dotfiles ==============================
-export MY_DOTFILES_DIR="$(PWD)"
-export MY_PS1_ENV=""
-source \${MY_DOTFILES_DIR}/bashrc
-source \${MY_DOTFILES_DIR}/util
-#============================= added by dotfiles ==============================
-EOL
+# -n to handle existing symlink to a dir
+ln -s -f -n "$PWD/gitconfighook" ~/.gitconfighook
+ln -s -f -n "$PWD/ghostty" ~/.config/ghostty
+ln -s -f -n "$PWD/nvim" ~/.config/nvim

@@ -1,9 +1,9 @@
 #!/bin/sh
 
-echo "Add 'SKIP_GIT_HOOKS=1' in front of command to SKIP check"
+echo "Add 'GIT_HOOKS_SKIP=1' in front of command to SKIP check"
 
-if [[ (! -z ${SKIP_GIT_HOOKS} ) && ${SKIP_GIT_HOOKS}=1 ]]; then
-  echo "Skip git hooks pre-commit"
+if [[ (! -z ${GIT_HOOKS_SKIP} ) && ${GIT_HOOKS_SKIP}=1 ]]; then
+  echo "GIT_HOOKS_SKIP pre-commit"
   exit 0
 fi
 

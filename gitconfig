@@ -86,6 +86,9 @@
     tool = nvimdiff
     # set relative will break difftoll if not in the root of git repo
     #relative = true
+    #diff-algorithm = minimal
+    #diff-algorithm = patience
+    #diff-algorithm = histogram
 [difftool]
     prompt = false
     # make me able to cancel when a lot of files need to diff, :cq
@@ -100,8 +103,9 @@
     cmd = difft --display side-by-side-show-both "$LOCAL" "$REMOTE"
 [pull]
     rebase = false
-[user]
-	name = MrG
-	email = ggg77599@gmail.com
 [pull]
 	ff = only
+[include]
+    path = "~/.gitconfig.personal"
+[include]
+    path = "~/.gitconfig.work"

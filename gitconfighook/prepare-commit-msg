@@ -3,8 +3,8 @@
 # reference https://stackoverflow.com/questions/5823772/append-ticket-number-using-git-commit-hooks
 # check in dev folder https://unix.stackexchange.com/questions/6435/how-to-check-if-pwd-is-a-subdirectory-of-a-given-path
 
-if [[ (! -z ${SKIP_GIT_HOOKS} ) && ${SKIP_GIT_HOOKS}=1 ]]; then
-  echo "Skip git hooks prepare-commit-msg"
+if [[ (! -z ${GIT_HOOKS_SKIP} ) && ${GIT_HOOKS_SKIP}=1 ]]; then
+  echo "GIT_HOOKS_SKIP prepare-commit-msg"
   exit 0
 fi
 
@@ -12,7 +12,7 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
-SPECIFIC_FOLDER=""
+SPECIFIC_FOLDER="$GIT_HOOKS_SPECIFIC_FOLDER"
 
 branch_name=$(git branch --show-current)
 echo "branch_name: ${branch_name}"

@@ -34,6 +34,7 @@ augroup filetypedetect_vimrc
     autocmd BufRead,BufNewFile util.* set filetype=bash
     autocmd BufRead,BufNewFile ssh_config* set filetype=sshconfig
     autocmd BufRead,BufNewFile gitconfig* set filetype=gitconfig
+    autocmd BufRead,BufNewFile .gitconfig* set filetype=gitconfig
     autocmd BufRead,BufNewFile vimrc* set filetype=vim
     autocmd BufRead,BufNewFile ~/.kube/* set filetype=yaml
 

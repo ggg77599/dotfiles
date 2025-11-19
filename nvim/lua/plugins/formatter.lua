@@ -7,13 +7,13 @@ return {
 	"stevearc/conform.nvim",
 	dependencies = {
 		"williamboman/mason.nvim",
-		"zapling/mason-conform.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
 		local timeout = 3500
 		local conform = require("conform")
 
-		require("mason-conform").setup({
+		require("mason-tool-installer").setup({
 			ensure_installed = { -- not work !?
 				"clang-format",
 				"gofumpt", -- golang format
