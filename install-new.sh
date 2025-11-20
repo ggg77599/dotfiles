@@ -10,12 +10,17 @@ set -o pipefail
 set -u
 
 # install package manager
+package_manager_install=""
+if [ "$(uname -s)" = "Darwin" ]; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  package_manager_install="brew install"
+fi
 
 # install packages
-# colordiff
-# rg
-# fzf
-# tree
+$package_manager_install git
+$package_manager_install ripgrep
+$package_manager_install fzf
+$package_manager_install tree
 # InconsolataNerdFont https://www.nerdfonts.com
 
 # install/update git script

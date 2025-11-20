@@ -4,8 +4,14 @@ case $- in
 *) return ;;
 esac
 
-# Mac OS package manager
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ "$(uname -s)" = "Darwin" ]; then
+    # Mac OS package manager
+    if [ "$(uname -m)" = "x86_64" ]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    else
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+fi
 
 # override default editor to nvim if installed
 if command -v nvim > /dev/null 2>&1; then
@@ -78,14 +84,14 @@ GIT_PS1_SHOWUPSTREAM="auto"
 # Bold High Intensity 90=Black, 91=Red, 92=Green, 93=Yellow, 94=Blue, 95=Purple, 96=Cyan, 97=White
 # 0=Regular, 1=Bold, 4=Underline
 # reference : https://wiki.archlinux.org/index.php/Color_Bash_Prompt
-# MacBook
-# export PS1="\[\033[0;36m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;35m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
 # primary
 # export PS1="\[\033[0;35m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;34m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
 # test
 # export PS1="\[\033[4;32m\]\u\[\033[m\]@\[\033[4;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;35m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
 # work
 # export PS1="\[\033[0;35m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;36m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
+# MacBook
+export PS1="\[\033[0;36m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;35m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
 
 # environment variable
 export TERM="xterm-256color"
