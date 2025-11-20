@@ -24,6 +24,7 @@ return {
 				"yamlfmt", -- yaml
 				"shfmt", -- shell
 				"shellharden", -- shell
+				"tombi", -- toml
 			},
 		})
 
