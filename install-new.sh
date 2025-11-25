@@ -44,3 +44,10 @@ ln -s -f "$PWD/git-url" /usr/local/bin/git-url
 ln -s -f -n "$PWD/gitconfighook" ~/.gitconfighook
 ln -s -f -n "$PWD/ghostty" ~/.config/ghostty
 ln -s -f -n "$PWD/nvim" ~/.config/nvim
+
+mkdir "$HOME/Development"
+mkdir "$HOME/venv"
+
+# for AI claude-code
+ln -s -f "$PWD/AI-Prompts/CLAUDE.md" ~/.claude/CLAUDE.md
+ln -s -f "$PWD/AI-Prompts/CODE-REVIEW.md" ~/.claude/CODE-REVIEW.md

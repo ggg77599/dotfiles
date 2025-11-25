@@ -43,6 +43,9 @@ brew install --cask obsidian        # note taking
 brew install --cask toggl-track     # time tracking
 brew install --cask keka            # decompression
 brew install --cask chatgpt
+brew install --cask font-inconsolata-nerd-font # font
+# AI
+brew install --cask claude-code
 # for work
 brew install --cask microsoft-edge
 brew install --cask mysqlworkbench

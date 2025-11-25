@@ -18,6 +18,8 @@ return {
 			ensure_installed = {
 				"golangci-lint",
 				"shellcheck",
+				"yamllint",
+				"tflint",
 				-- "tflint",  # tflint will cause CPI high in my machine
 			},
 		})
