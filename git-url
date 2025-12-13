@@ -11,7 +11,7 @@ set -e
 
 # git-url prints a URL to a file
 # usage
-# git url -n lineNumber [remote/branch] [file]
+# git url [-n lineNumber] [-s] [remote/branch] [file]
 # example
 # git url                              # https://mrgnas.ddns.net:10443/ggg77599/dotfiles
 # git url origin                       # https://mrgnas.ddns.net:10443/ggg77599/dotfiles
@@ -19,15 +19,17 @@ set -e
 # git url README.md                    # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/<current branch>/README.md
 # git url origin README.md             # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/<current branch>/README.md
 # git url origin/master README.md      # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/master/README.md
+# git url -s README.md                 # https://mrgnas.ddns.net:10443/ggg77599/dotfiles/blob/<tag or commit hash>/README.md
 # git url github                       # https://github.com/ggg77599/dotfiles
 # git url github/master                # https://github.com/ggg77599/dotfiles/blob/master
 # git url github README.md             # https://github.com/ggg77599/dotfiles/blob/<current branch>/README.md
 # git url github/master README.md      # https://github.com/ggg77599/dotfiles/blob/master/README.md
-USAGE="usage: git url -n lineNumber [remote/branch] [file]"
+USAGE="usage: git url [-n lineNumber] [-s] [remote/branch] [file]"
 
 # parse options
 url_fragment=""
-while getopts ":n:" o; do
+static_ref=false
+while getopts ":n:s" o; do
     case "${o}" in
     n)
         n=${OPTARG}
@@ -36,6 +38,9 @@ while getopts ":n:" o; do
         else
             url_fragment="${url_fragment}-L${n}"
         fi
+        ;;
+    s)
+        static_ref=true
         ;;
     esac
 done
@@ -97,6 +102,18 @@ elif [ $# -eq 0 ]; then
 else
     echo "parameter incorrect. $USAGE"
     exit 1
+fi
+
+# if static ref is requested, replace branch with tag or commit hash
+if [ "$static_ref" = true ] && [ -n "$branch" ]; then
+    # try to get the tag pointing to HEAD
+    tag=$(git tag --points-at HEAD | head -n 1)
+    if [ -n "$tag" ]; then
+        branch="$tag"
+    else
+        # fallback to commit hash
+        branch=$(git rev-parse HEAD)
+    fi
 fi
 
 remote_url=$(git remote get-url "$remote" | sed 's/\.git$//g')

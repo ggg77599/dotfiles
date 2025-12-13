@@ -13,12 +13,19 @@ if [ "$(uname -s)" = "Darwin" ]; then
     fi
 fi
 
+# setup uv bash completion
+eval "$(uv generate-shell-completion bash)"
+
 # override default editor to nvim if installed
 if command -v nvim > /dev/null 2>&1; then
     export EDITOR="nvim"
 fi
 
-export PATH=$PATH:~/go/bin
+# add XDG based to path
+export PATH=~/.local/bin/:$PATH
+#
+# add go bin to PATH
+export PATH=~/go/bin:$PATH
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options

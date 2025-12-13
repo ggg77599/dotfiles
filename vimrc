@@ -381,9 +381,9 @@ command! -nargs=1 Redir silent call Redir(<f-args>)
 
 " compare to Ctrl-G to show the current file name with line number selected
 " TODO: if the file is vim help doc, show the help doc link. https://vimhelp.org
-nnoremap <silent> <Leader>g :exec '!git url -n' line(".") shellescape('%') <CR>
+nnoremap <silent> <Leader>g :exec '!git url -n' line(".") '-s' shellescape('%') <CR>
 nnoremap <silent> <Leader>gm :exec '!git url -n' line(".") '$(git symbolic-ref refs/remotes/origin/HEAD --short)' shellescape('%') <CR>
-xnoremap <silent> <Leader>g :<C-U>exec '!git url -n' line("'<") '-n' line("'>") shellescape('%') <CR>
+xnoremap <silent> <Leader>g :<C-U>exec '!git url -n' line("'<") '-n' line("'>") '-s' shellescape('%') <CR>
 xnoremap <silent> <Leader>gm :<C-U>exec '!git url -n' line("'<") '-n' line("'>") '$(git symbolic-ref refs/remotes/origin/HEAD --short)' shellescape('%') <CR>
 
 " make cursor movement in command mode just like shell's behavior
