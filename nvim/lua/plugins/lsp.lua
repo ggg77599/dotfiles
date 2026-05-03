@@ -39,7 +39,7 @@ return {
 					-- shift-enter to close quickfix menu after selecting choice
 					vim.api.nvim_create_autocmd("FileType", {
 						pattern = { "qf" },
-						command = [[nnoremap <buffer> <S-CR> <CR>:cclose<CR>]],
+						command = [[nnoremap <buffer> <C-CR> <CR>:cclose<CR>]],
 					})
 				end,
 			})

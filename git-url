@@ -11,7 +11,11 @@ set -e
 
 # git-url prints a URL to a file
 # usage
-# git url [-n lineNumber] [-s] [remote/branch] [file]
+# git url [-n lineNumber] [-s] [[remote[/branch]] [file]]
+#   -n: line number. Can specify once for single line (#L10) or twice for range (#L10-L20)
+#   -s: static link, uses tag (if exists at HEAD) or commit hash instead of branch name
+#   remote/branch: optional, defaults to 'origin' and current branch
+#   file: optional, omit for repository or tree URL
 # example
 # git url                              # https://mrgnas.ddns.net:10443/ggg77599/dotfiles
 # git url origin                       # https://mrgnas.ddns.net:10443/ggg77599/dotfiles
@@ -24,12 +28,17 @@ set -e
 # git url github/master                # https://github.com/ggg77599/dotfiles/blob/master
 # git url github README.md             # https://github.com/ggg77599/dotfiles/blob/<current branch>/README.md
 # git url github/master README.md      # https://github.com/ggg77599/dotfiles/blob/master/README.md
-USAGE="usage: git url [-n lineNumber] [-s] [remote/branch] [file]"
+USAGE="usage: git url [-n lineNumber] [-s] [[remote[/branch]] [file]]
+  -n:            line number. Can specify once for single line (#L10) or twice for range (#L10-L20)
+  -s:            static link, uses tag (if exists at HEAD) or commit hash instead of branch name
+  remote/branch: optional, defaults to 'origin' and current branch
+  file:          optional, omit for repository or tree URL
+"
 
 # parse options
 url_fragment=""
 static_ref=false
-while getopts ":n:s" o; do
+while getopts ":n:sh" o; do
     case "${o}" in
     n)
         n=${OPTARG}
@@ -41,6 +50,10 @@ while getopts ":n:s" o; do
         ;;
     s)
         static_ref=true
+        ;;
+    h)
+        printf "$USAGE"
+        exit 0
         ;;
     esac
 done

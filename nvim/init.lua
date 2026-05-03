@@ -24,4 +24,7 @@ vim.api.nvim_set_hl(0, "WinSeparator", { bg = "None" })
 
 -- after neovim 0.11, virtual text is disabled by default
 -- https://github.com/neovim/neovim/issues/33073
-vim.diagnostic.config({ virtual_text = true })
+vim.diagnostic.config({
+	float = { border = "rounded" },
+	virtual_text = true,
+})

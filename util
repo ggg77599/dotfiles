@@ -140,7 +140,7 @@ showSystemInfo() {
     uname_out="$(uname -s)"
     arch="$(uname -m)"
 
-    case "${uname_out}" in
+    case "$uname_out" in
     Linux*)
         os="Linux"
         if [[ -f /etc/os-release ]]; then
@@ -169,7 +169,7 @@ showSystemInfo() {
 
     echo "Operating System: ${os}"
     echo "Architecture: ${arch}"
-    [[ "${distro}" != "N/A" ]] && echo "Distribution: ${distro}"
+    [[ "$distro" != "N/A" ]] && echo "Distribution: ${distro}"
 }
 
 checksum() {
@@ -205,7 +205,7 @@ swagweb() {
 helmChartCheck() {
     echo "check file 'charts/app/values.yaml' which variable is not used in template"
     # check value file variables in template
-    for var in $(yq -o=props '... comments=""' charts/app/values.yaml | awk '{print $1}'); do
+    for var in "$(yq -o=props '... comments=""' charts/app/values.yaml | awk '{print $1}')"; do
         #echo $var
         grep -r ".Values.$var" ./charts/app/templates/ > /dev/null
         if [ $? -ne 0 ]; then
@@ -316,3 +316,9 @@ jwt-decode() {
     # https://gist.github.com/angelo-v/e0208a18d455e2e6ea3c40ad637aac53
     jq -R 'split(".") | .[1] | @base64d | fromjson' <<< "$1"
 }
+
+#devc() {
+#    # https://github.com/devcontainers/cli/issues/29#issuecomment-1483892119
+#    # to make --workspace-folder default current folder
+#    devcontainer "$1" --workspace-folder . "${@:2}"
+#}

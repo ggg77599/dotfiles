@@ -139,6 +139,7 @@ if command -v fzf > /dev/null 2>&1; then
     _fzf_setup_completion path code
     _fzf_setup_completion path sops
     _fzf_setup_completion path gotest
+    _fzf_setup_completion path rg
 fi
 
 # =============================================================================

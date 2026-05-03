@@ -132,7 +132,7 @@ return {
 			prepend_args = { "-sr" },
 		}
 		require("conform").formatters.yamlfmt = {
-			prepend_args = { "-formatter", "pad_line_comments=2" },
+			prepend_args = { "-formatter", "pad_line_comments=2", "-formatter", "retain_line_breaks=true" },
 		}
 
 		-- Configure gci based on .golangci.yml settings

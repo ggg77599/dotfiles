@@ -21,6 +21,7 @@
 - Keyboard / Key Repeat / (Scroll to rightmost)
 - Keyboard / Delay Until Repeat / (Scroll to rightmost)
 - Keyboard / Text / (Untick all)
+- Keyboard / Text Input / Input Sources / Correct spelling autimatically / (Untick)
 - Keyboard / Shortcuts / Service / Searching / Look Up in Dictionary / Ctrl-Cmd-D
 - Keyboard / Shortcuts / Input Sources / Select the previous input source / Shift-Cmd-Space
 - Keyboard / Shortcuts / Input Sources / Select the next input source / Cmd-Space
@@ -53,6 +54,7 @@
 - Sound / Show Sound in menu bar / (select always)
 - 
 - Mission Control / Automatically rearrange Spaces based on most recent use / (Untick)
+- Desktop & Dock / Hot Corners... / Launchpad and Desktop
 
 ## Applications
 

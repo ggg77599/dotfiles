@@ -9,7 +9,10 @@ brew install tree
 brew install fzf     # fuzzy search
 brew install ripgrep # grep alternative
 brew install fd      # find alternative
-brew install jq
+brew install git
+brew install git-lfs
+brew install jq # json parser
+brew install yq # yaml parser
 brew install htop
 brew install wget
 brew install tldr # man alternative
@@ -20,6 +23,7 @@ brew install docker-buildx
 brew install docker-compose
 brew install docker-credential-helper
 brew install docker-completion
+# colima start --cpu 4 --memory 8 --vm-type=vz
 brew install colima # docker alternative ( open source )
 brew install aichat
 brew install kubernetes-cli

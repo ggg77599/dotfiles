@@ -18,6 +18,7 @@ fi
 
 # install packages
 $package_manager_install git
+$package_manager_install git-lfs
 $package_manager_install ripgrep
 $package_manager_install fzf
 $package_manager_install tree
@@ -37,17 +38,34 @@ ln -s -f "$PWD/util" ~/.util
 ln -s -f "$PWD/vimrc" ~/.vimrc
 #ln -s -f "$PWD/vimrc.plug" ~/.vimrc.plug
 #ln -s -f "$PWD/wezterm.lua" ~/.wezterm.lua
-ln -s -f "$PWD/git-wt" /usr/local/bin/git-wt
-ln -s -f "$PWD/git-url" /usr/local/bin/git-url
+sudo ln -s -f "$PWD/git-wt" /usr/local/bin/git-wt
+sudo ln -s -f "$PWD/git-url" /usr/local/bin/git-url
 
 # -n to handle existing symlink to a dir
 ln -s -f -n "$PWD/gitconfighook" ~/.gitconfighook
 ln -s -f -n "$PWD/ghostty" ~/.config/ghostty
 ln -s -f -n "$PWD/nvim" ~/.config/nvim
 
-mkdir "$HOME/Development"
-mkdir "$HOME/venv"
+mkdir -p "$HOME/Development"
+mkdir -p "$HOME/venv"
 
-# for AI claude-code
+# for claude-code
+# TODO: rename CLAUDE.md to AGENTS.md
+mkdir -p "$HOME/.claude/skills"
 ln -s -f "$PWD/AI-Prompts/CLAUDE.md" ~/.claude/CLAUDE.md
 ln -s -f "$PWD/AI-Prompts/CODE-REVIEW.md" ~/.claude/CODE-REVIEW.md
+ln -s -f "$PWD/AI-Prompts/commands/code-review.md" ~/.claude/commands/code-review.md
+ln -s -f "$PWD/AI-Prompts/skills/code-review" ~/.claude/skills/code-review
+ln -s -f "$PWD/AI-Prompts/skills/update-pr-description" ~/.claude/skills/update-pr-description
+
+# for codex-cli
+mkdir -p "$HOME/.codex/skills"
+ln -s -f "$PWD/AI-Prompts/CLAUDE.md" ~/.codex/AGENTS.md
+ln -s -f "$PWD/AI-Prompts/CODE-REVIEW.md" ~/.codex/CODE-REVIEW.md
+ln -s -f "$PWD/AI-Prompts/skills/code-review" ~/.codex/skills/code-review
+
+# for gemini-cli
+mkdir -p "$HOME/.gemini/skills"
+ln -s -f "$PWD/AI-Prompts/CLAUDE.md" ~/.gemini/GEMINI.md
+ln -s -f "$PWD/AI-Prompts/CODE-REVIEW.md" ~/.gemini/CODE-REVIEW.md
+ln -s -f "$PWD/AI-Prompts/skills/code-review" ~/.gemini/skills/code-review
