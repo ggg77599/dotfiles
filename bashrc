@@ -4,15 +4,6 @@ case $- in
 *) return ;;
 esac
 
-if [ "$(uname -s)" = "Darwin" ]; then
-    # Mac OS package manager
-    if [ "$(uname -m)" = "x86_64" ]; then
-        eval "$(/usr/local/bin/brew shellenv)"
-    else
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
-fi
-
 # setup uv bash completion
 eval "$(uv generate-shell-completion bash)"
 
@@ -117,13 +108,6 @@ venv=~/venv
 
 # setup fnm for node, npm
 eval "$(fnm env --use-on-cd --shell bash)"
-
-# run `rustup-init` to setup rustc, cargo
-# DO NOT add `$(brew --prefix rustup)/bin` to the path, I would like to use rustup-init to manage my rust version
-# https://rust-lang.github.io/rustup/installation/other.html#homebrew
-if command -v rustup-init > /dev/null 2>&1; then
-    . "$HOME/.cargo/env"
-fi
 
 # setup bash completion, need to place bash-complete before fzf, or it will disable some command completion
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"

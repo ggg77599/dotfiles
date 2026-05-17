@@ -9,3 +9,20 @@ if [ "$BASH" ]; then
         . "$HOME/.bashrc"
     fi
 fi
+
+# Export PATH should be placed in the .profile
+if [ "$(uname -s)" = "Darwin" ]; then
+    # Mac OS package manager
+    if [ "$(uname -m)" = "x86_64" ]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    else
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+fi
+
+# run `rustup-init` to setup rustc, cargo
+# DO NOT add `$(brew --prefix rustup)/bin` to the path, I would like to use rustup-init to manage my rust version
+# https://rust-lang.github.io/rustup/installation/other.html#homebrew
+if command -v rustup-init > /dev/null 2>&1; then
+    . "$HOME/.cargo/env"
+fi

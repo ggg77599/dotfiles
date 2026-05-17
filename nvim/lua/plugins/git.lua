@@ -22,4 +22,12 @@ return {
 			end, { desc = "show current file's history" })
 		end,
 	},
+	{
+		"sindrets/diffview.nvim",
+		config = function()
+			vim.keymap.set("n", "<leader>dh", function()
+				vim.cmd("DiffviewFileHistory %")
+			end, { desc = "diff view show current file history" })
+		end,
+	},
 }
