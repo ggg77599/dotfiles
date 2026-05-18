@@ -33,8 +33,6 @@ return {
 					vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 					vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
 					vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-					-- rename by saecki/live-rename.nvim
-					-- vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 
 					-- shift-enter to close quickfix menu after selecting choice
 					vim.api.nvim_create_autocmd("FileType", {
@@ -156,8 +154,6 @@ return {
 					{ name = "luasnip" }, -- For luasnip users.
 					{ name = "nvim_lsp" },
 					{ name = "path" }, -- path completion
-				},
-				{
 					{ name = "buffer" }, -- buffer completion
 				},
 				mapping = cmp.mapping.preset.insert({

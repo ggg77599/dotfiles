@@ -61,8 +61,10 @@ brew install --cask orbstack      # docker alternative ( optional, use colima in
 brew install --cask wireshark-app # network packet analyzer
 
 # at least open those app once
-brew install --cask --no-quarantine qlmarkdown       # preview markdown
-brew install --cask --no-quarantine syntax-highlight # preview code with highlight
+#brew install --cask --no-quarantine qlmarkdown       # preview markdown
+#brew install --cask --no-quarantine syntax-highlight # preview code with highlight
+brew install --cask qlmarkdown       # preview markdown
+brew install --cask syntax-highlight # preview code with highlight
 
 # language support
 brew install fnm    # node.js version manager, for neovim mason to install packages

@@ -131,6 +131,15 @@ fi
 
 remote_url=$(git remote get-url "$remote" | sed 's/\.git$//g')
 
+# Resolve SSH host from ~/.ssh/config
+if [[ "$remote_url" =~ ^(ssh://)?git@([^:/]+) ]]; then
+    ssh_host="${BASH_REMATCH[2]}"
+    real_hostname=$(ssh -G "$ssh_host" 2>/dev/null | awk '$1 == "hostname" { print $2 }')
+    if [ -n "$real_hostname" ]; then
+        remote_url="${remote_url/@$ssh_host/@$real_hostname}"
+    fi
+fi
+
 # this is my special rule for my NAS
 if [[ "$remote_url" == *"mrgnas.ddns.net:10022"* ]]; then
     #echo "enter special rules"

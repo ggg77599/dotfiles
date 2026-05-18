@@ -16,7 +16,6 @@ require("config.lazy")
 
 -- other setting just for neovim
 vim.opt.guicursor = "" -- make insert mode cursor in block shape
-vim.opt.hlsearch = true
 
 vim.opt.laststatus = 3 -- set global status line
 -- highlight WinSeparator guibg=None
