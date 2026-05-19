@@ -18,6 +18,8 @@ if [ "$(uname -s)" = "Darwin" ]; then
     else
         eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
+elif [ "$(uname -s)" = "Linux" ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 fi
 
 # run `rustup-init` to setup rustc, cargo

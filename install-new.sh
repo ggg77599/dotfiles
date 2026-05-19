@@ -46,10 +46,19 @@ $package_manager_install git
 $package_manager_install git-lfs
 $package_manager_install ripgrep
 $package_manager_install fzf
+$package_manager_install fd
+$package_manager_install jq
+$package_manager_install yq
 $package_manager_install tree
-$package_manager_install tree-sitter-cli
+$package_manager_install unzip
+$package_manager_install go
+$package_manager_install fnm
+$package_manager_install rustup
+$package_manager_install python
 $package_manager_install uv
-$package_manager_install fmn
+# for neovom
+$package_manager_install tree-sitter-cli
+$package_manager_install luarocks
 # InconsolataNerdFont https://www.nerdfonts.com
 
 # install/update git script

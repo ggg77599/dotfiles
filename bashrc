@@ -5,7 +5,9 @@ case $- in
 esac
 
 # setup uv bash completion
-eval "$(uv generate-shell-completion bash)"
+if command -v uv > /dev/null 2>&1; then
+    eval "$(uv generate-shell-completion bash)"
+fi
 
 # override default editor to nvim if installed
 if command -v nvim > /dev/null 2>&1; then
@@ -107,7 +109,9 @@ venv=~/venv
 ## ======================== package settings ==================================
 
 # setup fnm for node, npm
-eval "$(fnm env --use-on-cd --shell bash)"
+if command -v fnm > /dev/null 2>&1; then
+    eval "$(fnm env --use-on-cd --shell bash)"
+fi
 
 # setup bash completion, need to place bash-complete before fzf, or it will disable some command completion
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
