@@ -9,36 +9,37 @@ set -o pipefail
 # prevent unset variables
 set -u
 
-# install package manager
-package_manager_install=""
-OS="$(uname -s)"
+# Detect brew -> install and eval
+if ! command -v brew > /dev/null 2>&1; then
+  echo "Homebrew not found. Installing..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-case "$OS" in
-Darwin)
-  if ! command -v brew > /dev/null 2>&1; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
-  package_manager_install="brew install"
-  ;;
-Linux)
-  if command -v apt-get > /dev/null 2>&1; then
-    sudo apt-get update
-    package_manager_install="sudo apt-get install -y"
-  else
-    echo "Unsupported Linux distribution. No supported package manager (apt-get) found."
+  OS="$(uname -s)"
+
+  case "$OS" in
+  Darwin)
+    [ "$(uname -m)" = "arm64" ] && BREW_PREFIX="/opt/homebrew" || BREW_PREFIX="/usr/local"
+    ;;
+  Linux)
+    BREW_PREFIX="/home/linuxbrew/.linuxbrew"
+    # Fallback for non-root linuxbrew installs
+    [ ! -d "$BREW_PREFIX" ] && [ -d "$HOME/.linuxbrew" ] && BREW_PREFIX="$HOME/.linuxbrew"
+    ;;
+  *)
+    echo "Unsupported Operating System: $OS"
     exit 1
-  fi
-  ;;
-*)
-  echo "Unsupported Operating System: $OS"
-  exit 1
-  ;;
-esac
+    ;;
+  esac
 
-if [ -z "$package_manager_install" ]; then
-  echo "Error: package_manager_install is not set."
+  eval "$("$BREW_PREFIX/bin/brew" shellenv)"
+fi
+
+if ! command -v brew > /dev/null 2>&1; then
+  echo "Error: Homebrew installation failed or could not be found."
   exit 1
 fi
+
+package_manager_install="brew install"
 
 # install packages
 $package_manager_install git
@@ -46,6 +47,9 @@ $package_manager_install git-lfs
 $package_manager_install ripgrep
 $package_manager_install fzf
 $package_manager_install tree
+$package_manager_install tree-sitter-cli
+$package_manager_install uv
+$package_manager_install fmn
 # InconsolataNerdFont https://www.nerdfonts.com
 
 # install/update git script
