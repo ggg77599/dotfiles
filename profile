@@ -22,6 +22,11 @@ elif [ "$(uname -s)" = "Linux" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 fi
 
+case ":$PATH:" in
+*":$HOME/.local/bin:"*) ;;
+*) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 # run `rustup-init` to setup rustc, cargo
 # DO NOT add `$(brew --prefix rustup)/bin` to the path, I would like to use rustup-init to manage my rust version
 # https://rust-lang.github.io/rustup/installation/other.html#homebrew
