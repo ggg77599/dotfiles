@@ -78,6 +78,7 @@ ln -s -f "$PWD/vimrc" ~/.vimrc
 mkdir -p "$HOME/.local/bin"
 ln -s -f "$PWD/git-wt" "$HOME/.local/bin/git-wt"
 ln -s -f "$PWD/git-url" "$HOME/.local/bin/git-url"
+ln -s -f "$PWD/git-aic" "$HOME/.local/bin/git-aic"
 
 # -n to handle existing symlink to a dir
 ln -s -f -n "$PWD/gitconfighook" ~/.gitconfighook
