@@ -99,6 +99,7 @@ return {
 				"shfmt", -- shell
 				"shellharden", -- shell
 				"tombi", -- toml
+				"markdownlint-cli2", -- markdown
 			},
 		})
 
@@ -115,6 +116,7 @@ return {
 				-- sh = { "shellharden", "shfmt" },
 				sh = { "shfmt" },
 				robot = { "robotidy" }, -- custom formatter
+				markdown = { "markdownlint-cli2" },
 			},
 			-- custom formatter
 			-- https://github.com/stevearc/conform.nvim?tab=readme-ov-file#customizing-formatters
