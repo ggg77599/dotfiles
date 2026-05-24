@@ -130,6 +130,17 @@ if command -v fzf > /dev/null 2>&1; then
     _fzf_setup_completion path rg
 fi
 
+# setup tools
+export GIT_AIC_BASE_URL="https://api.openai.com/v1"
+export GIT_AIC_MODEL="gpt-4.1-mini"
+export GIT_AIC_engine="api"
+
+# =============================================================================
+# load utilities if exists
+if [ -f "$HOME/.env" ]; then
+    . "$HOME/.env"
+fi
+
 # =============================================================================
 # load utilities if exists
 if [ -f "$HOME/.util" ]; then

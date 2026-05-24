@@ -86,5 +86,3 @@ ln -s -f -n "$PWD/nvim" ~/.config/nvim
 
 mkdir -p "$HOME/Development"
 mkdir -p "$HOME/venv"
-
-
