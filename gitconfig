@@ -70,6 +70,11 @@
     # Compare local (rebased) commits against their upstream (rebased)
     # counterparts to verify rebase didn't introduce unintended change
     rd = !git range-diff `git merge-base origin/HEAD @`..@ `git merge-base origin/HEAD @{u}`..@{u}
+    # Fetch one or more PRs by number into origin/pr/<N> remote-tracking refs.
+    # Recovers original (pre-squash) commits from GitHub's hidden refs/pull/*/head.
+    # Usage: git fpr 1202            (single)
+    #        git fpr 1199 1202 1203  (multiple)
+    fpr = "!f() { for n in \"$@\"; do git fetch origin \"+refs/pull/$n/head:refs/remotes/origin/pr/$n\"; done; }; f"
 [http]
     sslVerify = false
     version = HTTP/1.1
