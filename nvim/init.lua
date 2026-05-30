@@ -35,10 +35,10 @@ vim.diagnostic.config({
 	},
 })
 -- Next diagnostic
-vim.keymap.set("n", "<F8>", function()
+vim.keymap.set("n", "d]", function()
 	vim.diagnostic.jump({ count = 1 })
 end, { desc = "Next Diagnostic" })
 -- Previous diagnostic
-vim.keymap.set("n", "<F9>", function()
+vim.keymap.set("n", "d[", function()
 	vim.diagnostic.jump({ count = -1 })
 end, { desc = "Previous Diagnostic" })

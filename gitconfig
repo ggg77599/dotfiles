@@ -75,6 +75,14 @@
     # Usage: git fpr 1202            (single)
     #        git fpr 1199 1202 1203  (multiple)
     fpr = "!f() { for n in \"$@\"; do git fetch origin \"+refs/pull/$n/head:refs/remotes/origin/pr/$n\"; done; }; f"
+    # Print PR number for current HEAD (or given SHA) by matching against
+    # GitHub's refs/pull/*/head via git ls-remote.
+    # Caveat: only matches when SHA equals a PR's tip commit (pre-squash head).
+    # A squash-merged commit on master will NOT match — pass the original PR
+    # head SHA instead, or use `gh api repos/:owner/:repo/commits/<sha>/pulls`.
+    # Usage: git prid              (uses HEAD)
+    #        git prid <sha>
+    prid = "!f() { sha=$(git rev-parse \"${1:-HEAD}\"); git ls-remote origin 'refs/pull/*/head' | awk -v s=\"$sha\" '$1==s {print $2}' | grep -oE '[0-9]+'; }; f"
 [http]
     sslVerify = false
     version = HTTP/1.1
@@ -126,3 +134,5 @@
     path = "~/.gitconfig.personal"
 [include]
     path = "~/.gitconfig.work"
+[credential "https://192.168.9.101:10443"]
+	provider = generic

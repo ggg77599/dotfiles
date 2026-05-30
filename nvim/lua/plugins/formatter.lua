@@ -164,6 +164,14 @@ return {
 			vim.cmd("noautocmd w")
 		end, {})
 
+		vim.api.nvim_create_user_command("Wq", function()
+			vim.cmd("noautocmd wq")
+		end, {})
+
+		vim.api.nvim_create_user_command("Wqa", function()
+			vim.cmd("noautocmd wqa")
+		end, {})
+
 		conform.setup({
 			format_on_save = {
 				-- These options will be passed to conform.format()
