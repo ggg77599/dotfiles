@@ -24,6 +24,8 @@ vim.api.nvim_set_hl(0, "WinSeparator", { bg = "None" })
 
 -- https://github.com/neovim/neovim/discussions/39706
 vim.diagnostic.config({
+	virtual_text = {}, -- for showing the diagnostic inline
+
 	jump = {
 		on_jump = function(_, bufnr)
 			vim.diagnostic.open_float({

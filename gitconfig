@@ -30,8 +30,6 @@
     wt = worktree
     # fetch master from origin
     fm = !git fetch origin master:master || git fetch origin main:main
-    # fetch main from origin
-    fmm = fetch origin main:main
     # list untracked files
     lu = ls-files --other --exclude-standard
     # list modified files
