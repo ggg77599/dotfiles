@@ -181,20 +181,56 @@ checksum() {
     sha256sum "$1"
 }
 
-# git worktree co [worktree name]
+# wco is a alias for checkout different worktree
+# wco [worktree suffix]
 wco() {
-    target=$(git worktree list | awk '{print $1}' | sort | head -1)
-    if [ $# -ne 0 ]; then
-        target="${target}_$1"
+    local target
+    target=$(git worktree list --porcelain 2> /dev/null | awk '/^worktree / {print $2; exit}')
+    [ -z "$target" ] && {
+        echo "not in git repo" >&2
+        return 1
+    }
+
+    [ $# -ne 0 ] && target="${target}$1"
+
+    [ -d "$target" ] || {
+        echo "no such worktree: $target" >&2
+        return 1
+    }
+    cd "$target" || return
+    echo "cd $target"
+}
+
+_git-wt_get_suffixes() {
+    local base wt
+    base=$(git worktree list 2> /dev/null | awk '{print $1}' | sort | head -1)
+    [ -z "$base" ] && return
+    while read -r wt; do
+        [ "$wt" = "$base" ] && continue
+        if [[ "$wt" == "${base}_"* || "$wt" == "${base}-"* ]]; then
+            echo "${wt#$base}"
+        fi
+    done < <(git worktree list 2> /dev/null | awk '{print $1}')
+}
+
+# wco TAB completion. Routes to fzf when last word ends with $FZF_COMPLETION_TRIGGER
+# (default `**`), else emits suffix list via compgen.
+_complete_git-wt() {
+    [ "${#COMP_WORDS[@]}" != "2" ] && return
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local trigger="${FZF_COMPLETION_TRIGGER-**}"
+
+    if type _fzf_complete > /dev/null 2>&1 && [[ "$cur" == *"$trigger" ]]; then
+        _fzf_complete --reverse --height=40% -- "$@" < <(_git-wt_get_suffixes)
+        return
     fi
 
-    tmpfile=$(mktemp)
-    echo "#!/bin/bash" > "$tmpfile"
-    echo "cd $target" >> "$tmpfile"
-    . "$tmpfile" # do the cd
-    echo "cd $target"
-    rm -f -- "$tmpfile"
+    local suffixes
+    suffixes=$(_git-wt_get_suffixes)
+    [ -z "$suffixes" ] && return
+    COMPREPLY=($(compgen -W "$suffixes" -- "$cur"))
 }
+complete -F _complete_git-wt wco
 
 swagweb() {
     swag init -d web -g web.go --parseDependency --parseInternal --parseDepth 3 --markdownFiles ./docs
@@ -294,18 +330,6 @@ EOF
         -c "vsp $u2" \
         -c "wincmd h"
 }
-
-_wco_completions() {
-    echo ${#COMP_WORDS[@]}
-    if [ "${#COMP_WORDS[@]}" != "2" ]; then
-        return
-    fi
-    COMPREPLY+=("now")
-    COMPREPLY+=("tomorrow")
-    COMPREPLY+=("never")
-}
-
-complete -F _wco_completions wco
 
 excalidraw() {
     docker run --rm -dit --name excalidraw -p 5000:80 excalidraw/excalidraw:latest
