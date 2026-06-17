@@ -20,7 +20,6 @@ return {
 				"shellcheck",
 				"yamllint",
 				"tflint",
-				-- "tflint",  # tflint will cause CPI high in my machine
 			},
 		})
 
@@ -40,6 +39,15 @@ return {
 			"-d",
 			"{extends: default, rules: {line-length: disable}}", -- override default line-length rule
 			"-",
+		}
+
+		-- tflint: drop --recursive (default spawns many workers across monorepo modules → high CPU).
+		-- Lint current file's dir only via --chdir.
+		require("lint").linters.tflint.args = {
+			"--format=json",
+			function()
+				return "--chdir=" .. vim.fn.expand("%:p:h")
+			end,
 		}
 
 		-- Show linters args for the current buffer's file type
