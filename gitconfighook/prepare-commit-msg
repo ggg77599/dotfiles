@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 # reference https://stackoverflow.com/questions/5823772/append-ticket-number-using-git-commit-hooks
 # check in dev folder https://unix.stackexchange.com/questions/6435/how-to-check-if-pwd-is-a-subdirectory-of-a-given-path
 
-if [[ (! -z ${GIT_HOOKS_SKIP} ) && ${GIT_HOOKS_SKIP}=1 ]]; then
-  echo "GIT_HOOKS_SKIP prepare-commit-msg"
-  exit 0
+if [[ (! -z ${GIT_HOOKS_SKIP}) && ${GIT_HOOKS_SKIP}=1 ]]; then
+    echo "GIT_HOOKS_SKIP prepare-commit-msg"
+    exit 0
 fi
 
 COMMIT_MSG_FILE=$1
@@ -43,7 +43,16 @@ fi
 
 pr_type=${branch_name%/*}
 pr_name=${branch_name#*/}
-pr_id=${pr_name%%_*}
+
+# parse jira key at beginning of pr_name: PROJ-123_x, PROJ-123-x, PROJ-123, etc.
+# jira key must be uppercase: project key (uppercase letters, may contain digits after first letter) + dash + issue number
+pr_id_regex='^[A-Z][A-Z0-9]*-[0-9]+'
+if [[ ${pr_name} =~ ${pr_id_regex} ]]; then
+    pr_id=${BASH_REMATCH[0]}
+else
+    # fallback: original behavior (split on first underscore)
+    pr_id=${pr_name%%_*}
+fi
 echo "pr_type: ${pr_type}"
 echo "pr_name: ${pr_name}"
 echo "pr_id: ${pr_id}"
