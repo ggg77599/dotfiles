@@ -1,6 +1,6 @@
 
 " import vim-plug plugin and settings
-if !has("nvim")
+if !has("nvim") && filereadable(expand("~/.vimrc.plug"))
   source ~/.vimrc.plug
 else
   "autocmd TermOpen * startinsert
