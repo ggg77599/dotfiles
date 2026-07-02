@@ -191,7 +191,21 @@ wco() {
         return 1
     }
 
-    [ $# -ne 0 ] && target="${target}$1"
+    if [ $# -ne 0 ]; then
+        local cand found=""
+        # accept bare name: resolve separator automatically (_, -, or exact)
+        for cand in "${target}_$1" "${target}-$1" "${target}$1"; do
+            [ -d "$cand" ] && {
+                found="$cand"
+                break
+            }
+        done
+        [ -z "$found" ] && {
+            echo "no such worktree: ${target}[_-]$1" >&2
+            return 1
+        }
+        target="$found"
+    fi
 
     [ -d "$target" ] || {
         echo "no such worktree: $target" >&2
@@ -208,7 +222,9 @@ _git-wt_get_suffixes() {
     while read -r wt; do
         [ "$wt" = "$base" ] && continue
         if [[ "$wt" == "${base}_"* || "$wt" == "${base}-"* ]]; then
-            echo "${wt#$base}"
+            # strip base + separator so completion suggests bare names
+            local suffix="${wt#$base}"
+            echo "${suffix#[-_]}"
         fi
     done < <(git worktree list 2> /dev/null | awk '{print $1}')
 }
