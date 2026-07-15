@@ -11,7 +11,7 @@ return {
 			go = { "golangcilint" },
 			terraform = { "tflint" },
 			yaml = { "yamllint" },
-			-- sh = { "shellcheck" }, -- TODO: disable temporarily
+			sh = { "shellcheck" },
 		}
 
 		require("mason-tool-installer").setup({

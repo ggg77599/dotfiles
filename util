@@ -362,3 +362,92 @@ jwt-decode() {
 #    # to make --workspace-folder default current folder
 #    devcontainer "$1" --workspace-folder . "${@:2}"
 #}
+
+# mvln: move a file, then leave an absolute symlink at the original
+#        location pointing to where the file now lives.
+# Usage:  mvln <src-file> <dst>
+#   <dst> works like the target of `mv`:
+#     - existing directory  -> file is moved into it, keeping its name
+#     - any other path      -> used as the destination path (rename);
+#                              its parent directory must already exist
+# Examples:
+#   mvln ~/.vimrc ~/dotfiles/            # ~/.vimrc      -> ~/dotfiles/.vimrc
+#   mvln ~/.vimrc ~/dotfiles/vimrc.bak   # ~/.vimrc      -> ~/dotfiles/vimrc.bak
+# Note: like `mv`, no directories are auto-created.
+mvln() {
+    local src="$1" # file to move
+    local dst="$2" # target directory OR target file path (mv-style)
+
+    # src must be an existing regular file (not a dir / missing path)
+    [[ -f "$src" ]] || {
+        echo "File not found: $src" >&2
+        return 1
+    }
+
+    # Resolve the absolute destination path, mirroring `mv` semantics.
+    # Using an absolute target keeps the symlink valid regardless of the
+    # caller's cwd, and `cd ... && pwd` is portable on macOS/Linux
+    # (avoids the GNU-only `realpath --relative-to`).
+    local dst_abs
+    if [[ -d "$dst" ]]; then
+        # dst is an existing directory: move into it, keeping src's name
+        dst_abs="$(cd "$dst" && pwd)/$(basename "$src")"
+    else
+        # dst is a target path (rename); its parent dir must already exist
+        local dst_dir dst_base
+        dst_dir=$(dirname "$dst")
+        dst_base=$(basename "$dst")
+        [[ -d "$dst_dir" ]] || {
+            echo "Directory not found: $dst_dir" >&2
+            return 1
+        }
+        dst_abs="$(cd "$dst_dir" && pwd)/$dst_base"
+    fi
+
+    # move the file to its new home
+    mv "$src" "$dst_abs"
+
+    # recreate the original path as a symlink to the absolute destination
+    ln -s "$dst_abs" "$src"
+}
+
+notify() {
+    local title="${1:-Notification}"
+    local message="${2:-Done}"
+
+    printf '\a'
+
+    case "$(uname -s)" in
+    Darwin)
+        osascript -e "display notification \"$message\" with title \"$title\"" > /dev/null 2>&1
+        ;;
+    Linux)
+        command -v notify-send > /dev/null &&
+            notify-send "$title" "$message"
+        ;;
+    esac
+}
+
+pr-watch() {
+    if [[ $# -ne 1 ]]; then
+        echo "Usage: pr-watch <pr-url>"
+        echo "Example:"
+        echo "  pr-watch https://github.com/owner/repo/pull/123"
+        return 1
+    fi
+
+    local pr="$1"
+
+    echo "⏳ Waiting for PR checks..."
+    echo "$pr"
+
+    if gh pr checks "$pr" --watch --required; then
+        notify "GitHub PR" "✅ All required checks passed"
+        echo "✅ PR checks passed"
+    else
+        local rc=$?
+        notify "GitHub PR" "❌ One or more required checks failed"
+        echo "❌ PR checks failed"
+        return "$rc"
+    fi
+}
