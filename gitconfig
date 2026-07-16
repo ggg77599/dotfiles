@@ -21,7 +21,8 @@
     rebase-a = rebase --abort  # deprecated
     cm = commit -m
     cf = commit --fixup  # fixup commit
-    ri = rebase -i --autosquash  # interactive rebase with autosquash fixup commit
+    # interactive rebase with autosquash fixup commit and showing merge commits
+    ri = rebase -i --autosquash --rebase-merges
     ra = rebase --abort
     rc = rebase --continue
     rs = rebase --skip

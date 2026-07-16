@@ -451,3 +451,9 @@ pr-watch() {
         return "$rc"
     fi
 }
+
+# mkdir than cd into it
+mkcd() {
+    mkdir -p "$1"
+    cd "$1" || return
+}
