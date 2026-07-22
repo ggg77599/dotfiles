@@ -457,3 +457,11 @@ mkcd() {
     mkdir -p "$1"
     cd "$1" || return
 }
+
+# make temp dir than cd into it
+mktmpcd() {
+    local template="${1:-tmp}"
+    local dir
+    dir=$(mktemp -d "/tmp/${template}.XXXXXX")
+    cd "$dir" || return
+}
