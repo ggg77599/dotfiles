@@ -52,8 +52,14 @@
     #bfc = log origin/HEAD... --oneline --pretty=format:%h | tail -1
     # show branch's first commit (long)
     bfcl = rev-parse HEAD
-    # get branch's first parent
-    p = merge-base origin/HEAD @
+    # get the current branch's fork point (parent): the merge-base of the base
+    # branch and the current HEAD (@). The base defaults to the remote default
+    # branch (origin/HEAD), so `git p` behaves as before. When the branch was
+    # forked from somewhere other than the default branch, pass that base as a
+    # REMOTE branch name (resolved to origin/<name>).
+    # Usage: git p              (base = origin/HEAD)
+    #        git p feature-x    (base = origin/feature-x)
+    p = "!f() { base=origin/HEAD; [ -n \"$1\" ] && base=origin/$1; git merge-base \"$base\" @; }; f"
     # get tags from current commit
     tc = tag --points-at
     # get branches from current commit
