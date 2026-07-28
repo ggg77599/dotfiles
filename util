@@ -458,10 +458,20 @@ mkcd() {
     cd "$1" || return
 }
 
-# make temp dir than cd into it
-mktmpcd() {
+# make temp dir and cd into it
+tmpcd() {
     local template="${1:-tmp}"
     local dir
     dir=$(mktemp -d "/tmp/${template}.XXXXXX")
     cd "$dir" || return
+}
+
+# unzip each archive into a directory named after the zip file (without .zip)
+unzipdir() {
+    local zipfile dir
+    for zipfile in "$@"; do
+        dir="${zipfile%.zip}"
+        mkdir -p "$dir" &&
+            unzip "$zipfile" -d "$dir"
+    done
 }
