@@ -94,13 +94,21 @@ mkvenv() {
 }
 
 venv() {
-    # specified which venv will be used
-    if [ -e ~/venv/"$1"/bin/activate ]; then
-        . ~/venv/"$1"/bin/activate
-        return 0
+    if [ -n "$1" ]; then
+        # named venv: look it up under ~/venv/ first, otherwise treat $1 as a direct path
+        if [ -e ~/venv/"$1"/bin/activate ]; then
+            . ~/venv/"$1"/bin/activate
+            return 0
+        fi
+        if [ -e "$1"/bin/activate ]; then
+            . "$1"/bin/activate
+            return 0
+        fi
+        echo "venv not found: $1" >&2
+        return 1
     fi
 
-    # recursively to find venv in the current working directory
+    # no argument: recursively look up ~/venv/<dirname> walking up from cwd
     p='-' # any string as init
     until [ "$p" == '/' ]; do
         if [ "$p" == '-' ]; then # init as
@@ -114,9 +122,22 @@ venv() {
 
         if [ -e ~/venv/"${p##*/}"/bin/activate ]; then
             . ~/venv/"${p##*/}"/bin/activate
-            break
+            return 0
         fi
     done
+
+    # fall back to a venv living in the current folder itself
+    if [ -e ./venv/bin/activate ]; then
+        . ./venv/bin/activate
+        return 0
+    fi
+    if [ -e ./.venv/bin/activate ]; then
+        . ./.venv/bin/activate
+        return 0
+    fi
+
+    echo "no venv found" >&2
+    return 1
 }
 export -f venv
 
