@@ -123,11 +123,12 @@ if command -v fzf > /dev/null 2>&1; then
     #export FZF_DEFAULT_COMMAND='rg --files --hidden'
     export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
     _fzf_setup_completion dir tree
-    _fzf_setup_completion path git kubectl kc sopsd
+    _fzf_setup_completion path kubectl kc sopsd
     _fzf_setup_completion path code
     _fzf_setup_completion path sops
     _fzf_setup_completion path gotest
     _fzf_setup_completion path rg
+    source "$HOME/.fzf-git.sh" # TODO: make it select by branches https://github.com/junegunn/fzf-git.sh
 fi
 
 # setup tools

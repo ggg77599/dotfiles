@@ -475,3 +475,35 @@ unzipdir() {
             unzip "$zipfile" -d "$dir"
     done
 }
+
+gh-pr-do-not-merge() {
+    # Mark the PR for the current branch as not-mergeable: prefix its title with
+    # "[DO NOT MERGE]" and attach a "do not merge" label. Idempotent — the title
+    # is only prefixed when the marker is not already present.
+    local label="do not merge"
+    local pr title
+
+    # git-pr prints the full PR URL for the current branch; gh accepts a URL and
+    # resolves the owner/repo from it. Abort if no PR is found for the branch.
+    pr=$(git pr) || return 1
+
+    # Read the current title so we can prepend the marker without losing it.
+    title=$(gh pr view "$pr" --json title --jq .title) || return 1
+
+    case "$title" in
+    "[DO NOT MERGE]"*)
+        # Already flagged; leave the title untouched to stay idempotent.
+        ;;
+    *)
+        gh pr edit "$pr" --title "[DO NOT MERGE] $title" || return 1
+        ;;
+    esac
+
+    # --add-label fails outright if the label does not exist in the repo, so
+    # ensure it first. Creation is a no-op (silenced error) when it already
+    # exists. B60205 is GitHub's standard red used for its default "invalid" label.
+    gh label create "$label" --color B60205 --description "Do not merge this PR" 2> /dev/null
+    gh pr edit "$pr" --add-label "$label" || return 1
+
+    echo "Flagged $pr as DO NOT MERGE"
+}
