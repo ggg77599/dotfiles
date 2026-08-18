@@ -73,6 +73,7 @@ ln -s -f "$PWD/gitignore" ~/.gitignore
 ln -s -f "$PWD/profile" ~/.profile
 ln -s -f "$PWD/util" ~/.util
 ln -s -f "$PWD/vimrc" ~/.vimrc
+ln -s -f "$PWD/sqliterc" ~/.sqliterc
 #ln -s -f "$PWD/vimrc.plug" ~/.vimrc.plug
 #ln -s -f "$PWD/wezterm.lua" ~/.wezterm.lua
 mkdir -p "$HOME/.local/bin"

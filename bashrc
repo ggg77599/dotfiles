@@ -132,9 +132,9 @@ if command -v fzf > /dev/null 2>&1; then
 fi
 
 # setup tools
-export GIT_AIC_BASE_URL="https://api.openai.com/v1"
-export GIT_AIC_MODEL="gpt-4.1-mini"
-export GIT_AIC_engine="api"
+export GIT_AIC_BASE_URL="https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+export GIT_AIC_MODEL="gemini-3.5-flash-lite"
+export GIT_AIC_ENGINE="api"
 
 # =============================================================================
 # load utilities if exists

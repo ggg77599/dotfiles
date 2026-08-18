@@ -45,105 +45,103 @@ return {
 
 			local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+			local servers = {
+				-- lsp servers
+				"bashls", -- bash
+				"gopls", -- golang
+				"lua_ls", -- lua
+				"pylsp", -- python, python-lsp-server
+				"rust_analyzer", -- rust
+				-- "pbls", -- protobuf
+				"buf_ls", -- protobuf
+				"helm_ls", -- helm
+				"jsonls", -- json
+				"terraformls", -- terraform
+				"yamlls", -- yaml
+				"robotframework_ls", -- robotframework
+			}
+
 			require("mason").setup({})
 			require("mason-lspconfig").setup({
-				-- language servers list
-				ensure_installed = {
-					-- lsp servers
-					"bashls", -- bash
-					"gopls", -- golang
-					"lua_ls", -- lua
-					"pylsp", -- python, python-lsp-server
-					"rust_analyzer", -- rust
-					-- "pbls", -- protobuf
-					"buf_ls", -- protobuf
-					"helm_ls", -- helm
-					"jsonls", -- json
-					"terraformls", -- terraform
-					"yamlls", -- yaml
-					"robotframework_ls", -- robotframework
+				ensure_installed = servers,
+			})
+
+			-- the installed mason-lspconfig only reads ensure_installed/automatic_enable from
+			-- setup() and no longer supports a `handlers` table, so per-server config (including
+			-- capabilities) has to be applied directly via vim.lsp.config() instead.
+			for _, server_name in ipairs(servers) do
+				vim.lsp.config(server_name, {
+					capabilities = lsp_capabilities,
+				})
+			end
+
+			-- customized language server
+			-- https://lsp-zero.netlify.app/blog/you-might-not-need-lsp-zero
+			vim.lsp.config("lua_ls", {
+				capabilities = lsp_capabilities,
+				---
+				-- This is where you place your custom config
+				--
+				-- make lua_ls only show LuaJIT
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT",
+						},
+						diagnostics = {
+							globals = { "vim" },
+						},
+						workspace = {
+							library = {
+								vim.env.VIMRUNTIME,
+							},
+						},
+					},
 				},
-				handlers = {
-					function(server_name)
-						vim.lsp.config(server_name, {
-							capabilities = lsp_capabilities,
-						})
-					end,
+			})
 
-					-- customized language server
-					-- https://lsp-zero.netlify.app/blog/you-might-not-need-lsp-zero
-					["lua_ls"] = function()
-						vim.lsp.config("lua_ls", {
-							capabilities = lsp_capabilities,
-							---
-							-- This is where you place your custom config
-							--
-							-- make lua_ls only show LuaJIT
-							settings = {
-								Lua = {
-									runtime = {
-										version = "LuaJIT",
-									},
-									diagnostics = {
-										globals = { "vim" },
-									},
-									workspace = {
-										library = {
-											vim.env.VIMRUNTIME,
-										},
-									},
-								},
+			-- TODO: run the following commands automatically to install the 3rd packages
+			-- :PylspInstall python-lsp-black
+			-- :PylspInstall pyls-isort
+			vim.lsp.config("pylsp", {
+				capabilities = lsp_capabilities,
+				settings = {
+					pylsp = {
+						plugins = {
+							autopep8 = {
+								enabled = false,
 							},
-						})
-					end,
+							yapf = {
+								enabled = false,
+							},
+							pycodestyle = {
+								enabled = true,
+								maxLineLength = 80,
+							},
+							black = {
+								enabled = true,
+							},
+							rope_autoimport = {
+								enabled = true,
+							},
+						},
+					},
+				},
+			})
 
-					-- TODO: run the following commands automatically to install the 3rd packages
-					-- :PylspInstall python-lsp-black
-					-- :PylspInstall pyls-isort
-					["pylsp"] = function()
-						vim.lsp.config("pylsp", {
-							capabilities = lsp_capabilities,
-							settings = {
-								pylsp = {
-									plugins = {
-										autopep8 = {
-											enabled = false,
-										},
-										yapf = {
-											enabled = false,
-										},
-										pycodestyle = {
-											enabled = false,
-										},
-										black = {
-											enabled = true,
-										},
-										rope_autoimport = {
-											enabled = true,
-										},
-									},
-								},
-							},
-						})
-					end,
-
-					["helm_ls"] = function()
-						vim.lsp.config("helm_ls", {
-							settings = {
-								["helm-ls"] = {
-									-- valuesFiles = {
-									-- 	mainValuesFile = "charts/app/values.yaml",
-									-- },
-									yamlls = {
-										-- the helm-ls plugin will use yamlls to provide yaml
-										-- language server features
-										-- https://github.com/mrjosh/helm-ls?tab=readme-ov-file#default-configuration
-										enabled = false,
-									},
-								},
-							},
-						})
-					end,
+			vim.lsp.config("helm_ls", {
+				settings = {
+					["helm-ls"] = {
+						-- valuesFiles = {
+						-- 	mainValuesFile = "charts/app/values.yaml",
+						-- },
+						yamlls = {
+							-- the helm-ls plugin will use yamlls to provide yaml
+							-- language server features
+							-- https://github.com/mrjosh/helm-ls?tab=readme-ov-file#default-configuration
+							enabled = false,
+						},
+					},
 				},
 			})
 
