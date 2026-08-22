@@ -65,6 +65,7 @@ $package_manager_install luarocks
 version=$(git --version | awk '{print $3}')
 curl "https://raw.githubusercontent.com/git/git/v$version/contrib/completion/git-completion.bash" -o ~/.git-completion.bash
 curl "https://raw.githubusercontent.com/git/git/v$version/contrib/completion/git-prompt.sh" -o ~/.git-prompt.sh
+curl "https://raw.githubusercontent.com/junegunn/fzf-git.sh/refs/heads/main/fzf-git.sh" -o ~/.fzf-git.sh
 
 # create symbolic links
 ln -s -f "$PWD/bashrc" ~/.bashrc
