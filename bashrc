@@ -136,6 +136,8 @@ export GIT_AIC_BASE_URL="https://generativelanguage.googleapis.com/v1beta/openai
 export GIT_AIC_MODEL="gemini-3.5-flash-lite"
 export GIT_AIC_ENGINE="api"
 
+export GIT_URL_SPECIAL_RULES="mrgnas.ddns.net:10022:10443"
+
 # =============================================================================
 # load utilities if exists
 if [ -f "$HOME/.env" ]; then

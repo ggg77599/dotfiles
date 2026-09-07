@@ -1,3 +1,6 @@
 [submodule "external_tool/git-aic"]
 	path = external_tool/git-aic
 	url = ssh://git@mrgnas.ddns.net:10022/ggg77599/git-aic.git
+[submodule "external_tool/git-url"]
+	path = external_tool/git-url
+	url = ssh://git@mrgnas.ddns.net:10022/ggg77599/git-url.git
