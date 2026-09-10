@@ -203,7 +203,7 @@ checksum() {
 }
 
 # wco is a alias for checkout different worktree
-# wco [worktree suffix]
+# wco [worktree suffix or folder name]
 wco() {
     local target
     target=$(git worktree list --porcelain 2> /dev/null | awk '/^worktree / {print $2; exit}')
@@ -214,15 +214,30 @@ wco() {
 
     if [ $# -ne 0 ]; then
         local cand found=""
-        # accept bare name: resolve separator automatically (_, -, or exact)
+        # 1. Try resolving as a standard suffix under the base worktree path
         for cand in "${target}_$1" "${target}-$1" "${target}$1"; do
             [ -d "$cand" ] && {
                 found="$cand"
                 break
             }
         done
+
+        # 2. If not found, check all registered worktrees (matching exact path or folder basename)
+        if [ -z "$found" ]; then
+            local wt
+            while read -r wt; do
+                [ -z "$wt" ] && continue
+                if [ "$wt" = "$1" ] || [ "$(basename "$wt")" = "$1" ]; then
+                    [ -d "$wt" ] && {
+                        found="$wt"
+                        break
+                    }
+                fi
+            done < <(git worktree list 2> /dev/null | awk '{print $1}')
+        fi
+
         [ -z "$found" ] && {
-            echo "no such worktree: ${target}[_-]$1" >&2
+            echo "no such worktree: $1" >&2
             return 1
         }
         target="$found"
@@ -243,9 +258,12 @@ _git-wt_get_suffixes() {
     while read -r wt; do
         [ "$wt" = "$base" ] && continue
         if [[ "$wt" == "${base}_"* || "$wt" == "${base}-"* ]]; then
-            # strip base + separator so completion suggests bare names
+            # strip base + separator so completion suggests bare names for standard suffixes
             local suffix="${wt#$base}"
             echo "${suffix#[-_]}"
+        else
+            # for worktrees not following the suffixes format, suggest their absolute path
+            echo "$wt"
         fi
     done < <(git worktree list 2> /dev/null | awk '{print $1}')
 }
