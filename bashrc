@@ -34,7 +34,11 @@ shopt -s checkwinsize
 
 # add alais
 unalias -a
-alias ls='ls -Fh --color'
+if [[ $OSTYPE == darwin* ]]; then
+    alias ls='ls -Fh -G' # BSD ls: -G enables color, --color is a GNU-ism
+else
+    alias ls='ls -Fh --color'
+fi
 alias ll='ls -al'
 alias la='ls -a'
 alias l='la'
@@ -49,10 +53,12 @@ alias tree='tree -N'
 alias diff='colordiff'
 alias wnv='watch -n 1 nvidia-smi' # for nvidia graphic card
 #alias open='/usr/bin/xdg-open'  # TODO: open folder from command line in linux
-alias ibrew='arch -x86_64 /usr/local/Homebrew/bin/brew' # FIXME:
 alias kc='kubectl'
 
-alias giveMeWiFi="/usr/sbin/networksetup -setnetworkserviceenabled Wi-Fi on"
+if [[ $OSTYPE == darwin* ]]; then
+    alias ibrew='arch -x86_64 /usr/local/Homebrew/bin/brew' # FIXME:
+    alias giveMeWiFi="/usr/sbin/networksetup -setnetworkserviceenabled Wi-Fi on"
+fi
 
 alias golint='golangci-lint run '
 alias golintv='golangci-lint run -v '
@@ -114,12 +120,22 @@ if command -v fnm > /dev/null 2>&1; then
 fi
 
 # setup bash completion, need to place bash-complete before fzf, or it will disable some command completion
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+if [[ $OSTYPE == darwin* ]]; then
+    [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+else
+    [[ -r "/etc/bash_completion" ]] && . "/etc/bash_completion"
+fi
 
 # setup fzf
 if command -v fzf > /dev/null 2>&1; then
     eval "$(fzf --bash)"
-    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+    # ctrl-y copies the selected line: pbcopy on macOS, xclip on Linux
+    if [[ $OSTYPE == darwin* ]]; then
+        FZF_COPY_CMD="pbcopy"
+    else
+        FZF_COPY_CMD="xclip -selection clipboard"
+    fi
+    export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --bind \"ctrl-y:execute-silent(echo -n {} | $FZF_COPY_CMD)+abort\""
     #export FZF_DEFAULT_COMMAND='rg --files --hidden'
     export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
     _fzf_setup_completion dir tree
