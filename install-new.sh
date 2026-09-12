@@ -9,6 +9,20 @@ set -o pipefail
 # prevent unset variables
 set -u
 
+FORCE_UPGRADE=0
+while [ $# -gt 0 ]; do
+  case "$1" in
+  -f | --force-upgrade)
+    FORCE_UPGRADE=1
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    exit 1
+    ;;
+  esac
+  shift
+done
+
 # Detect brew -> install and eval
 if ! command -v brew > /dev/null 2>&1; then
   echo "Homebrew not found. Installing..."
@@ -39,26 +53,40 @@ if ! command -v brew > /dev/null 2>&1; then
   exit 1
 fi
 
-package_manager_install="brew install"
+# install a package if missing; with --force-upgrade, upgrade it if already installed
+install_pkg() {
+  pkg="$1"
+  if brew list --formula "$pkg" > /dev/null 2>&1 || brew list --cask "$pkg" > /dev/null 2>&1; then
+    if [ "$FORCE_UPGRADE" -eq 1 ]; then
+      echo "Upgrading $pkg..."
+      brew upgrade "$pkg"
+    else
+      echo "$pkg already installed, skipping."
+    fi
+  else
+    echo "Installing $pkg..."
+    brew install "$pkg"
+  fi
+}
 
 # install packages
-$package_manager_install git
-$package_manager_install git-lfs
-$package_manager_install ripgrep
-$package_manager_install fzf
-$package_manager_install fd
-$package_manager_install jq
-$package_manager_install yq
-$package_manager_install tree
-$package_manager_install unzip
-$package_manager_install go
-$package_manager_install fnm
-$package_manager_install rustup
-$package_manager_install python
-$package_manager_install uv
+install_pkg git
+install_pkg git-lfs
+install_pkg ripgrep
+install_pkg fzf
+install_pkg fd
+install_pkg jq
+install_pkg yq
+install_pkg tree
+install_pkg unzip
+install_pkg go
+install_pkg fnm
+install_pkg rustup
+install_pkg python
+install_pkg uv
 # for neovom
-$package_manager_install tree-sitter-cli
-$package_manager_install luarocks
+install_pkg tree-sitter-cli
+install_pkg luarocks
 # InconsolataNerdFont https://www.nerdfonts.com
 
 # install/update git script
@@ -75,6 +103,7 @@ ln -s -f "$PWD/profile" ~/.profile
 ln -s -f "$PWD/util" ~/.util
 ln -s -f "$PWD/vimrc" ~/.vimrc
 ln -s -f "$PWD/sqliterc" ~/.sqliterc
+ln -s -f "$PWD/tmux.conf" ~/.tmux.conf
 #ln -s -f "$PWD/vimrc.plug" ~/.vimrc.plug
 #ln -s -f "$PWD/wezterm.lua" ~/.wezterm.lua
 mkdir -p "$HOME/.local/bin"
