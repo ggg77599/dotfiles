@@ -130,6 +130,7 @@ fi
 if command -v fzf > /dev/null 2>&1; then
     eval "$(fzf --bash)"
     # ctrl-y copies the selected line: pbcopy on macOS, xclip on Linux
+    # https://stackoverflow.com/questions/73253040/how-to-copy-the-fzf-query-to-the-command-line
     if [[ $OSTYPE == darwin* ]]; then
         FZF_COPY_CMD="pbcopy"
     else
