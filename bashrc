@@ -100,7 +100,7 @@ GIT_PS1_SHOWUPSTREAM="auto"
 export PS1="\[\033[0;36m\]\u\[\033[m\]@\[\033[0;32m\]\h\[\033[m\]:\[\033[1;33m\]\w \[\033[1;35m\]\$(__git_ps1 '(%s)')\[\033[m\]\$ "
 
 # environment variable
-export TERM="xterm-256color"
+#export TERM="xterm-256color"
 #export LC_ALL=en_US.UTF-8  # set this will overwrite other setting, because it takes precedence over everything else
 export LC_COLLATE=C # to make the sorting in pure byte/ASCII order
 
