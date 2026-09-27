@@ -6,6 +6,9 @@ else
   "autocmd TermOpen * startinsert
 endif
 
+" set leader key
+let mapleader = " "
+let maplocalleader = "\\"
 
 "-------------------------------------------------------- autocmd
 
@@ -32,6 +35,7 @@ augroup filetypedetect_vimrc
     autocmd BufRead,BufNewFile *.cl set filetype=c
     autocmd BufRead,BufNewFile .util.* set filetype=bash
     autocmd BufRead,BufNewFile util.* set filetype=bash
+    autocmd BufRead,BufNewFile *.script set filetype=bash
     autocmd BufRead,BufNewFile ssh_config* set filetype=sshconfig
     autocmd BufRead,BufNewFile gitconfig* set filetype=gitconfig
     autocmd BufRead,BufNewFile .gitconfig* set filetype=gitconfig

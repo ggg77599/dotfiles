@@ -546,3 +546,18 @@ gh-pr-do-not-merge() {
 
     echo "Flagged $pr as DO NOT MERGE"
 }
+
+# tmux choose-tree
+tct() {
+    if [[ -n "$TMUX" ]]; then
+        # Already inside tmux, open the built-in session/window/pane chooser.
+        tmux choose-tree -Z
+    elif tmux has-session 2>/dev/null; then
+        # Outside tmux with existing sessions.
+        # Attach to one first, then immediately open the chooser.
+        tmux attach-session \; choose-tree -Z
+    else
+        # No tmux session exists yet, create one.
+        tmux new-session
+    fi
+}
